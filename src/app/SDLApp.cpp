@@ -39,6 +39,8 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
 
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, _settings.glContextMajor);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, _settings.glContextMinor);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, _settings.glContextFlags);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, _settings.glProfileMask);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, _settings.glDoubleBuffer);
 
     _glCtx = SDL_GL_CreateContext(_window);
@@ -58,7 +60,7 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
     ImGui::CreateContext();
     ImGuiIO &imgui_io = ImGui::GetIO();
     ImGui_ImplSDL2_InitForOpenGL(_window, _glCtx);
-    ImGui_ImplOpenGL3_Init();
+    ImGui_ImplOpenGL3_Init("#version 150");
 }
 
 SDLApp::~SDLApp()

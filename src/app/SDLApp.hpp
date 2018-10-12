@@ -14,13 +14,15 @@ class SDLApp {
 public:
     // Settings for the application
     struct Settings {
-        std::string     windowName;
-        int64_t         windowWidth;
-        int64_t         windowHeight;
-        int64_t         windowFramerateLimit;
-        int32_t         glContextMajor;
-        int32_t         glContextMinor;
-        bool            glDoubleBuffer;
+        std::string       windowName;
+        int64_t           windowWidth;
+        int64_t           windowHeight;
+        int64_t           windowFramerateLimit;
+        int32_t           glContextMajor;
+        int32_t           glContextMinor;
+        SDL_GLcontextFlag glContextFlags;
+        SDL_GLprofile     glProfileMask;
+        bool              glDoubleBuffer;
 
         explicit Settings(
             const std::string& windowName = "",
@@ -29,6 +31,8 @@ public:
             int64_t windowFramerateLimit = 60,
             int32_t glContextMajor = 3,
             int32_t glContextMinor = 3,
+            SDL_GLcontextFlag glContextFlags = SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG,
+            SDL_GLprofile glProfileMask = SDL_GL_CONTEXT_PROFILE_CORE,
             bool glDoubleBuffer = true) :
             windowName             (windowName),
             windowWidth            (windowWidth),
@@ -36,6 +40,8 @@ public:
             windowFramerateLimit   (windowFramerateLimit),
             glContextMajor(glContextMajor),
             glContextMinor(glContextMinor),
+            glContextFlags(glContextFlags),
+            glProfileMask(glProfileMask),
             glDoubleBuffer(glDoubleBuffer)
         {}
     };
