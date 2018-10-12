@@ -18,16 +18,25 @@ public:
         int64_t         windowWidth;
         int64_t         windowHeight;
         int64_t         windowFramerateLimit;
+        int32_t         glContextMajor;
+        int32_t         glContextMinor;
+        bool            glDoubleBuffer;
 
         explicit Settings(
             const std::string& windowName = "",
             int64_t windowWidth = 800,
             int64_t windowHeight = 600,
-            int64_t windowFramerateLimit = 60) :
+            int64_t windowFramerateLimit = 60,
+            int32_t glContextMajor = 3,
+            int32_t glContextMinor = 3,
+            bool glDoubleBuffer = true) :
             windowName             (windowName),
             windowWidth            (windowWidth),
             windowHeight           (windowHeight),
-            windowFramerateLimit   (windowFramerateLimit)
+            windowFramerateLimit   (windowFramerateLimit),
+            glContextMajor(glContextMajor),
+            glContextMinor(glContextMinor),
+            glDoubleBuffer(glDoubleBuffer)
         {}
     };
 
