@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 project(RobokasiV2_Host)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-#Find and link SDL 2
+# Find SDL 2
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/modules)
 
 if(WIN32)
@@ -15,25 +15,69 @@ if(WIN32)
 endif()
 
 find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIR})
 
 # Find OpenGL
+set(OpenGL_GL_PREFERENCE GLVND)
 find_package(OpenGL REQUIRED)
 
-# Add executable: Robokasi
+# Add subdirectories
+add_subdirectory(ext)
 add_subdirectory(include)
 add_subdirectory(src)
-add_subdirectory(ext)
 
-add_executable(Robokasi ${EXECUTABLE_HEADERS} ${EXECUTABLE_SOURCES})
-
-target_include_directories(Robokasi PUBLIC include)
-
-target_link_libraries(
-    Robokasi
+# Kinematics library target
+add_library(kinematics SHARED ${KINEMATICS_SOURCES})
+target_include_directories(
+        kinematics
     PUBLIC
-    ${SDL2_LIBRARY}
-    ${OPENGL_LIBRARIES}
-    gl3w
-    imgui
+        $<INSTALL_INTERFACE:include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/kinematics
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/kinematics
+)
+
+# GUI library target
+add_library(gui SHARED ${GUI_SOURCES})
+target_include_directories(
+        gui
+    PUBLIC
+        $<INSTALL_INTERFACE:include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        ${SDL2_INCLUDE_DIR}
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/gui
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/gui
+)
+target_link_libraries(
+        gui
+    PUBLIC
+        kinematics
+)
+
+# Hardware I/O library target
+message(${HWIO_SOURCES})
+add_library(hwio SHARED ${HWIO_SOURCES})
+target_include_directories(
+        hwio
+    PUBLIC
+        $<INSTALL_INTERFACE:include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/hwio
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/hwio
+)
+
+# Robokasi app target
+# message(${APP_SOURCES})
+add_executable(Robokasi ${APP_SOURCES})
+target_link_libraries(
+        Robokasi
+    PUBLIC
+        gui
+        hwio
+        ${SDL2_LIBRARY}
+        ${OPENGL_LIBRARIES}
+        gl3w
+        imgui
 )

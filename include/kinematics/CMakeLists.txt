@@ -1,0 +1,7 @@
+# Add headers
+file(GLOB SUB_HEADERS "*.hpp")
+
+set(KINEMATICS_HEADERS
+    ${KINEMATICS_HEADERS}
+    ${SUB_HEADERS}
+    PARENT_SCOPE)
