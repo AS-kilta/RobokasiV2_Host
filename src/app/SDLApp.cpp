@@ -80,8 +80,6 @@ void SDLApp::loop(void)
             handleEvents(event);
 
         render();
-
-        SDL_GL_SwapWindow(_window);
     }
 }
 
@@ -121,6 +119,8 @@ void SDLApp::render(void)
     ImGui::End();
 
     ImGui::Render();
+
+    glClear(GL_COLOR_BUFFER_BIT);
 
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
