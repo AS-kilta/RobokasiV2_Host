@@ -1,3 +1,5 @@
+execute_process(COMMAND git submodule update --init)
+
 add_library(
         gl3w
     STATIC
