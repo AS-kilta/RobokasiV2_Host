@@ -3,7 +3,7 @@
 //
 
 #include "SDLApp.hpp"
-#include <kinematics/Chain.hpp>
+#include <kinematics/Puma560.hpp>
 #include <gui/Hello.hpp>
 #include <hwio/Hello.hpp>
 #include <iostream>
@@ -16,19 +16,14 @@ int main(int argv, char** args) {
     hwio::Hello hwioHello;
     hwioHello.hello();
 
-    kin::Chain chain;
-    chain.addJoint(kin::Joint(kin::DHMatrix(
-    0.0f, 0.0f, 0.0f, PI*0.5f)));
-    chain.addJoint(kin::Joint(kin::DHMatrix(
-    0.0f, 0.0f, 0.4318f, 0.0f)));
-    chain.addJoint(kin::Joint(kin::DHMatrix(
-    0.15f, 0.0f, 0.0203f, -PI*0.5f)));
-    chain.addJoint(kin::Joint(kin::DHMatrix(
-    0.4318f, 0.0f, 0.0f, PI*0.5f)));
-    chain.addJoint(kin::Joint(kin::DHMatrix(
-    0.0f, 0.0f, 0.0f, -PI*0.5f)));
-    chain.addJoint(kin::Joint(kin::DHMatrix(
-    0.0f, 0.0f, 0.0f, 0.0f)));
+    kin::Puma560 arm;
+    std::cout << arm.getEnd() << std::endl;
+
+    for (auto i=0; i<10; ++i) {
+        float theta = i*0.1*PI;
+        arm.setJointAngle(5, theta);
+        std::cout << arm.getEnd() << std::endl;
+    }
 
     SDLApp app(SDLApp::Settings("Robokasi"));
     app.loop();
