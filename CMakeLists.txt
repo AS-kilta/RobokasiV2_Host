@@ -20,6 +20,17 @@ find_package(SDL2 REQUIRED)
 set(OpenGL_GL_PREFERENCE GLVND)
 find_package(OpenGL REQUIRED)
 
+# Find Eigen
+find_package(Eigen3 REQUIRED)
+
+if(NOT EIGEN3_INCLUDE_DIR)
+    set(EIGEN3_INCLUDE_DIR "$ENV{EIGEN3_INCLUDE_DIR}")
+    if(NOT EIGEN3_INCLUDE_DIR)
+        message(FATAL_ERROR "Please set EIGEN3_INCLUDE_DIR environment variable to point to SDL 2 installation directory.")
+    endif()
+endif()
+
+
 # Add subdirectories
 add_subdirectory(ext)
 add_subdirectory(include)
@@ -32,6 +43,7 @@ target_include_directories(
     PUBLIC
         $<INSTALL_INTERFACE:include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        ${EIGEN3_INCLUDE_DIR}
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/include/kinematics
         ${CMAKE_CURRENT_SOURCE_DIR}/src/kinematics
@@ -69,7 +81,6 @@ target_include_directories(
 )
 
 # Robokasi app target
-# message(${APP_SOURCES})
 add_executable(Robokasi ${APP_SOURCES})
 target_link_libraries(
         Robokasi
