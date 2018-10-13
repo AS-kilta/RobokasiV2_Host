@@ -16,8 +16,11 @@ namespace kin {
         explicit DHMatrix(
             float d = 0.0f,
             float theta = 0.0f,
-            float r = 0.0f,
+            float r = 0.0f, // also called a
             float alpha = 0.0f);
+
+        /// Set joint angle
+        void setTheta(float theta);
 
         operator const Mat4f&();
 
@@ -29,9 +32,10 @@ namespace kin {
         float   _r;
         float   _alpha;
 
-        bool    _dirty; // flag for matrix dirtiness
         Mat4f   _z; // joint matrix
+        bool    _zDirty; // flag for joint matrix dirtiness
         Mat4f   _x; // link matrix
+        bool    _xDirty; // flag for link matrix dirtiness
         Mat4f   _m; // transformation matrix (_z * _x)
 
         void update();

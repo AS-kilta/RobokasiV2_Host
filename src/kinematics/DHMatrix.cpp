@@ -13,43 +13,54 @@ DHMatrix::DHMatrix(float d, float theta, float r, float alpha) :
     _theta  (theta),
     _r      (r),
     _alpha  (alpha),
-    _dirty  (true),
+    _x      (Mat4f::Identity()),
+    _xDirty (true),
+    _z      (Mat4f::Identity()),
+    _zDirty (true),
     _m      (Mat4f::Identity())
-
 {
     update();
 }
 
+void DHMatrix::setTheta(float theta)
+{
+    _theta = theta;
+    _zDirty = true;
+}
+
 DHMatrix::operator const Mat4f&()
 {
-    if (_dirty)
+    if (_zDirty || _xDirty)
         update();
     return _m;
 }
 
 const Mat4f& DHMatrix::getMatrix()
 {
-    if (_dirty)
+    if (_zDirty || _xDirty)
         update();
     return _m;
 }
 
 void DHMatrix::update()
 {
-    float st = std::sin(_theta);
-    float ct = std::cos(_theta);
-    float sa = std::sin(_alpha);
-    float ca = std::cos(_alpha);
-
-    _z  <<  ct,     -st,    0.0f,   0.0f,
-            st,     ct,     0.0f,   0.0f,
-            0.0f,   0.0f,   1.0f,   _d,
-            0.0f,   0.0f,   0.0f,   1.0f;
-    _x  <<  1.0f,   0.0f,   0.0f,   _r,
-            0.0f,   ca,     -sa,    0.0f,
-            0.0f,   sa,     ca,     0.0f,
-            0.0f,   0.0f,   0.0f,   1.0f;
+    if (_zDirty) {
+        float st = std::sin(_theta);
+        float ct = std::cos(_theta);
+        _z  <<  ct,     -st,    0.0f,   0.0f,
+                st,     ct,     0.0f,   0.0f,
+                0.0f,   0.0f,   1.0f,   _d,
+                0.0f,   0.0f,   0.0f,   1.0f;
+        _zDirty = false;
+    }
+    if (_xDirty) {
+        float sa = std::sin(_alpha);
+        float ca = std::cos(_alpha);
+        _x  <<  1.0f,   0.0f,   0.0f,   _r,
+                0.0f,   ca,     -sa,    0.0f,
+                0.0f,   sa,     ca,     0.0f,
+                0.0f,   0.0f,   0.0f,   1.0f;
+        _xDirty = false;
+    }
     _m = _z * _x;
-
-    _dirty = false;
 }

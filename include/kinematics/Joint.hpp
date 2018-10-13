@@ -33,9 +33,6 @@ namespace kin {
 
         Mat4f       _bm; // base matrix (previous joint end)
 
-        float       _a; // rotation around z-axis
-        Mat4f       _rm; // rotation matrix
-
         Mat4f       _end; // end transformation matrix
         bool        _dirty;
     };

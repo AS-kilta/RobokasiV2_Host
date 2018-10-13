@@ -11,8 +11,6 @@ using namespace kin;
 Joint::Joint(const DHMatrix& dh, const Mat4f& base) :
     _dh     (dh),
     _bm     (base),
-    _a      (0.0f),
-    _rm     (Mat4f::Identity()),
     _end    (Mat4f::Identity()),
     _dirty  (true)
 {
@@ -26,13 +24,7 @@ void Joint::setBase(const Mat4f& base)
 
 void Joint::setAngle(float angle)
 {
-    _a = angle;
-    float sa = std::sin(_a);
-    float ca = std::cos(_a);
-    _rm <<  ca,     -sa,    0.0f,   0.0f,
-            sa,     ca,     0.0f,   0.0f,
-            0.0f,   0.0f,   1.0f,   0.0f,
-            0.0f,   0.0f,   0.0f,   1.0f;
+    _dh.setTheta(angle);
     _dirty = true;
 }
 
@@ -44,7 +36,7 @@ const DHMatrix& Joint::getDHMatrix(void) const
 const Mat4f &Joint::getEnd()
 {
     if (_dirty) {
-        _end = _bm * _rm * _dh.getMatrix();
+        _end = _bm * _dh.getMatrix();
         _dirty = false;
     }
 
