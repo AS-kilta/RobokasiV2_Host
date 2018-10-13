@@ -10,6 +10,9 @@
 #include <cstdint>
 
 
+#define PI 3.14159265359
+
+
 namespace kin {
 
     using Vec2f = Eigen::Vector2f;
