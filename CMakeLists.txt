@@ -23,6 +23,10 @@ find_package(OpenGL REQUIRED)
 # Find Eigen
 find_package(Eigen3 REQUIRED)
 
+# Find libserialport viad pkg-config
+find_package(PkgConfig)
+pkg_check_modules(LIBSERIALPORT REQUIRED libserialport)
+
 if(NOT EIGEN3_INCLUDE_DIR)
     set(EIGEN3_INCLUDE_DIR "$ENV{EIGEN3_INCLUDE_DIR}")
     if(NOT EIGEN3_INCLUDE_DIR)
@@ -81,6 +85,7 @@ target_include_directories(
     PUBLIC
         $<INSTALL_INTERFACE:include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        ${LIBSERIALPORT_INCLUDE_DIR}
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/include/hwio
         ${CMAKE_CURRENT_SOURCE_DIR}/src/hwio
@@ -97,4 +102,5 @@ target_link_libraries(
         ${OPENGL_LIBRARIES}
         gl3w
         imgui
+        ${LIBSERIALPORT_LIBRARIES}
 )
