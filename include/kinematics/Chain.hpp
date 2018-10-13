@@ -28,6 +28,11 @@ namespace kin {
 
         /// Get end effector position of the kinematic chain
         const Mat4f& getEnd();
+        /// Remember to call update() before using const version
+        const Mat4f& getEnd() const;
+
+        /// Update forward kinematics
+        void update();
 
     private:
         Mat4f               _bm; // base transformation matrix
@@ -35,9 +40,6 @@ namespace kin {
         std::vector<Joint>  _joints;
         Mat4f               _end; // end effector transformation
         bool                _endDirty;
-
-        // helper function for calculating forward kinematics
-        void update();
     };
 
 } // namespace kin

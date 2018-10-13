@@ -45,9 +45,12 @@ void Chain::setJointAngle(int64_t id, float angle)
 
 const Mat4f& Chain::getEnd()
 {
-    if (_endDirty)
-        update();
+    update();
+    return _end;
+}
 
+const Mat4f& Chain::getEnd() const
+{
     return _end;
 }
 
@@ -61,11 +64,13 @@ void Chain::update()
         _baseDirty = false;
     }
 
-    // calculate forward kinematics
-    for (auto i=1; i<_joints.size(); ++i) {
-        _joints[i].setBase(_joints[i-1].getEnd());
-    }
+    if (_endDirty) {
+        // calculate forward kinematics
+        for (auto i = 1; i < _joints.size(); ++i) {
+            _joints[i].setBase(_joints[i - 1].getEnd());
+        }
 
-    _end = _joints.back().getEnd();
-    _endDirty = false;
+        _end = _joints.back().getEnd();
+        _endDirty = false;
+    }
 }
