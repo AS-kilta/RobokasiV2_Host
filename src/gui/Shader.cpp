@@ -11,7 +11,13 @@
 using namespace gui;
 
 
-Shader::Shader(const std::string& vsFileName, const std::string& fsFileName)
+Shader::Shader() :
+    programId_              (0),
+    uniformPosition_MVP_    (0),
+    uniformPosition_Color_  (0)
+{}
+
+void Shader::load(const std::string& vsFileName, const std::string& fsFileName)
 {
     FILE* vsf = fopen(vsFileName.c_str(), "rb");
     if (!vsf)

@@ -13,8 +13,9 @@ namespace gui {
 
     class Shader {
     public:
-        Shader(const std::string& vsFileName, const std::string& fsFileName);
+        Shader();
         ~Shader();
+        void load(const std::string& vsFileName, const std::string& fsFileName);
 
         void useShader(const Mat4GLf& mvp,
                        const Vec3GLf& color = Vec3GLf(1.0f, 1.0f, 1.0f)) const;
