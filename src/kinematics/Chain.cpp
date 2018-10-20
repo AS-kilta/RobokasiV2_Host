@@ -43,6 +43,16 @@ void Chain::setJointAngle(int64_t id, float angle)
     _endDirty = true;
 }
 
+const Mat4f& Chain::getJointEnd(int64_t id)
+{
+    if (id < 0 || id >= _joints.size()) {
+        fprintf(stderr, "ERROR: Invalid joint id (%d)\n", (int)id);
+        return Mat4f::Identity();
+    }
+
+    return _joints[id].getEnd();
+}
+
 const Mat4f& Chain::getEnd()
 {
     update();

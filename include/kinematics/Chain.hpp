@@ -26,6 +26,9 @@ namespace kin {
         /// Set joint angle
         void setJointAngle(int64_t id, float angle);
 
+        /// Get end transformation of specific joint
+        const Mat4f& getJointEnd(int64_t id);
+
         /// Get end effector position of the kinematic chain
         const Mat4f& getEnd();
         /// Remember to call update() before using const version
