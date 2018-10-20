@@ -29,15 +29,7 @@ namespace kin {
     using Mat3d = Eigen::Matrix3d;
     using Mat4d = Eigen::Matrix4d;
 
-    using Vec2GLf = Eigen::Matrix<GLfloat, 2, 1, Eigen::DontAlign>;
-    using Vec3GLf = Eigen::Matrix<GLfloat, 3, 1, Eigen::DontAlign>;
-    using Vec4GLf = Eigen::Matrix<GLfloat, 4, 1, Eigen::DontAlign>;
-
-    using Mat2GLf = Eigen::Matrix<GLfloat, 2, 2, Eigen::DontAlign>;
-    using Mat3GLf = Eigen::Matrix<GLfloat, 3, 3, Eigen::DontAlign>;
-    using Mat4GLf = Eigen::Matrix<GLfloat, 4, 4, Eigen::DontAlign>;
-
-}
+} // namespace kin
 
 
 #endif // ROBOKASIV2_HOST_KINEMATICS_MATHTYPES_HPP
