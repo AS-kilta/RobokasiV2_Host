@@ -65,6 +65,8 @@ target_link_libraries(
         gui
     PUBLIC
         kinematics
+        ${OPENGL_LIBRARIES}
+        gl3w
 )
 
 # Hardware I/O library target
