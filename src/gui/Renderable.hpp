@@ -6,10 +6,14 @@
 #define ROBOKASIV2_HOST_GUI_RENDERABLE_HPP
 
 
-class Renderable {
-public:
-    virtual void render() = 0;
-};
+namespace gui {
+
+    class Renderable {
+    public:
+        virtual void render() = 0;
+    };
+
+} // namespace gui
 
 
 #endif //ROBOKASIV2_HOST_GUI_RENDERABLE_HPP
