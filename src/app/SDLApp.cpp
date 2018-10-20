@@ -18,7 +18,8 @@ using namespace gui;
 SDLApp::SDLApp(const SDLApp::Settings &settings) :
     _settings   (settings),
     _window     (nullptr),
-    _quit       (false)
+    _quit       (false),
+    _renderer   (_shader, _camera)
 {
     int err;
 
@@ -73,21 +74,18 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
     _shader.load("../res/shaders/VS_Simple.glsl", "../res/shaders/FS_Simple.glsl");
     _shader.addUniform("MVP");
     _shader.addUniform("Color");
-    _mesh.loadFromObj("../res/models/puma_link1_mod.obj");
-    Mat3GLf meshRot;
-    meshRot <<  1.0f, 0.0f, 0.0f,
-                0.0f, 0.0f, 1.0f,
-                0.0f, 1.0f, 0.0f;
-    _mesh.setRotation(meshRot);
     _camera.lookAt(
         Vec3GLf(0.0f, 20.0f, 40.0f),
-        Vec3GLf(0.0f, 10.0f, 0.0f),
+        Vec3GLf(0.0f, 0.0f, 0.0f),
         Vec3GLf(0.0f, 1.0f, 0.0f));
     _camera.projection(
         60.0f * M_PI / 180.f,
         (float)_settings.windowWidth / (float)_settings.windowHeight,
         1.0f,
         500.0f);
+
+    _model.loadLinkMeshes();
+    _renderables.push_back(&_model);
 }
 
 SDLApp::~SDLApp()
@@ -149,7 +147,7 @@ void SDLApp::render(void)
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    _mesh.render(_shader, _camera);
+    _renderer.render(_renderables);
 
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 

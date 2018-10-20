@@ -11,7 +11,8 @@
 
 #include "gui/Camera.hpp"
 #include "gui/Shader.hpp"
-#include "gui/Mesh.hpp"
+#include "gui/Puma560Model.hpp"
+#include "gui/Renderer.hpp"
 
 
 class SDLApp {
@@ -63,7 +64,10 @@ private:
 
     gui::Shader     _shader;
     gui::Camera     _camera;
-    gui::Mesh       _mesh;
+    gui::Renderer   _renderer;
+
+    gui::Puma560Model               _model;
+    std::vector<gui::Renderable*>   _renderables;
 
     // Window event handling loop
     void handleEvents(SDL_Event& event);
