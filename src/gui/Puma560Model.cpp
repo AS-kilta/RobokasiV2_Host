@@ -31,6 +31,7 @@ void Puma560Model::loadLinkMeshes()
 
 void Puma560Model::render(Shader& shader, Camera& camera)
 {
-    for (auto i=0; i<6; ++i)
-        _links[i].render(shader, camera);
+    for (auto i=0; i<6; ++i) {
+        _links[i].render(shader, camera, _chain.getJointEnd(i));
+    }
 }
