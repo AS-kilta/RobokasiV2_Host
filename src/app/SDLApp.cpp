@@ -76,8 +76,10 @@ void SDLApp::loop(void)
     // Application main loop
     while (!_quit) {
         SDL_Event event;
-        while (SDL_PollEvent(&event) != 0)
+        while (SDL_PollEvent(&event) != 0) {
+            ImGui_ImplSDL2_ProcessEvent(&event);
             handleEvents(event);
+        }
 
         render();
     }
