@@ -20,7 +20,7 @@ namespace gui {
         ~Mesh(void);
 
         Mesh(const Mesh& other)             = delete;
-        Mesh(Mesh&& other)                  = delete;
+        Mesh(Mesh&& other);
         Mesh& operator=(const Mesh& other)  = delete;
         Mesh& operator=(Mesh&& other)       = delete;
 

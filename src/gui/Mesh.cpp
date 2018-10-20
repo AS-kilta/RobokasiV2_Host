@@ -27,6 +27,19 @@ Mesh::Mesh(void) :
     _rotation(Mat3GLf::Identity())
 {}
 
+Mesh::Mesh(Mesh&& other) :
+    _vertexArrayObjectId (other._vertexArrayObjectId),
+    _positionBufferId (other._positionBufferId),
+    _normalBufferId (other._normalBufferId),
+    _elementBufferId (other._elementBufferId)
+
+{
+    other._vertexArrayObjectId = 0;
+    other._positionBufferId = 0;
+    other._normalBufferId = 0;
+    other._elementBufferId = 0;
+}
+
 Mesh::~Mesh(void) {
     glDeleteVertexArrays(1, &_vertexArrayObjectId);
     glDeleteBuffers(1, &_positionBufferId);
