@@ -18,6 +18,8 @@ target_link_libraries(
         ${CMAKE_DL_LIBS}
 )
 
+set_property(TARGET gl3w PROPERTY POSITION_INDEPENDENT_CODE ON)
+
 add_library(
         imgui
     STATIC
