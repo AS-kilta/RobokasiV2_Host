@@ -6,11 +6,14 @@
 #define ROBOKASIV2_HOST_GUI_RENDERABLE_HPP
 
 
+#include "Renderer.hpp"
+
+
 namespace gui {
 
     class Renderable {
     public:
-        virtual void render() = 0;
+        virtual void render(Shader& shader, Camera& camera) = 0;
     };
 
 } // namespace gui
