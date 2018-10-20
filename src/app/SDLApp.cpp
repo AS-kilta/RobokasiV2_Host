@@ -7,8 +7,12 @@
 #include <imgui.h>
 #include <imgui_impl_sdl.h>
 #include <imgui_impl_opengl3.h>
+#include <cmath>
 
 #include "SDLApp.hpp"
+
+
+using namespace gui;
 
 
 SDLApp::SDLApp(const SDLApp::Settings &settings) :
@@ -42,6 +46,7 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, _settings.glContextFlags);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, _settings.glProfileMask);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, _settings.glDoubleBuffer);
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 
     _glCtx = SDL_GL_CreateContext(_window);
 
@@ -61,6 +66,26 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
     ImGuiIO &imgui_io = ImGui::GetIO();
     ImGui_ImplSDL2_InitForOpenGL(_window, _glCtx);
     ImGui_ImplOpenGL3_Init("#version 150");
+
+    glClearColor(0.f, 0.f, 0.f, 1.f);
+    glEnable(GL_DEPTH_TEST);
+
+    _shader.load("../res/shaders/VS_Simple.glsl", "../res/shaders/FS_Simple.glsl");
+    _mesh.loadFromObj("../res/models/puma_link1_mod.obj");
+    Mat3GLf meshRot;
+    meshRot <<  1.0f, 0.0f, 0.0f,
+                0.0f, 0.0f, 1.0f,
+                0.0f, 1.0f, 0.0f;
+    _mesh.setRotation(meshRot);
+    _camera.lookAt(
+        Vec3GLf(0.0f, 20.0f, 40.0f),
+        Vec3GLf(0.0f, 10.0f, 0.0f),
+        Vec3GLf(0.0f, 1.0f, 0.0f));
+    _camera.projection(
+        60.0f * M_PI / 180.f,
+        (float)_settings.windowWidth / (float)_settings.windowHeight,
+        1.0f,
+        500.0f);
 }
 
 SDLApp::~SDLApp()
@@ -120,7 +145,9 @@ void SDLApp::render(void)
 
     ImGui::Render();
 
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    _mesh.render(_shader, _camera);
 
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 

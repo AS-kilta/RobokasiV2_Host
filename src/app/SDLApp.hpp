@@ -9,6 +9,10 @@
 #include <SDL.h>
 #include <string>
 
+#include "gui/Camera.hpp"
+#include "gui/Shader.hpp"
+#include "gui/Mesh.hpp"
+
 
 class SDLApp {
 public:
@@ -56,6 +60,10 @@ private:
     SDL_Window*     _window;
     SDL_GLContext   _glCtx;
     bool            _quit; // flag for quitting the application
+
+    gui::Shader     _shader;
+    gui::Camera     _camera;
+    gui::Mesh       _mesh;
 
     // Window event handling loop
     void handleEvents(SDL_Event& event);
