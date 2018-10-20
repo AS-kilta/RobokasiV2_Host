@@ -8,13 +8,63 @@
 #include <imgui_impl_sdl.h>
 #include <imgui_impl_opengl3.h>
 
+#include <libserialport.h>
+
 #include "SDLApp.hpp"
+
+#include "hwio/Hwio.hpp"
+
+SerialConfigGui::SerialConfigGui(hwio::Hwio& hwio) :
+    _ports(nullptr),
+    _port_idx(0),
+    _port_baud(115200),
+    _hwio(hwio)
+{
+    sp_list_ports(&_ports);
+}
+
+SerialConfigGui::~SerialConfigGui()
+{
+    /* TODO */
+}
+
+void SerialConfigGui::render()
+{
+
+    ImGui::Begin("Serial Config");
+
+    if (ImGui::Button("Refresh ports"))
+        sp_list_ports(&_ports);
+
+    if (ImGui::BeginCombo("Device", sp_get_port_name(_ports[_port_idx]))) {
+        if (_ports) {
+            for (size_t i = 0; _ports[i]; ++i) {
+                if (ImGui::Selectable(sp_get_port_name(_ports[i]), i == _port_idx))
+                    _port_idx = i;
+                if (i == _port_idx)
+                    ImGui::SetItemDefaultFocus();
+            }
+        }
+        ImGui::EndCombo();
+    }
+
+    ImGui::InputInt("Baud rate", &_port_baud);
+
+    if (ImGui::Button("Connect"))
+        _hwio.connect(sp_get_port_name(_ports[_port_idx]), _port_baud);
+
+
+    ImGui::End();
+}
+
 
 
 SDLApp::SDLApp(const SDLApp::Settings &settings) :
-    _settings   (settings),
-    _window     (nullptr),
-    _quit       (false)
+    _settings       (settings),
+    _window         (nullptr),
+    _quit           (false),
+    _hwio           (),
+    _serialConfigGui(_hwio)
 {
     int err;
 
@@ -119,6 +169,8 @@ void SDLApp::render(void)
     ImGui::Begin("Window");
 
     ImGui::End();
+
+    _serialConfigGui.render();
 
     ImGui::Render();
 

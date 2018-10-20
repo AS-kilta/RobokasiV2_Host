@@ -9,6 +9,21 @@
 #include <SDL.h>
 #include <string>
 
+#include "hwio/Hwio.hpp"
+
+
+class SerialConfigGui
+{
+public:
+    SerialConfigGui(hwio::Hwio &hwio);
+    ~SerialConfigGui();
+    void render();
+private:
+    struct sp_port **_ports;
+    int _port_idx;
+    int _port_baud;
+    hwio::Hwio &_hwio;
+};
 
 class SDLApp {
 public:
@@ -56,6 +71,9 @@ private:
     SDL_Window*     _window;
     SDL_GLContext   _glCtx;
     bool            _quit; // flag for quitting the application
+    hwio::Hwio      _hwio;
+    SerialConfigGui _serialConfigGui;
+
 
     // Window event handling loop
     void handleEvents(SDL_Event& event);
