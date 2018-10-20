@@ -22,9 +22,7 @@ Mesh::Mesh(void) :
     _vertexArrayObjectId(0),
     _positionBufferId(0),
     _normalBufferId(0),
-    _elementBufferId(0),
-    _position(0.0f, 0.0f, 0.0f),
-    _rotation(Mat3GLf::Identity())
+    _elementBufferId(0)
 {}
 
 Mesh::Mesh(Mesh&& other) :
@@ -180,9 +178,14 @@ void Mesh::loadFromObj(const std::string& fileName) {
     glBindVertexArray(0);
 }
 
-void Mesh::render(const Shader& shader, const Camera& camera, const Vec3GLf& color) const {
+void Mesh::render(
+    const Shader& shader,
+    const Camera& camera,
+    const Mat4GLf& orientation,
+    const Vec3GLf& color) const
+{
     shader.use();
-    shader.setUniform("MVP", Mat4GLf(camera.getVP() * getOrientation()));
+    shader.setUniform("MVP", Mat4GLf(camera.getVP() * orientation));
     shader.setUniform("Color", color);
 
     glBindVertexArray(_vertexArrayObjectId);
@@ -190,19 +193,4 @@ void Mesh::render(const Shader& shader, const Camera& camera, const Vec3GLf& col
     glDrawElements(GL_TRIANGLES, _nIndices, GL_UNSIGNED_INT, (GLvoid*)0);
 
     glBindVertexArray(0);
-}
-
-void Mesh::setPosition(const Vec3GLf& position) {
-    _position = position;
-}
-
-void Mesh::setRotation(const Mat3GLf& rotation) {
-    _rotation = rotation;
-}
-
-Mat4GLf Mesh::getOrientation(void) const {
-    Mat4GLf o;
-    o << _rotation          , _position ,
-         0.0f, 0.0f, 0.0f   , 1.0f      ;
-    return std::move(o);
 }

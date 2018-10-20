@@ -27,12 +27,8 @@ namespace gui {
         void loadFromObj(const std::string& fileName);
         void render(const Shader& shader,
                     const Camera& camera,
+                    const Mat4GLf& orientation,
                     const Vec3GLf& color = Vec3GLf(1.0f, 1.0f, 1.0f)) const;
-
-        void setPosition(const Vec3GLf& position);
-        void setRotation(const Mat3GLf& rotation);
-
-        Mat4GLf getOrientation(void) const;
 
     private:
         GLuint _vertexArrayObjectId;
@@ -42,8 +38,6 @@ namespace gui {
         GLuint _normalBufferId;
         GLuint _elementBufferId;
 
-        Vec3GLf _position;
-        Mat3GLf _rotation;
     };
 
 } // namespace gui
