@@ -168,7 +168,10 @@ void Mesh::loadFromObj(const std::string& fileName) {
 }
 
 void Mesh::render(const Shader& shader, const Camera& camera, const Vec3GLf& color) const {
-    shader.useShader(camera.getVP() * getOrientation(), color);
+    shader.use();
+    shader.setUniform("MVP", Mat4GLf(camera.getVP() * getOrientation()));
+    shader.setUniform("Color", color);
+
     glBindVertexArray(_vertexArrayObjectId);
 
     glDrawElements(GL_TRIANGLES, _nIndices, GL_UNSIGNED_INT, (GLvoid*)0);

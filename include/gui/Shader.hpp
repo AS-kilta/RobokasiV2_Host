@@ -7,6 +7,7 @@
 
 
 #include "GLTypes.hpp"
+#include <unordered_map>
 
 
 namespace gui {
@@ -17,13 +18,18 @@ namespace gui {
         ~Shader();
         void load(const std::string& vsFileName, const std::string& fsFileName);
 
-        void useShader(const Mat4GLf& mvp,
-                       const Vec3GLf& color = Vec3GLf(1.0f, 1.0f, 1.0f)) const;
+        void addUniform(const std::string& name);
+
+        void setUniform(const std::string& name, float uniform) const;
+        void setUniform(const std::string& name, const Vec3GLf& uniform) const;
+        void setUniform(const std::string& name, const Vec4GLf& uniform) const;
+        void setUniform(const std::string& name, const Mat4GLf& uniform) const;
+
+        void use() const;
 
     private:
-        GLuint programId_;
-        GLuint uniformPosition_MVP_;
-        GLuint uniformPosition_Color_;
+        GLuint                                  _programId;
+        std::unordered_map<std::string, GLint>  _uniformPositions;
     };
 
 } // namespace gui

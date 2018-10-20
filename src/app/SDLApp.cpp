@@ -71,6 +71,8 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
     glEnable(GL_DEPTH_TEST);
 
     _shader.load("../res/shaders/VS_Simple.glsl", "../res/shaders/FS_Simple.glsl");
+    _shader.addUniform("MVP");
+    _shader.addUniform("Color");
     _mesh.loadFromObj("../res/models/puma_link1_mod.obj");
     Mat3GLf meshRot;
     meshRot <<  1.0f, 0.0f, 0.0f,

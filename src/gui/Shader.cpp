@@ -12,10 +12,8 @@ using namespace gui;
 
 
 Shader::Shader() :
-    programId_              (0),
-    uniformPosition_MVP_    (0),
-    uniformPosition_Color_  (0)
-{}
+    _programId              (0)
+{ }
 
 void Shader::load(const std::string& vsFileName, const std::string& fsFileName)
 {
@@ -76,42 +74,67 @@ void Shader::load(const std::string& vsFileName, const std::string& fsFileName)
         throw infoLog; // TODO_EXCEPTION: throw a proper exception
     }
 
-    programId_ = glCreateProgram();
+    _programId = glCreateProgram();
 
-    glAttachShader(programId_, fsObjectId);
-    glAttachShader(programId_, vsObjectId);
+    glAttachShader(_programId, fsObjectId);
+    glAttachShader(_programId, vsObjectId);
 
     GLint linkStatus;
 
-    glBindAttribLocation(programId_, 0, "position");
-    glBindAttribLocation(programId_, 1, "normal");
+    glBindAttribLocation(_programId, 0, "position");
+    glBindAttribLocation(_programId, 1, "normal");
 
-    glLinkProgram(programId_);
+    glLinkProgram(_programId);
 
-    glGetProgramiv(programId_, GL_LINK_STATUS, &linkStatus);
+    glGetProgramiv(_programId, GL_LINK_STATUS, &linkStatus);
     if (linkStatus == GL_FALSE) {
-        glGetShaderiv(programId_, GL_INFO_LOG_LENGTH, &infoLogLength);
+        glGetShaderiv(_programId, GL_INFO_LOG_LENGTH, &infoLogLength);
 
         char* infoLog = new char[infoLogLength];
-        glGetProgramInfoLog(programId_, infoLogLength, NULL, &infoLog[0]);
+        glGetProgramInfoLog(_programId, infoLogLength, NULL, &infoLog[0]);
         fprintf(stderr, "%s", infoLog);
         throw infoLog; // TODO_EXCEPTION: throw a proper exception
     }
     glDeleteShader(fsObjectId);
     glDeleteShader(vsObjectId);
-
-    uniformPosition_MVP_ = glGetUniformLocation(programId_, "MVP");
-    uniformPosition_Color_ = glGetUniformLocation(programId_, "Color");
 }
 
 Shader::~Shader()
 {
-    glDeleteProgram(programId_);
+    glDeleteProgram(_programId);
 }
 
-void Shader::useShader(const Mat4GLf& mvp, const Vec3GLf& color) const
+void Shader::addUniform(const std::string& name)
 {
-    glUseProgram(programId_);
-    glUniformMatrix4fv(uniformPosition_MVP_, 1, GL_FALSE, mvp.data());
-    glUniform3fv(uniformPosition_Color_, 1, color.data());
+    GLint pos = glGetUniformLocation(_programId, name.c_str());
+    if (pos < 0) {
+        fprintf(stderr, "ERROR: Could not find shader uniform with name %s\n", name.c_str());
+        return;
+    }
+    _uniformPositions[name] = pos;
+}
+
+void Shader::setUniform(const std::string& name, float uniform) const
+{
+    glUniform1f(_uniformPositions.at(name), uniform);
+}
+
+void Shader::setUniform(const std::string& name, const Vec3GLf& uniform) const
+{
+    glUniform3fv(_uniformPositions.at(name), 1, uniform.data());
+}
+
+void Shader::setUniform(const std::string& name, const Vec4GLf& uniform) const
+{
+    glUniform4fv(_uniformPositions.at(name), 1, uniform.data());
+}
+
+void Shader::setUniform(const std::string& name, const Mat4GLf& uniform) const
+{
+    glUniformMatrix4fv(_uniformPositions.at(name), 1, GL_FALSE, uniform.data());
+}
+
+void Shader::use() const
+{
+    glUseProgram(_programId);
 }
