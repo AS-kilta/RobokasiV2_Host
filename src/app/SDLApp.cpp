@@ -17,7 +17,7 @@
 SerialConfigGui::SerialConfigGui(hwio::Hwio& hwio) :
     _ports(nullptr),
     _port_idx(0),
-    _port_baud(115200),
+    _port_baud(576000),
     _hwio(hwio)
 {
     sp_list_ports(&_ports);
@@ -50,8 +50,10 @@ void SerialConfigGui::render()
 
     ImGui::InputInt("Baud rate", &_port_baud);
 
-    if (ImGui::Button("Connect"))
+    if (ImGui::Button("Connect")) {
         _hwio.connect(sp_get_port_name(_ports[_port_idx]), _port_baud);
+        _hwio.updateState();
+    }
 
 
     ImGui::End();
@@ -160,6 +162,17 @@ void SDLApp::handleEvents(SDL_Event& event)
     }
 }
 
+hwio::State curState;
+hwio::State setState;
+bool set;
+std::array<float, 6> set_angles;
+bool autoSet = 0;
+#if 0
+bool safemode = true;
+bool brake = true;
+bool gripper = false;
+#endif
+
 void SDLApp::render(void)
 {
     ImGui_ImplOpenGL3_NewFrame();
@@ -171,6 +184,38 @@ void SDLApp::render(void)
     ImGui::End();
 
     _serialConfigGui.render();
+
+    if (_hwio.isConnected()) {
+        ImGui::Begin("Control");
+        _hwio.updateState();
+        _hwio.getAngles(curState.angles);
+        for (const float angle : curState.angles)
+            ImGui::ProgressBar(angle);
+        if (ImGui::Button("Copy") || !set) {
+            setState = curState;
+            set = true;
+        }
+        bool edited = 0;
+        edited |= ImGui::SliderFloat("j1", &setState.angles[0], 0.270f, 0.830f);
+        edited |= ImGui::SliderFloat("j2", &setState.angles[1], 0.155f, 0.99f);
+        edited |= ImGui::SliderFloat("j3", &setState.angles[2], 0.357f, 0.761f);
+        edited |= ImGui::SliderFloat("j4", &setState.angles[3], 0.280f, 0.960);
+        edited |= ImGui::SliderFloat("j5", &setState.angles[4], 0.355f, 0.752);
+        edited |= ImGui::SliderFloat("j6", &setState.angles[5], 0.0f, 1.0f);
+        edited |= ImGui::SliderInt("dt", &setState.dt, 16, 1000);
+        if (edited && autoSet)
+            _hwio.setState(setState);
+        ImGui::Checkbox("Safemode", &setState.safemode);
+        ImGui::Checkbox("Brake", &setState.brake);
+        ImGui::Checkbox("Gripper", &setState.gripper);
+
+        if (ImGui::Button("Set"))
+            _hwio.setState(setState);
+
+        ImGui::Checkbox("Auto set", &autoSet);
+
+        ImGui::End();
+    }
 
     ImGui::Render();
 
