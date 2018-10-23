@@ -125,6 +125,11 @@ void Shader::setUniform(const std::string& name, const Vec4GLf& uniform) const
     glUniform4fv(_uniformPositions.at(name), 1, uniform.data());
 }
 
+void Shader::setUniform(const std::string& name, const Mat3GLf& uniform) const
+{
+    glUniformMatrix3fv(_uniformPositions.at(name), 1, GL_FALSE, uniform.data());
+}
+
 void Shader::setUniform(const std::string& name, const Mat4GLf& uniform) const
 {
     glUniformMatrix4fv(_uniformPositions.at(name), 1, GL_FALSE, uniform.data());

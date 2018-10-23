@@ -23,6 +23,7 @@ namespace gui {
         void setUniform(const std::string& name, float uniform) const;
         void setUniform(const std::string& name, const Vec3GLf& uniform) const;
         void setUniform(const std::string& name, const Vec4GLf& uniform) const;
+        void setUniform(const std::string& name, const Mat3GLf& uniform) const;
         void setUniform(const std::string& name, const Mat4GLf& uniform) const;
 
         void use() const;

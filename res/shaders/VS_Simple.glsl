@@ -15,16 +15,18 @@
 layout(location = 0) in vec3 position;
 layout(location = 1) in vec3 normal;
 
-out vec4 pos;
+out vec3 pos;
 out vec3 norm;
 out vec3 col;
 
-uniform mat4 MVP;
+uniform mat4 modelToWorld;
+uniform mat3 normalToWorld;
+uniform mat4 worldToClip;
 uniform vec3 Color;
 
 void main() {
-    pos = MVP * vec4(position, 1.0);
-    norm = (MVP * vec4(normal, 0.0)).xyz;
+    pos = (modelToWorld * vec4(position, 1.0)).xyz;
+    norm = normalize(normalToWorld * normal);
     col = Color;
-    gl_Position = pos;
+    gl_Position = worldToClip * vec4(pos, 1.0);
 }

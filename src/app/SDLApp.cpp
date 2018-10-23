@@ -73,7 +73,9 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
 
     _shader.load(std::string(RES_PATH) + "shaders/VS_Simple.glsl",
                  std::string(RES_PATH) + "shaders/FS_Simple.glsl");
-    _shader.addUniform("MVP");
+    _shader.addUniform("modelToWorld");
+    _shader.addUniform("normalToWorld");
+    _shader.addUniform("worldToClip");
     _shader.addUniform("Color");
     _camera.lookAt(
         Vec3GLf(0.0f, 20.0f, 40.0f),

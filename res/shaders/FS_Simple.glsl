@@ -18,6 +18,13 @@ in vec3 col;
 
 out vec3 color;
 
+// TODO: +x seems to point left?
+const vec3 light_dir = normalize(vec3(-1, -0.5, -1));
+const vec3 light_col = vec3(1);
+
 void main() {
-    color = col * (0.35+clamp(dot(normalize(vec3(-1.0f, -1.0f, -1.0f)), normalize(norm.xyz)), 0.0, 1.0)*0.65);
+    // Basic diffuse shading with directional light
+    vec3 to_light = -light_dir;
+    float attenuation = max(dot(norm, to_light), 0);
+    color = attenuation * light_col * col;
 }
