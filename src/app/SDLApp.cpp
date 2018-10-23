@@ -71,7 +71,8 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
     glClearColor(0.f, 0.f, 0.f, 1.f);
     glEnable(GL_DEPTH_TEST);
 
-    _shader.load("../res/shaders/VS_Simple.glsl", "../res/shaders/FS_Simple.glsl");
+    _shader.load(std::string(RES_PATH) + "shaders/VS_Simple.glsl",
+                 std::string(RES_PATH) + "shaders/FS_Simple.glsl");
     _shader.addUniform("MVP");
     _shader.addUniform("Color");
     _camera.lookAt(

@@ -36,6 +36,10 @@ add_subdirectory(ext)
 add_subdirectory(include)
 add_subdirectory(src)
 
+# Add absolute path to resource directory
+# NOTE: Potential portable build should copy resources to the binary folder and use ./ here
+add_definitions(-DRES_PATH="${CMAKE_CURRENT_LIST_DIR}/res/")
+
 # Kinematics library target
 add_library(kinematics SHARED ${KINEMATICS_SOURCES})
 target_include_directories(
