@@ -46,3 +46,4 @@ target_link_libraries(
         ${SDL2_LIBRARY}
 )
 
+set_property(TARGET imgui PROPERTY POSITION_INDEPENDENT_CODE ON)
