@@ -76,6 +76,7 @@ target_link_libraries(
         kinematics
         ${OPENGL_LIBRARIES}
         gl3w
+        imgui
 )
 
 # Hardware I/O library target
