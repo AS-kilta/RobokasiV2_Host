@@ -18,36 +18,54 @@
 class SDLApp {
 public:
     // Settings for the application
+    struct WindowSettings {
+        std::string       name;
+        int64_t           width;
+        int64_t           height;
+        int64_t           framerateLimit;
+
+        explicit WindowSettings(
+            const std::string& name = "",
+            int64_t width = 800,
+            int64_t height = 600,
+            int64_t framerateLimit = 60) :
+            name(name),
+            width(width),
+            height(height),
+            framerateLimit(framerateLimit)
+        {}
+    };
+
+    struct GLSettings {
+        int32_t           contextMajor;
+        int32_t           contextMinor;
+        SDL_GLcontextFlag contextFlags;
+        SDL_GLprofile     profileMask;
+        bool              doubleBuffer;
+
+        explicit GLSettings(
+            int32_t contextMajor = 3,
+            int32_t contextMinor = 3,
+            SDL_GLcontextFlag contextFlags = SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG,
+            SDL_GLprofile profileMask = SDL_GL_CONTEXT_PROFILE_CORE,
+            bool doubleBuffer = true) :
+            contextMajor(contextMajor),
+            contextMinor(contextMinor),
+            contextFlags(contextFlags),
+            profileMask(profileMask),
+            doubleBuffer(doubleBuffer)
+        {}
+    };
+
     struct Settings {
-        std::string       windowName;
-        int64_t           windowWidth;
-        int64_t           windowHeight;
-        int64_t           windowFramerateLimit;
-        int32_t           glContextMajor;
-        int32_t           glContextMinor;
-        SDL_GLcontextFlag glContextFlags;
-        SDL_GLprofile     glProfileMask;
-        bool              glDoubleBuffer;
+        WindowSettings window;
+        GLSettings     gl;
 
         explicit Settings(
-            const std::string& windowName = "",
-            int64_t windowWidth = 800,
-            int64_t windowHeight = 600,
-            int64_t windowFramerateLimit = 60,
-            int32_t glContextMajor = 3,
-            int32_t glContextMinor = 3,
-            SDL_GLcontextFlag glContextFlags = SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG,
-            SDL_GLprofile glProfileMask = SDL_GL_CONTEXT_PROFILE_CORE,
-            bool glDoubleBuffer = true) :
-            windowName             (windowName),
-            windowWidth            (windowWidth),
-            windowHeight           (windowHeight),
-            windowFramerateLimit   (windowFramerateLimit),
-            glContextMajor(glContextMajor),
-            glContextMinor(glContextMinor),
-            glContextFlags(glContextFlags),
-            glProfileMask(glProfileMask),
-            glDoubleBuffer(glDoubleBuffer)
+            const WindowSettings& window = WindowSettings(),
+            const GLSettings& gl = GLSettings()) :
+            window(window),
+            gl(gl)
         {}
     };
 

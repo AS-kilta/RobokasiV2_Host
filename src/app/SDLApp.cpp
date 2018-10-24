@@ -30,11 +30,11 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
     }
 
     _window = SDL_CreateWindow(
-         _settings.windowName.c_str(),
+         _settings.window.name.c_str(),
          SDL_WINDOWPOS_UNDEFINED,
          SDL_WINDOWPOS_UNDEFINED,
-         (int)_settings.windowWidth,
-         (int)_settings.windowHeight,
+         (int)_settings.window.width,
+         (int)_settings.window.height,
          SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
 
     if (_window == nullptr) {
@@ -42,11 +42,11 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
         return;
     }
 
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, _settings.glContextMajor);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, _settings.glContextMinor);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, _settings.glContextFlags);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, _settings.glProfileMask);
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, _settings.glDoubleBuffer);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, _settings.gl.contextMajor);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, _settings.gl.contextMinor);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, _settings.gl.contextFlags);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, _settings.gl.profileMask);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, _settings.gl.doubleBuffer);
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 
     _glCtx = SDL_GL_CreateContext(_window);
@@ -87,7 +87,7 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
         Vec3GLf(0.0f, 1.0f, 0.0f));
     _camera.projection(
         60.0f * M_PI / 180.f,
-        (float)_settings.windowWidth / (float)_settings.windowHeight,
+        (float)_settings.window.width / (float)_settings.window.height,
         1.0f,
         500.0f);
 

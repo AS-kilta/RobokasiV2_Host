@@ -13,7 +13,7 @@ int main(int argv, char** args)
     hwio::Hello hwioHello;
     hwioHello.hello();
 
-    SDLApp app(SDLApp::Settings("Robokasi"));
+    SDLApp app(SDLApp::Settings(SDLApp::WindowSettings("Robokasi")));
     app.loop();
 
     return 0;
