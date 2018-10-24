@@ -66,7 +66,7 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
     ImGui::CreateContext();
     ImGuiIO &imgui_io = ImGui::GetIO();
     ImGui_ImplSDL2_InitForOpenGL(_window, _glCtx);
-    ImGui_ImplOpenGL3_Init("#version 150");
+    ImGui_ImplOpenGL3_Init("#version 330");
 
     glClearColor(0.f, 0.f, 0.f, 1.f);
     glEnable(GL_DEPTH_TEST);
