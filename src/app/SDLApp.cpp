@@ -181,10 +181,6 @@ void SDLApp::render(void)
     ImGui_ImplSDL2_NewFrame(_window);
     ImGui::NewFrame();
 
-    // Generate widgets
-    ImGui::Begin("Window");
-
-    ImGui::End();
 
     // Generate draw data
     ImGui::Render();
