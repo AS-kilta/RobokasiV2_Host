@@ -71,6 +71,7 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
     ImGui_ImplOpenGL3_Init("#version 330");
 
     // Initialize OpenGL
+    glViewport(0, 0, _settings.window.width, _settings.window.height);
     glClearColor(0.f, 0.f, 0.f, 1.f);
     glEnable(GL_DEPTH_TEST);
 
@@ -132,6 +133,25 @@ void SDLApp::handleEvents(SDL_Event& event)
             switch (event.key.keysym.sym) {
                 case SDLK_ESCAPE:
                     _quit = true;
+                    break;
+
+                default:
+                    break;
+            }
+            break;
+
+        case SDL_WINDOWEVENT:
+            switch (event.window.event) {
+                case SDL_WINDOWEVENT_RESIZED:
+                case SDL_WINDOWEVENT_SIZE_CHANGED:
+                    _settings.window.width = event.window.data1;
+                    _settings.window.height = event.window.data2;
+                    glViewport(0, 0, _settings.window.width, _settings.window.height);
+                    _camera.projection(
+                        _settings.camera.fov,
+                        (float)_settings.window.width / (float)_settings.window.height,
+                        _settings.camera.near,
+                        _settings.camera.far);
                     break;
 
                 default:
