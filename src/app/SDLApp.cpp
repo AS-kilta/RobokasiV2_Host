@@ -93,6 +93,11 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
 
 SDLApp::~SDLApp()
 {
+    // Destroy imgui
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplSDL2_Shutdown();
+    ImGui::DestroyContext();
+
     // Destroy window and quit SDL subsystems
     SDL_GL_DeleteContext(_glCtx);
     SDL_DestroyWindow(_window);
