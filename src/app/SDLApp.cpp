@@ -57,20 +57,24 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
         return;
     }
 
+    // Load OpenGL binds
     err = gl3wInit();
     if (err) {
         printf("Error: gl3wInit failed\n");
         return;
     }
 
+    // Initialize imgui
     ImGui::CreateContext();
     ImGuiIO &imgui_io = ImGui::GetIO();
     ImGui_ImplSDL2_InitForOpenGL(_window, _glCtx);
     ImGui_ImplOpenGL3_Init("#version 330");
 
+    // Initialize OpenGL
     glClearColor(0.f, 0.f, 0.f, 1.f);
     glEnable(GL_DEPTH_TEST);
 
+    // Initialize resources
     _shader.load(std::string(RES_PATH) + "shaders/VS_Simple.glsl",
                  std::string(RES_PATH) + "shaders/FS_Simple.glsl");
     _shader.addUniform("modelToWorld");
@@ -145,21 +149,26 @@ void SDLApp::handleEvents(SDL_Event& event)
 
 void SDLApp::render(void)
 {
+    // Initialize imgui frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame(_window);
     ImGui::NewFrame();
 
+    // Generate widgets
     ImGui::Begin("Window");
 
     ImGui::End();
 
+    // Generate draw data
     ImGui::Render();
 
+    // Render geometry
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
     _renderer.render(_renderables);
 
+    // Render imgui
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
+    // Swap draw and display buffers
     SDL_GL_SwapWindow(_window);
 }
