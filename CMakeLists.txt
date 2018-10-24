@@ -65,6 +65,7 @@ target_include_directories(
         $<INSTALL_INTERFACE:include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         ${SDL2_INCLUDE_DIR}
+        ${LIBSERIALPORT_INCLUDE_DIR}
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/include/gui
         ${CMAKE_CURRENT_SOURCE_DIR}/src/gui
