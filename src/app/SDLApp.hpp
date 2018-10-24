@@ -57,15 +57,42 @@ public:
         {}
     };
 
+    struct CameraSettings {
+        gui::Vec3GLf pos;
+        gui::Vec3GLf target;
+        gui::Vec3GLf up;
+        float        fov;
+        float        near;
+        float        far;
+
+        explicit CameraSettings(
+            const gui::Vec3GLf& pos = gui::Vec3GLf(0.f, 20.f, 40.f),
+            const gui::Vec3GLf& target = gui::Vec3GLf(0.f, 0.f, 0.f),
+            const gui::Vec3GLf& up = gui::Vec3GLf(0.f, 1.f, 0.f),
+            float fov = 60.f * PI / 180.f,
+            float near = 1.f,
+            float far = 500.f):
+            pos(pos),
+            target(target),
+            up(up),
+            fov(fov),
+            near(near),
+            far(far)
+        {}
+    };
+
     struct Settings {
         WindowSettings window;
         GLSettings     gl;
+        CameraSettings camera;
 
         explicit Settings(
             const WindowSettings& window = WindowSettings(),
-            const GLSettings& gl = GLSettings()) :
+            const GLSettings& gl = GLSettings(),
+            const CameraSettings& camera = CameraSettings()) :
             window(window),
-            gl(gl)
+            gl(gl),
+            camera(camera)
         {}
     };
 

@@ -81,15 +81,12 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
     _shader.addUniform("normalToWorld");
     _shader.addUniform("worldToClip");
     _shader.addUniform("Color");
-    _camera.lookAt(
-        Vec3GLf(0.0f, 20.0f, 40.0f),
-        Vec3GLf(0.0f, 0.0f, 0.0f),
-        Vec3GLf(0.0f, 1.0f, 0.0f));
+    _camera.lookAt(_settings.camera.pos, _settings.camera.target, _settings.camera.up);
     _camera.projection(
-        60.0f * M_PI / 180.f,
+        _settings.camera.fov,
         (float)_settings.window.width / (float)_settings.window.height,
-        1.0f,
-        500.0f);
+        _settings.camera.near,
+        _settings.camera.far);
 
     _model.loadLinkMeshes();
     _renderables.push_back(&_model);
