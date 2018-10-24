@@ -13,6 +13,7 @@
 
 #include "hwio/SerialProto.hpp"
 #include "gui/SerialConfig.hpp"
+#include "gui/DriveControl.hpp"
 
 using namespace gui;
 
@@ -24,7 +25,8 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
     _lineRenderer(_lineShader, _camera),
     _meshRenderer(_meshShader, _camera),
     _serialProto        (),
-    _serialConfigGui    (_serialProto)
+    _serialConfigGui    (_serialProto),
+    _driveControlGui    (_serialProto)
 {
     int err;
 
@@ -187,6 +189,7 @@ void SDLApp::render(void)
 
     // Generate widgets
     _serialConfigGui.render();
+    _driveControlGui.render();
 
     // Generate draw data
     ImGui::Render();

@@ -16,6 +16,7 @@
 #include "gui/Renderer.hpp"
 #include "gui/Lines.hpp"
 #include "gui/SerialConfig.hpp"
+#include "gui/DriveControl.hpp"
 
 #include "hwio/SerialProto.hpp"
 
@@ -113,6 +114,7 @@ private:
     bool                _quit; // flag for quitting the application
     hwio::SerialProto   _serialProto;
     gui::SerialConfig   _serialConfigGui;
+    gui::DriveControl   _driveControlGui;
 
     gui::Shader     _lineShader;
     gui::Shader     _meshShader;
