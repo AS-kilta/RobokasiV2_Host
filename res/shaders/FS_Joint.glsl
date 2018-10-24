@@ -10,13 +10,12 @@
 **/
 
 
-#version 130
+#version 330
 
 in vec3 col;
 
-out vec3 color;
+out vec3 out_color;
 
 void main() {
-    color = col;
+    out_color = col;
 }
-

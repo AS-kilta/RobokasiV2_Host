@@ -79,13 +79,9 @@ void Shader::load(const std::string& vsFileName, const std::string& fsFileName)
     glAttachShader(_programId, fsObjectId);
     glAttachShader(_programId, vsObjectId);
 
-    GLint linkStatus;
-
-    glBindAttribLocation(_programId, 0, "position");
-    glBindAttribLocation(_programId, 1, "normal");
-
     glLinkProgram(_programId);
 
+    GLint linkStatus;
     glGetProgramiv(_programId, GL_LINK_STATUS, &linkStatus);
     if (linkStatus == GL_FALSE) {
         glGetShaderiv(_programId, GL_INFO_LOG_LENGTH, &infoLogLength);

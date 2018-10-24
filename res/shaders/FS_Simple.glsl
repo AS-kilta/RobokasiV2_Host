@@ -10,10 +10,10 @@
 **/
 
 
-#version 130
+#version 330
 
 in vec4 pos;
-in vec4 norm;
+in vec3 norm;
 in vec3 col;
 
 out vec3 color;

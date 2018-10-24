@@ -10,13 +10,10 @@
 **/
 
 
-#version 130
+#version 330
 
-//layout(location = 0) in vec3 position;
-//layout(location = 1) in vec3 color;
-
-in vec4 position;
-in vec3 normal; // actually color
+layout(location = 0) in vec3 position;
+layout(location = 1) in vec3 color;
 
 out vec3 col;
 
@@ -24,8 +21,6 @@ uniform mat4 MVP;
 uniform vec3 Color;
 
 void main() {
-    //col = vec3(1.0, 1.0, 1.0);
-    col = normal;
+    col = color;
     gl_Position = MVP * position;
 }
-
