@@ -15,6 +15,10 @@
 #include "gui/Puma560Model.hpp"
 #include "gui/Renderer.hpp"
 #include "gui/Lines.hpp"
+#include "gui/SerialConfig.hpp"
+
+#include "hwio/SerialProto.hpp"
+
 
 class SDLApp {
 public:
@@ -103,10 +107,12 @@ public:
     void loop(void);
 
 private:
-    Settings        _settings;
-    SDL_Window*     _window;
-    SDL_GLContext   _glCtx;
-    bool            _quit; // flag for quitting the application
+    Settings            _settings;
+    SDL_Window*         _window;
+    SDL_GLContext       _glCtx;
+    bool                _quit; // flag for quitting the application
+    hwio::SerialProto   _serialProto;
+    gui::SerialConfig   _serialConfigGui;
 
     gui::Shader     _lineShader;
     gui::Shader     _meshShader;

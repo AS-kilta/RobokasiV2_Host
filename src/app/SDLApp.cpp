@@ -11,6 +11,8 @@
 
 #include "SDLApp.hpp"
 
+#include "hwio/SerialProto.hpp"
+#include "gui/SerialConfig.hpp"
 
 using namespace gui;
 
@@ -20,7 +22,9 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
     _window     (nullptr),
     _quit       (false),
     _lineRenderer(_lineShader, _camera),
-    _meshRenderer(_meshShader, _camera)
+    _meshRenderer(_meshShader, _camera),
+    _serialProto        (),
+    _serialConfigGui    (_serialProto)
 {
     int err;
 
@@ -181,6 +185,8 @@ void SDLApp::render(void)
     ImGui_ImplSDL2_NewFrame(_window);
     ImGui::NewFrame();
 
+    // Generate widgets
+    _serialConfigGui.render();
 
     // Generate draw data
     ImGui::Render();
