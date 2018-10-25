@@ -27,7 +27,7 @@ void Shader::load(const std::string& vsFileName, const std::string& fsFileName)
 
     fseek(vsf, 0L, SEEK_END);
     auto vsfs = ftell(vsf);
-    std::unique_ptr<char> vsBufUnique(new char[vsfs+1]);
+    std::unique_ptr<char[]> vsBufUnique(new char[vsfs+1]);
     fseek(vsf, 0L, SEEK_SET);
     fread(vsBufUnique.get(), sizeof(char), vsfs, vsf);
     vsBufUnique.get()[vsfs] = '\0';
@@ -36,7 +36,7 @@ void Shader::load(const std::string& vsFileName, const std::string& fsFileName)
 
     fseek(fsf, 0L, SEEK_END);
     auto fsfs = ftell(fsf);
-    std::unique_ptr<char> fsBufUnique(new char[fsfs+1]);
+    std::unique_ptr<char[]> fsBufUnique(new char[fsfs+1]);
     fseek(fsf, 0L, SEEK_SET);
     fread(fsBufUnique.get(), sizeof(char), fsfs, fsf);
     fsBufUnique.get()[fsfs] = '\0';
