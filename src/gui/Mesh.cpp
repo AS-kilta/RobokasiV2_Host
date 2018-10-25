@@ -56,7 +56,7 @@ void Mesh::loadFromObj(const std::string& fileName) {
 
     fseek(f, 0L, SEEK_END);
     auto fs = ftell(f);
-    std::unique_ptr<char> bufUnique(new char[fs]);
+    std::unique_ptr<char[]> bufUnique(new char[fs]);
     char* buffer = bufUnique.get();
     fseek(f, 0L, SEEK_SET);
     fread(buffer, sizeof(char), fs, f);
