@@ -6,6 +6,7 @@
 #define SDL_APP_HPP
 
 
+#include <memory>
 #include <SDL.h>
 #include <string>
 
@@ -111,8 +112,8 @@ private:
     gui::Camera     _camera;
     gui::Renderer   _renderer;
 
-    gui::Puma560Model               _model;
-    std::vector<gui::Renderable*>   _renderables;
+    std::shared_ptr<gui::Puma560Model>              _model;
+    std::vector<std::shared_ptr<gui::Renderable>>   _renderables;
 
     // Window event handling loop
     void handleEvents(SDL_Event& event);

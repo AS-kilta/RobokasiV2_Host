@@ -89,8 +89,9 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
         _settings.camera.near,
         _settings.camera.far);
 
-    _model.loadLinkMeshes();
-    _renderables.push_back(&_model);
+    _model = std::make_shared<Puma560Model>();
+    _model->loadLinkMeshes();
+    _renderables.push_back(_model);
 }
 
 SDLApp::~SDLApp()
@@ -181,7 +182,7 @@ void SDLApp::render(void)
 
     // Render geometry
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    _renderer.render(_renderables);
+    _meshRenderer.render(_renderables);
 
     // Render imgui
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

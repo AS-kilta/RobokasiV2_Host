@@ -6,6 +6,8 @@
 #define ROBOKASIV2_HOST_RENDERER_HPP
 
 
+#include <memory>
+
 #include "Shader.hpp"
 #include "Camera.hpp"
 #include "Renderable.hpp"
@@ -17,7 +19,7 @@ namespace gui {
     public:
         Renderer(Shader& shader, Camera& camera);
 
-        void render(const std::vector<Renderable*>& renderables);
+        void render(const std::vector<std::shared_ptr<Renderable>>& renderables);
 
     private:
         Shader&  _shader;

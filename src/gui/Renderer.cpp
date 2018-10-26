@@ -14,7 +14,7 @@ Renderer::Renderer(Shader& shader, Camera& camera) :
 {
 }
 
-void Renderer::render(const std::vector<Renderable*>& renderables)
+void Renderer::render(const std::vector<std::shared_ptr<Renderable>>& renderables)
 {
     _shader.use();
     for (auto& r : renderables) {
