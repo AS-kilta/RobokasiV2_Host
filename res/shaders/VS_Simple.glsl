@@ -19,13 +19,13 @@ out vec3 pos;
 out vec3 norm;
 out vec3 col;
 
-uniform mat4 modelToWorld;
+uniform mat4 objectToWorld;
 uniform mat3 normalToWorld;
 uniform mat4 worldToClip;
 uniform vec3 Color;
 
 void main() {
-    pos = (modelToWorld * vec4(position, 1.0)).xyz;
+    pos = (objectToWorld * vec4(position, 1.0)).xyz;
     norm = normalize(normalToWorld * normal);
     col = Color;
     gl_Position = worldToClip * vec4(pos, 1.0);

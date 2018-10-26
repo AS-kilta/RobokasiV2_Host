@@ -78,7 +78,7 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
     // Initialize resources
     _shader.load(std::string(RES_PATH) + "shaders/VS_Simple.glsl",
                  std::string(RES_PATH) + "shaders/FS_Simple.glsl");
-    _shader.addUniform("modelToWorld");
+    _shader.addUniform("objectToWorld");
     _shader.addUniform("normalToWorld");
     _shader.addUniform("worldToClip");
     _shader.addUniform("Color");
