@@ -23,6 +23,9 @@ namespace kin {
         /// Set base transformation
         void setBase(const Mat4f& base);
 
+        /// Get base transformation
+        const Mat4f& getBase() const;
+
         /// Set joint angle
         void setJointAngle(int64_t id, float angle);
 

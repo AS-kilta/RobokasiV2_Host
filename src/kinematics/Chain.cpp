@@ -32,6 +32,11 @@ void Chain::setBase(const Mat4f& base)
     _endDirty = true;
 }
 
+const Mat4f& Chain::getBase() const
+{
+    return _bm;
+}
+
 void Chain::setJointAngle(int64_t id, float angle)
 {
     if (id < 0 || id >= _joints.size()) {
