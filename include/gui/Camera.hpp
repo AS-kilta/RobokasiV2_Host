@@ -15,15 +15,13 @@ namespace gui {
     public:
         Camera(void);
 
-        void lookAt(const Vec3GLf& from, const Vec3GLf& to, const Vec3GLf& up);
-
+        void lookAt(const Vec3GLf& eye, const Vec3GLf& target, const Vec3GLf& up);
         void projection(float fov, float aspectRatio, float near, float far);
-
-        Mat4GLf getVP(void) const;
+        Mat4GLf getWorldToClip(void) const;
 
     private:
-        Mat4GLf _orientation;
-        Mat4GLf _projection;
+        Mat4GLf _worldToCamera;
+        Mat4GLf _cameraToClip;
     };
 
 } // namespace gui

@@ -18,7 +18,6 @@ in vec3 col;
 
 out vec3 color;
 
-// TODO: +x seems to point left?
 const vec3 light_dir = normalize(vec3(-1, -0.5, -1));
 const vec3 light_col = vec3(1);
 

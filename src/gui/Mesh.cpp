@@ -187,7 +187,7 @@ void Mesh::render(
     shader.use();
     shader.setUniform("modelToWorld", orientation);
     shader.setUniform("normalToWorld", Mat3GLf(Mat4GLf(orientation.inverse().transpose()).block<3,3>(0,0)));
-    shader.setUniform("worldToClip", camera.getVP());
+    shader.setUniform("worldToClip", camera.getWorldToClip());
     shader.setUniform("Color", color);
 
     glBindVertexArray(_vertexArrayObjectId);
