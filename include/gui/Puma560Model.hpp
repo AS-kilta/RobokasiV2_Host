@@ -20,8 +20,6 @@ namespace gui {
         Puma560Model();
         ~Puma560Model();
 
-        void loadLinkMeshes();
-
         void render(Shader& shader, Camera& camera);
 
     private:

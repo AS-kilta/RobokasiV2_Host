@@ -90,7 +90,6 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
         _settings.camera.far);
 
     _model = std::make_shared<Puma560Model>();
-    _model->loadLinkMeshes();
     _renderables.push_back(_model);
 }
 
