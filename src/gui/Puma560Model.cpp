@@ -31,3 +31,13 @@ void Puma560Model::render(Shader& shader, Camera& camera)
         _links[i].render(shader, camera, _chain.getJointEnd(i));
     }
 }
+
+std::vector<std::shared_ptr<Renderable>> Puma560Model::getCoordinateFrames(
+    const std::shared_ptr<Lines>& coordinateFrame)
+{
+    std::vector<std::shared_ptr<Renderable>> v;
+    v.emplace_back(std::make_shared<TransformedLines>(coordinateFrame, _chain.getBase()));
+    for (uint64_t i = 0; i < _chain.getJointCount(); ++i)
+        v.emplace_back(std::make_shared<TransformedLines>(coordinateFrame, _chain.getJointEnd(i)));
+    return v;
+}

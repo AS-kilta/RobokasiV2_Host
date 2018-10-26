@@ -11,6 +11,7 @@
 #include "Shader.hpp"
 #include "Camera.hpp"
 #include "Mesh.hpp"
+#include "TransformedLines.hpp"
 
 
 namespace gui {
@@ -21,6 +22,8 @@ namespace gui {
         ~Puma560Model();
 
         void render(Shader& shader, Camera& camera);
+        std::vector<std::shared_ptr<Renderable>> getCoordinateFrames(
+            const std::shared_ptr<Lines>& coordinateFrame);
 
     private:
         static Mesh _links[6];
