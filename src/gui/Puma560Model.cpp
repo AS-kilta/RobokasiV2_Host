@@ -11,7 +11,8 @@ using namespace gui;
 Mesh Puma560Model::_links[6];
 
 
-Puma560Model::Puma560Model()
+Puma560Model::Puma560Model() :
+    Renderable(Mat4GLf::Identity())
 {
     _links[0].loadFromObj(std::string(RES_PATH) + "models/puma_link1_mod.obj");
     _links[1].loadFromObj(std::string(RES_PATH) + "models/puma_link2_mod.obj");

@@ -5,6 +5,7 @@
 #ifndef ROBOKASIV2_HOST_GUI_RENDERABLE_HPP
 #define ROBOKASIV2_HOST_GUI_RENDERABLE_HPP
 
+#include "GLTypes.hpp"
 
 namespace gui {
 
@@ -13,9 +14,13 @@ namespace gui {
 
     class Renderable {
     public:
+        Renderable(const Mat4GLf& objectToWorld);
         virtual ~Renderable() {};
 
         virtual void render(Shader& shader, Camera& camera) = 0;
+
+    protected:
+        Mat4GLf _objectToWorld;
     };
 
 } // namespace gui
