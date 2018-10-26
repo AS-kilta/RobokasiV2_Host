@@ -48,6 +48,11 @@ void Chain::setJointAngle(int64_t id, float angle)
     _endDirty = true;
 }
 
+uint64_t Chain::getJointCount() const
+{
+    return _joints.size();
+}
+
 const Mat4f& Chain::getJointEnd(int64_t id)
 {
     if (id < 0 || id >= _joints.size()) {

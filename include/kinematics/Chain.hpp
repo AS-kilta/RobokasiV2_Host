@@ -29,6 +29,9 @@ namespace kin {
         /// Set joint angle
         void setJointAngle(int64_t id, float angle);
 
+        /// Get number of joints
+        uint64_t getJointCount() const;
+
         /// Get end transformation of specific joint
         const Mat4f& getJointEnd(int64_t id);
 
