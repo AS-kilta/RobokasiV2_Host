@@ -19,7 +19,8 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
     _settings   (settings),
     _window     (nullptr),
     _quit       (false),
-    _renderer   (_shader, _camera)
+    _lineRenderer(_lineShader, _camera),
+    _meshRenderer(_meshShader, _camera)
 {
     int err;
 
@@ -76,13 +77,21 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
     glEnable(GL_DEPTH_TEST);
 
     // Initialize resources
-    _shader.load(std::string(RES_PATH) + "shaders/VS_Simple.glsl",
-                 std::string(RES_PATH) + "shaders/FS_Simple.glsl");
-    _shader.addUniform("objectToWorld");
-    _shader.addUniform("normalToWorld");
-    _shader.addUniform("worldToClip");
-    _shader.addUniform("Color");
-    _camera.lookAt(_settings.camera.pos, _settings.camera.target, _settings.camera.up);
+    _meshShader.load(std::string(RES_PATH) + "shaders/VS_Simple.glsl",
+                     std::string(RES_PATH) + "shaders/FS_Simple.glsl");
+    _meshShader.addUniform("objectToWorld");
+    _meshShader.addUniform("normalToWorld");
+    _meshShader.addUniform("worldToClip");
+    _meshShader.addUniform("Color");
+
+    _lineShader.load(std::string(RES_PATH) + "shaders/VS_Lines.glsl",
+                     std::string(RES_PATH) + "shaders/FS_Lines.glsl");
+    _lineShader.addUniform("modelToClip");
+
+    _camera.lookAt(
+        Vec3GLf(0.0f, 20.0f, 40.0f),
+        Vec3GLf(0.0f, 0.0f, 0.0f),
+        Vec3GLf(0.0f, 1.0f, 0.0f));
     _camera.projection(
         _settings.camera.fov,
         (float)_settings.window.width / (float)_settings.window.height,
@@ -91,6 +100,7 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
 
     _model = std::make_shared<Puma560Model>();
     _renderables.push_back(_model);
+    _coordinateFrame = Lines::CoordinateFrame();
 }
 
 SDLApp::~SDLApp()
@@ -182,6 +192,7 @@ void SDLApp::render(void)
     // Render geometry
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     _meshRenderer.render(_renderables);
+    _lineRenderer.render(_model->getCoordinateFrames(_coordinateFrame));
 
     // Render imgui
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

@@ -14,7 +14,7 @@
 #include "gui/Shader.hpp"
 #include "gui/Puma560Model.hpp"
 #include "gui/Renderer.hpp"
-
+#include "gui/Lines.hpp"
 
 class SDLApp {
 public:
@@ -108,12 +108,15 @@ private:
     SDL_GLContext   _glCtx;
     bool            _quit; // flag for quitting the application
 
-    gui::Shader     _shader;
+    gui::Shader     _lineShader;
+    gui::Shader     _meshShader;
     gui::Camera     _camera;
-    gui::Renderer   _renderer;
+    gui::Renderer   _lineRenderer;
+    gui::Renderer   _meshRenderer;
 
     std::shared_ptr<gui::Puma560Model>              _model;
     std::vector<std::shared_ptr<gui::Renderable>>   _renderables;
+    std::shared_ptr<gui::Lines>                     _coordinateFrame;
 
     // Window event handling loop
     void handleEvents(SDL_Event& event);
