@@ -12,7 +12,6 @@
 
 #version 330
 
-in vec4 pos;
 in vec3 norm;
 in vec3 col;
 
