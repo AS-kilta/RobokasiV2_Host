@@ -10,11 +10,16 @@
 
 int main(int argv, char** args)
 {
-    hwio::Hello hwioHello;
-    hwioHello.hello();
+    try {
+        hwio::Hello hwioHello;
+        hwioHello.hello();
 
-    SDLApp app(SDLApp::Settings(SDLApp::WindowSettings("Robokasi")));
-    app.loop();
+        SDLApp app(SDLApp::Settings(SDLApp::WindowSettings("Robokasi")));
+        app.loop();
+    } catch (const char* msg) {
+        fprintf(stderr, "Error: %s\n", msg);
+        return 1;
+    }
 
     return 0;
 }
