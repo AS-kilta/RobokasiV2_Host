@@ -4,6 +4,8 @@
 
 #include "Renderer.hpp"
 
+#include <vector>
+
 
 using namespace gui;
 

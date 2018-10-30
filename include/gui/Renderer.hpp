@@ -7,6 +7,7 @@
 
 
 #include <memory>
+#include <vector>
 
 #include "Shader.hpp"
 #include "Camera.hpp"
