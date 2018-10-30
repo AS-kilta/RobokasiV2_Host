@@ -84,7 +84,7 @@ void Shader::load(const std::string& vsFileName, const std::string& fsFileName)
     GLint linkStatus;
     glGetProgramiv(_programId, GL_LINK_STATUS, &linkStatus);
     if (linkStatus == GL_FALSE) {
-        glGetShaderiv(_programId, GL_INFO_LOG_LENGTH, &infoLogLength);
+        glGetProgramiv(_programId, GL_INFO_LOG_LENGTH, &infoLogLength);
 
         char* infoLog = new char[infoLogLength];
         glGetProgramInfoLog(_programId, infoLogLength, NULL, &infoLog[0]);
