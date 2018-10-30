@@ -1,7 +1,9 @@
 #ifndef ROBOKASIV2_HOST_GUI_LINES_HPP
 #define ROBOKASIV2_HOST_GUI_LINES_HPP
 
+#include <array>
 #include <memory>
+#include <vector>
 
 #include "GLTypes.hpp"
 
