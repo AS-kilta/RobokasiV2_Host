@@ -79,7 +79,7 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
 
     // Initialize OpenGL
     glViewport(0, 0, _settings.window.width, _settings.window.height);
-    glClearColor(0.f, 0.f, 0.f, 1.f);
+    glClearColor(0.2f, 0.2f, 0.2f, 1.f);
     glEnable(GL_DEPTH_TEST);
 
     // Initialize resources
