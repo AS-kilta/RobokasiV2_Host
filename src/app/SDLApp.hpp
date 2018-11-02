@@ -17,6 +17,7 @@
 #include "gui/Lines.hpp"
 #include "gui/SerialConfig.hpp"
 #include "gui/DriveControl.hpp"
+#include "gui/Trackball.hpp"
 
 #include "hwio/SerialProto.hpp"
 
@@ -119,6 +120,7 @@ private:
     gui::Shader     _lineShader;
     gui::Shader     _meshShader;
     gui::Camera     _camera;
+    gui::Trackball  _trackball;
     gui::Renderer   _lineRenderer;
     gui::Renderer   _meshRenderer;
 
