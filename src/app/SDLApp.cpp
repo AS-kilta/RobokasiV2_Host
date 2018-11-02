@@ -152,6 +152,9 @@ void SDLApp::handleEvents(SDL_Event& event)
             break;
 
         case SDL_KEYDOWN:
+            // Skip events if imgui widgets are being modified
+            if (ImGui::IsAnyItemActive())
+                return;
             switch (event.key.keysym.sym) {
                 case SDLK_ESCAPE:
                     _quit = true;
@@ -160,6 +163,22 @@ void SDLApp::handleEvents(SDL_Event& event)
                 default:
                     break;
             }
+            break;
+
+        case SDL_MOUSEMOTION:
+            // Skip mouse events on imgui windows and widgets
+            if (ImGui::IsMouseHoveringAnyWindow() || ImGui::IsAnyItemActive())
+                break;
+            // Drag with right mouse button controls trackball
+            if (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(3))
+                _trackball.handleMouseMove(event.motion.xrel, event.motion.yrel);
+            break;
+
+        case SDL_MOUSEWHEEL:
+            // Skip mouse events on imgui windows and widgets
+            if (ImGui::IsMouseHoveringAnyWindow() || ImGui::IsAnyItemActive())
+                break;
+            _trackball.handleMouseScroll(event.wheel.y);
             break;
 
         case SDL_WINDOWEVENT:
@@ -212,6 +231,8 @@ void SDLApp::render(void)
 
     // Generate draw data
     ImGui::Render();
+
+    _trackball.doLookAt(_camera);
 
     // Render geometry
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
