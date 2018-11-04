@@ -60,6 +60,7 @@ const Mat4f& Chain::getJointEnd(int64_t id)
         return Mat4f::Identity();
     }
 
+    update();
     return _joints[id].getEnd();
 }
 
