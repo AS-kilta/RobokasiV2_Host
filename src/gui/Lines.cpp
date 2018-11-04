@@ -8,11 +8,11 @@ using namespace gui;
 namespace {
     std::vector<std::array<Vec3GLf, 2>> coordinateFrameEndpoints = {
         { Vec3GLf(0.f, 0.f, 0.f),
-          Vec3GLf(8.f, 0.f, 0.f) },
+          Vec3GLf(300.f, 0.f, 0.f) },
         { Vec3GLf(0.f, 0.f, 0.f),
-          Vec3GLf(0.f, 8.f, 0.f) },
+          Vec3GLf(0.f, 300.f, 0.f) },
         { Vec3GLf(0.f, 0.f, 0.f),
-          Vec3GLf(0.f, 0.f, 8.f) } };
+          Vec3GLf(0.f, 0.f, 300.f) } };
     std::vector<std::array<Vec3GLf, 2>> coordinateFrameColors = {
         { Vec3GLf(1.f, 0.f, 0.f),
           Vec3GLf(1.f, 0.f, 0.f) },
