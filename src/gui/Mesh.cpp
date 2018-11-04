@@ -27,12 +27,14 @@ Mesh::Mesh(void) :
 
 Mesh::Mesh(Mesh&& other) :
     _vertexArrayObjectId (other._vertexArrayObjectId),
+    _nIndices (other._nIndices),
     _positionBufferId (other._positionBufferId),
     _normalBufferId (other._normalBufferId),
     _elementBufferId (other._elementBufferId)
 
 {
     other._vertexArrayObjectId = 0;
+    other._nIndices = 0;
     other._positionBufferId = 0;
     other._normalBufferId = 0;
     other._elementBufferId = 0;
