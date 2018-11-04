@@ -32,6 +32,7 @@ namespace kin {
         /// Get end effector transformation
         const Mat4f& getEnd();
 
+        bool gripper = 0;
     protected:
         Chain   _chain; // kinematic chain
     };
