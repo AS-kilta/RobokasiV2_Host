@@ -95,9 +95,15 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
     _lineShader.addUniform("modelToClip");
 
     _camera.lookAt(
-        Vec3GLf(0.0f, 20.0f, 40.0f),
+        Vec3GLf(0.0f, 1000.0f, 3000.0f),
+        Vec3GLf(0.0f, 0.0f, 0.0f),
+        Vec3GLf(0.0f, 100.0f, 0.0f));
+/*
+    _camera.lookAt(
+        Vec3GLf(0.0f, 2.0f, 4.0f),
         Vec3GLf(0.0f, 0.0f, 0.0f),
         Vec3GLf(0.0f, 1.0f, 0.0f));
+*/
     _camera.projection(
         _settings.camera.fov,
         (float)_settings.window.width / (float)_settings.window.height,

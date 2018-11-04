@@ -76,8 +76,8 @@ public:
             const gui::Vec3GLf& target = gui::Vec3GLf(0.f, 0.f, 0.f),
             const gui::Vec3GLf& up = gui::Vec3GLf(0.f, 1.f, 0.f),
             float fov = 60.f * PI / 180.f,
-            float near = 1.f,
-            float far = 500.f):
+            float near = 100.f,
+            float far = 10000.f):
             pos(pos),
             target(target),
             up(up),
