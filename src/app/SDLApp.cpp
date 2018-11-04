@@ -197,6 +197,19 @@ void SDLApp::render(void)
     _serialConfigGui.render();
     _driveControlGui.render();
 
+    ImGui::Begin("Window");
+    static float as[6] = {0};
+    ImGui::SliderFloat("1", &as[0], 0, 2 * PI);
+    ImGui::SliderFloat("2", &as[1], 0, 2 * PI);
+    ImGui::SliderFloat("3", &as[2], 0, 2 * PI);
+    ImGui::SliderFloat("4", &as[3], 0, 2 * PI);
+    ImGui::SliderFloat("5", &as[4], 0, 2 * PI);
+    ImGui::SliderFloat("6", &as[5], 0, 2 * PI);
+    for (auto i=0; i<6; ++i)
+        _model->setJointAngle(i, as[i]);
+
+    ImGui::End();
+
     // Generate draw data
     ImGui::Render();
 
