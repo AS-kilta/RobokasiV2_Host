@@ -42,6 +42,20 @@ const Mat4f& DHMatrix::getMatrix()
     return _m;
 }
 
+const Mat4f& DHMatrix::getLinkMatrix()
+{
+    if (_xDirty)
+        update();
+    return _x;
+}
+
+const Mat4f& DHMatrix::getJointMatrix()
+{
+    if (_zDirty)
+        update();
+    return _z;
+}
+
 void DHMatrix::update()
 {
     if (_zDirty) {

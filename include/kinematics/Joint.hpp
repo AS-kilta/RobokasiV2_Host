@@ -13,6 +13,8 @@ namespace kin {
 
     class Joint {
     public:
+        friend class Chain;
+
         Joint(const DHMatrix& dh,
             const Mat4f& base = Mat4f::Identity());
 

@@ -64,6 +64,17 @@ const Mat4f& Chain::getJointEnd(int64_t id)
     return _joints[id].getEnd();
 }
 
+const Mat4f& Chain::getJointJointMatrix(int64_t id)
+{
+    if (id < 0 || id >= _joints.size()) {
+        fprintf(stderr, "ERROR: Invalid joint id (%d)\n", (int)id);
+        return Mat4f::Identity();
+    }
+
+    update();
+    return _joints[id]._dh.getJointMatrix();
+}
+
 const Mat4f& Chain::getEnd()
 {
     update();
