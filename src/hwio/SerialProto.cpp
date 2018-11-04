@@ -22,6 +22,17 @@ Command::Command(const State& state) :
 {
 }
 
+Command::Command(const kin::Puma560& puma, int dt) :
+    safemode(false),
+    brake(false),
+    gripper(puma.gripper),
+    dt(dt)
+{
+    int i;
+    for (i = 0; i < 6; ++i)
+        angles[i] = puma.getJointAngle(i);
+}
+
 SerialProto::SerialProto() :
     _port(nullptr),
     _portTimeout(1000),
