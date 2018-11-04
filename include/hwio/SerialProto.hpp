@@ -1,6 +1,8 @@
 #ifndef ROBOKASIV2_HOST_SERIALPROTO_HPP
 #define ROBOKASIV2_HOST_SERIALPROTO_HPP
 
+#include "kinematics/Puma560.hpp"
+
 #include <array>
 #include <string>
 #include <atomic>
@@ -26,6 +28,7 @@ namespace hwio {
         Command() = default;
         Command(const State& state, int dt);
         Command(const State& state);
+        Command(const kin::Puma560& puma, int dt);
         std::array<float, 6> angles = { 0.5f, 0.5f,  0.5f, 0.5f,  0.5f, 0.5f };
         bool gripper = 0;
         bool brake = 1;
