@@ -28,6 +28,11 @@ void DHMatrix::setTheta(float theta)
     _zDirty = true;
 }
 
+float DHMatrix::getTheta() const
+{
+    return _theta;
+}
+
 DHMatrix::operator const Mat4f&()
 {
     if (_zDirty || _xDirty)

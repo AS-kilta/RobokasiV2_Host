@@ -24,6 +24,8 @@ namespace kin {
         /// return: boolean whether position is valid
         bool setJointAngle(int64_t id, float angle);
 
+        float getJointAngle(int64_t id) const;
+
         /// Get kinematic chain
         const Chain& getChain();
 

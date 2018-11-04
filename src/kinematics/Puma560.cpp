@@ -33,6 +33,11 @@ bool Puma560::setJointAngle(int64_t id, float angle)
     return true;
 }
 
+float Puma560::getJointAngle(int64_t id) const
+{
+    return _chain.getJointAngle(id);
+}
+
 const Chain& Puma560::getChain()
 {
     _chain.update();

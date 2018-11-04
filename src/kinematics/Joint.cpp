@@ -28,6 +28,11 @@ void Joint::setAngle(float angle)
     _dirty = true;
 }
 
+float Joint::getAngle() const
+{
+    _dh.getTheta();
+}
+
 const DHMatrix& Joint::getDHMatrix(void) const
 {
     return _dh;
