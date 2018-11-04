@@ -37,9 +37,11 @@ Puma560Model::~Puma560Model()
 void Puma560Model::render(Shader& shader, Camera& camera)
 {
     _links[0].render(shader, camera, _chain.getBase());
-    for (auto i=1; i<6; ++i) {
-        _links[i].render(shader, camera, _chain.getJointEnd(i-1));
-    }
+    _links[1].render(shader, camera, _chain.getBase()*_chain.getJointJointMatrix(0));
+    _links[2].render(shader, camera, _chain.getJointEnd(0)*_chain.getJointJointMatrix(1));
+    _links[3].render(shader, camera, _chain.getJointEnd(1)*_chain.getJointJointMatrix(2));
+    _links[4].render(shader, camera, _chain.getJointEnd(2)*_chain.getJointJointMatrix(3));
+    _links[5].render(shader, camera, _chain.getJointEnd(3)*_chain.getJointJointMatrix(4));
 }
 
 std::vector<std::shared_ptr<Renderable>> Puma560Model::getCoordinateFrames(
