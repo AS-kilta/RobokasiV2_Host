@@ -1,4 +1,5 @@
 #include "gui/DriveControl.hpp"
+#include "kinematics/MathTypes.hpp"
 
 #include <imgui.h>
 
@@ -15,6 +16,7 @@ DriveControl::DriveControl(hwio::SerialProto& serialProto) :
 
 void DriveControl::render(void)
 {
+    float deg_angles[6];
     hwio::State state;
 
     if (!_serialProto.isConnected())
@@ -28,8 +30,17 @@ void DriveControl::render(void)
     state = _serialProto.getState();
 
     ImGui::Text("Joint angles");
-    for (const float angle : state.angles)
-        ImGui::ProgressBar(angle);
+
+    for (int i = 0; i< 6; ++i)
+        deg_angles[i] = state.angles[i] / PI * 180;
+
+    ImGui::SliderFloat("j1", &deg_angles[0], -180.0f, 180.0f);
+    ImGui::SliderFloat("j2", &deg_angles[1], -180.0f, 180.0f);
+    ImGui::SliderFloat("j3", &deg_angles[2], -180.0f, 180.0f);
+    ImGui::SliderFloat("j4", &deg_angles[3], -180.0f, 180.0f);
+    ImGui::SliderFloat("j5", &deg_angles[4], -180.0f, 180.0f);
+    ImGui::SliderFloat("j6", &deg_angles[5], -180.0f, 180.0f);
+
 
     ImGui::Text("Safemode: %d, Brake: %d, Gripper: %d\n", state.safemode,
                 state.brake, state.gripper);
@@ -41,14 +52,20 @@ void DriveControl::render(void)
         _initialControlsSet = true;
     }
 
+    for (int i = 0; i< 6; ++i)
+        deg_angles[i] = _command.angles[i] / PI * 180;
+
     bool edited = 0;
     /* TODO Move and enforce joint limits elsewhere */
-    edited |= ImGui::SliderFloat("j1", &_command.angles[0], 0.270f, 0.830f);
-    edited |= ImGui::SliderFloat("j2", &_command.angles[1], 0.155f, 0.99f);
-    edited |= ImGui::SliderFloat("j3", &_command.angles[2], 0.357f, 0.761f);
-    edited |= ImGui::SliderFloat("j4", &_command.angles[3], 0.280f, 0.960);
-    edited |= ImGui::SliderFloat("j5", &_command.angles[4], 0.355f, 0.752);
-    edited |= ImGui::SliderFloat("j6", &_command.angles[5], 0.0f, 1.0f);
+    edited |= ImGui::SliderFloat("j1", &deg_angles[0], -180.0f, 180.0f);
+    edited |= ImGui::SliderFloat("j2", &deg_angles[1], -180.0f, 180.0f);
+    edited |= ImGui::SliderFloat("j3", &deg_angles[2], -180.0f, 180.0f);
+    edited |= ImGui::SliderFloat("j4", &deg_angles[3], -180.0f, 180.0f);
+    edited |= ImGui::SliderFloat("j5", &deg_angles[4], -180.0f, 180.0f);
+    edited |= ImGui::SliderFloat("j6", &deg_angles[5], -180.0f, 180.0f);
+
+    for (int i = 0; i< 6; ++i)
+        _command.angles[i] = deg_angles[i] / 180 * PI;
 
     ImGui::Checkbox("Safemode", &_command.safemode);
     ImGui::SameLine();
