@@ -12,12 +12,12 @@ using namespace kin;
 
 Puma560::Puma560()
 {
-    _chain.addJoint(Joint(DHMatrix(0.0f, 0.0f, 0.0f, PI*0.5f)));
-    _chain.addJoint(Joint(DHMatrix(0.0f, 0.0f, 431.8f, 0.0f)));
-    _chain.addJoint(Joint(DHMatrix(150.0f, 0.0f, 20.3f, -PI*0.5f)));
-    _chain.addJoint(Joint(DHMatrix(431.8f, 0.0f, 0.0f, PI*0.5f)));
-    _chain.addJoint(Joint(DHMatrix(0.0f, 0.0f, 0.0f, -PI*0.5f)));
-    _chain.addJoint(Joint(DHMatrix(0.0f, 0.0f, 0.0f, 0.0f)));
+    _chain.addJoint(Joint(DHMatrix(680.0f, 0.f,  0.0f, PI*0.5f)));
+    _chain.addJoint(Joint(DHMatrix(149.0f,   0.f, 431.8f,    0.f)));
+    _chain.addJoint(Joint(DHMatrix(0.f, 0.f, 20.3f, -PI*0.5f)));
+    _chain.addJoint(Joint(DHMatrix(433.07f, 0.0f, 0.0f, PI*0.5f)));
+    _chain.addJoint(Joint(DHMatrix(0.0f, 0.0f, 0.0f, -PI*0.5)));
+    _chain.addJoint(Joint(DHMatrix(56.0f, 0.0f, 0.0f, 0.0f)));
 }
 
 void Puma560::setBase(const Mat4f& base)
