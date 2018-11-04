@@ -15,7 +15,14 @@ namespace gui {
     class Shader {
     public:
         Shader();
+
+        Shader(const Shader&) = delete;
+        Shader(Shader&&) = delete;
+        Shader operator=(const Shader&) = delete;
+        Shader operator=(Shader&&) = delete;
+
         ~Shader();
+
         void load(const std::string& vsFileName, const std::string& fsFileName);
 
         void addUniform(const std::string& name);
