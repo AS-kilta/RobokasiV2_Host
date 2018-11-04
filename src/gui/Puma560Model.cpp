@@ -6,6 +6,7 @@
 
 
 using namespace gui;
+using namespace kin;
 
 
 Mesh Puma560Model::_links[6];
@@ -20,6 +21,14 @@ Puma560Model::Puma560Model() :
     _links[3].loadFromObj(std::string(RES_PATH) + "models/puma_link4_mod.obj");
     _links[4].loadFromObj(std::string(RES_PATH) + "models/puma_link5_mod.obj");
     _links[5].loadFromObj(std::string(RES_PATH) + "models/puma_link6_mod.obj");
+
+    Mat4f base;
+    base << 1.0f,   0.0f,   0.0f,   0.0f,
+            0.0f,   0.0f,   1.0f,   0.0f,
+            0.0f,   -1.0f,  0.0f,   0.0f,
+            0.0f,   0.0f,   0.0f,   1.0f;
+
+    _chain.setBase(base);
 }
 
 Puma560Model::~Puma560Model()
@@ -27,8 +36,9 @@ Puma560Model::~Puma560Model()
 
 void Puma560Model::render(Shader& shader, Camera& camera)
 {
-    for (auto i=0; i<6; ++i) {
-        _links[i].render(shader, camera, _chain.getJointEnd(i));
+    _links[0].render(shader, camera, _chain.getBase());
+    for (auto i=1; i<6; ++i) {
+        _links[i].render(shader, camera, _chain.getJointEnd(i-1));
     }
 }
 
