@@ -18,6 +18,7 @@ void DriveControl::render(void)
 {
     float deg_angles[6];
     hwio::State state;
+    bool edited = 0;
 
     if (!_serialProto.isConnected())
         return;
@@ -52,10 +53,25 @@ void DriveControl::render(void)
         _initialControlsSet = true;
     }
 
+    ImGui::SameLine();
+    if (ImGui::Button("L-position")) {
+        for (int i = 0; i < 6; ++i)
+            _command.angles[i] = 0.0f;
+        _command.dt = 5000;
+        edited = 1;
+    }
+
+    ImGui::SameLine();
+    if (ImGui::Button("Straight")) {
+        _command.angles = { 0.0f, PI / 2.0f, -PI / 2.0f,
+                            0.0f, 0.0f, 0.0f };
+        _command.dt = 5000;
+        edited = 1;
+    }
+
     for (int i = 0; i< 6; ++i)
         deg_angles[i] = _command.angles[i] / PI * 180;
 
-    bool edited = 0;
     /* TODO Move and enforce joint limits elsewhere */
     edited |= ImGui::SliderFloat("j1", &deg_angles[0], -180.0f, 180.0f);
     edited |= ImGui::SliderFloat("j2", &deg_angles[1], -180.0f, 180.0f);
@@ -75,7 +91,7 @@ void DriveControl::render(void)
 
     ImGui::Separator();
 
-    ImGui::SliderInt("dt", &_command.dt, 16, 1000);
+    ImGui::SliderInt("dt", &_command.dt, 16, 5000);
 
     if (ImGui::Button("Go") || (edited && _contiguousMode))
         _serialProto.sendCommand(_command);
