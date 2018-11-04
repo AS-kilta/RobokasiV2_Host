@@ -28,13 +28,11 @@ Lines::Lines(std::vector<std::array<Vec3GLf, 2>> endpoints, std::vector<std::arr
         printf("Lines: Segment count doesn't match number of color pairs\n");
         throw;
     }
+    // Generate buffers
+    glGenVertexArrays(1, &_vertexArrayObjectId);
+    glGenBuffers(1, &_positionBufferId);
+    glGenBuffers(1, &_colorBufferId);
 
-    // Generate buffers if needed
-    if (_vertexArrayObjectId == 0) {
-        glGenVertexArrays(1, &_vertexArrayObjectId);
-        glGenBuffers(1, &_positionBufferId);
-        glGenBuffers(1, &_colorBufferId);
-    }
 
     // Bind VAO
     glBindVertexArray(_vertexArrayObjectId);
