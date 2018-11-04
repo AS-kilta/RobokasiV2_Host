@@ -24,6 +24,8 @@ namespace kin {
         /// Set angle around Z axis
         void setAngle(float angle);
 
+        float getAngle() const;
+
         /// Get DH parameter matrix
         const DHMatrix& getDHMatrix(void) const;
 

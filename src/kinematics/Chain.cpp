@@ -48,6 +48,16 @@ void Chain::setJointAngle(int64_t id, float angle)
     _endDirty = true;
 }
 
+float Chain::getJointAngle(int64_t id) const
+{
+    if (id < 0 || id >= _joints.size()) {
+        fprintf(stderr, "ERROR: Invalid joint id (%d)\n", (int)id);
+        return 0.0f;
+    }
+
+    return _joints[id].getAngle();
+}
+
 uint64_t Chain::getJointCount() const
 {
     return _joints.size();

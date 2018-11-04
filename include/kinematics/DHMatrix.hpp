@@ -22,6 +22,8 @@ namespace kin {
         /// Set joint angle
         void setTheta(float theta);
 
+        float getTheta() const;
+
         operator const Mat4f&();
 
         const Mat4f& getMatrix();

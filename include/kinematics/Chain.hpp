@@ -29,6 +29,8 @@ namespace kin {
         /// Set joint angle
         void setJointAngle(int64_t id, float angle);
 
+        float getJointAngle(int64_t id) const;
+
         /// Get number of joints
         uint64_t getJointCount() const;
 
