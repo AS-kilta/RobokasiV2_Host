@@ -25,6 +25,8 @@ namespace kin {
         operator const Mat4f&();
 
         const Mat4f& getMatrix();
+        const Mat4f& getLinkMatrix();
+        const Mat4f& getJointMatrix();
 
     private:
         float   _d;
