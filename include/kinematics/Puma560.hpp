@@ -34,6 +34,9 @@ namespace kin {
         /// Get end effector transformation
         const Mat4f& getEnd();
 
+        /// Calculate inverse kinematics
+        void inverseKinematics(const Vec3f& pos, const Vec3f& angles);
+
         bool gripper = 0;
     protected:
         Chain   _chain; // kinematic chain

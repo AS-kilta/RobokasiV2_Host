@@ -2,9 +2,8 @@
 // Created by lehdari on 13.10.2018.
 //
 
-#include <kinematics/Puma560.hpp>
-
 #include "Puma560.hpp"
+#include "kinematics/InverseKinematics.hpp"
 
 
 using namespace kin;
@@ -48,6 +47,11 @@ const Chain& Puma560::getChain()
 const Mat4f& Puma560::getEnd()
 {
     return _chain.getEnd();
+}
+
+void Puma560::inverseKinematics(const Vec3f& pos, const Vec3f& angles)
+{
+    _chain = kin::inverseKinematics(_chain, pos, angles);
 }
 
 void kin::to_json(json& j, const Puma560& puma)
