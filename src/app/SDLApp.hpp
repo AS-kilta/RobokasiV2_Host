@@ -20,6 +20,7 @@
 #include "gui/Trackball.hpp"
 
 #include "hwio/SerialProto.hpp"
+#include "hwio/CommandQueue.hpp"
 
 
 class SDLApp {
@@ -114,6 +115,7 @@ private:
     SDL_GLContext       _glCtx;
     bool                _quit; // flag for quitting the application
     hwio::SerialProto   _serialProto;
+    hwio::CommandQueue  _commandQueue;
     gui::SerialConfig   _serialConfigGui;
     gui::DriveControl   _driveControlGui;
 

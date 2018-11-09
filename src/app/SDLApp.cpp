@@ -12,6 +12,7 @@
 #include "SDLApp.hpp"
 
 #include "hwio/SerialProto.hpp"
+#include "hwio/CommandQueue.hpp"
 #include "gui/SerialConfig.hpp"
 #include "gui/DriveControl.hpp"
 
@@ -25,6 +26,7 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
     _lineRenderer(_lineShader, _camera),
     _meshRenderer(_meshShader, _camera),
     _serialProto        (),
+    _commandQueue       (_serialProto),
     _serialConfigGui    (_serialProto),
     _driveControlGui    (_serialProto)
 {
