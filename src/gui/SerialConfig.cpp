@@ -7,12 +7,16 @@ using namespace gui;
 
 
 SerialConfig::SerialConfig(hwio::SerialProto& serialProto) :
+#ifndef WITHOUT_LIBSERIALPORT
     _ports(nullptr),
+#endif
     _port_idx(0),
     _port_baud(576000),
     _serialProto(serialProto)
 {
+#ifndef WITHOUT_LIBSERIALPORT
     sp_list_ports(&_ports);
+#endif
 }
 
 SerialConfig::~SerialConfig()
@@ -31,6 +35,7 @@ void SerialConfig::render()
     ImGui::SetNextWindowCollapsed(true, ImGuiSetCond_Once);
     ImGui::Begin("Serial Config");
 
+#ifndef WITHOUT_LIBSERIALPORT
     if (ImGui::Button("Refresh ports"))
         sp_list_ports(&_ports);
 
@@ -60,6 +65,7 @@ void SerialConfig::render()
             ImGui::CloseCurrentPopup();
         ImGui::EndPopup();
     }
+#endif
 
     ImGui::End();
 }

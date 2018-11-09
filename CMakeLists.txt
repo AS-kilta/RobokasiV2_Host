@@ -25,7 +25,7 @@ find_package(Eigen3 REQUIRED)
 
 # Find libserialport viad pkg-config
 find_package(PkgConfig)
-pkg_check_modules(LIBSERIALPORT REQUIRED libserialport)
+pkg_check_modules(LIBSERIALPORT libserialport)
 
 if(NOT EIGEN3_INCLUDE_DIR)
     set(EIGEN3_INCLUDE_DIR "$ENV{EIGEN3_INCLUDE_DIR}")
@@ -107,3 +107,10 @@ target_link_libraries(
         imgui
         ${LIBSERIALPORT_LIBRARIES}
 )
+
+if (NOT LIBSERIALPORT_FOUND)
+    target_compile_definitions(kinematics PRIVATE WITHOUT_LIBSERIALPORT)
+    target_compile_definitions(gui PRIVATE WITHOUT_LIBSERIALPORT)
+    target_compile_definitions(hwio PRIVATE WITHOUT_LIBSERIALPORT)
+    target_compile_definitions(Robokasi PRIVATE WITHOUT_LIBSERIALPORT)
+endif()
