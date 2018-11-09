@@ -2,7 +2,9 @@
 
 #include <chrono>
 
+#ifndef WITHOUT_LIBSERIALPORT
 #include <libserialport.h>
+#endif
 
 
 using namespace hwio;
@@ -34,7 +36,9 @@ Command::Command(const kin::Puma560& puma, int dt) :
 }
 
 SerialProto::SerialProto() :
+#ifndef WITHOUT_LIBSERIALPORT
     _port(nullptr),
+#endif
     _portTimeout(1000),
     _connected(false),
     _pollThreadRunning(true),
@@ -52,12 +56,15 @@ SerialProto::~SerialProto()
 
     _pollThread.join();
 
+#ifndef WITHOUT_LIBSERIALPORT
     if (_port)
         sp_close(_port);
+#endif
 }
 
 int SerialProto::connect(std::string portName, int baudrate)
 {
+#ifndef WITHOUT_LIBSERIALPORT
     sp_return err;
 
     {
@@ -86,6 +93,9 @@ int SerialProto::connect(std::string portName, int baudrate)
     }
 
     return _updateState();
+#else
+    return 0;
+#endif
 }
 
 bool SerialProto::isConnected()
@@ -149,6 +159,7 @@ void SerialProto::registerBufNotifyCb(float notifyThreshold, BufNotifyCbType cb)
 
 int SerialProto::_doTransaction(const std::string& msg, std::string& resp)
 {
+#ifndef WITHOUT_LIBSERIALPORT
     std::lock_guard<std::mutex> guard(_portLock);
     enum sp_return sp_ret;
     int retries = 3;
@@ -178,6 +189,7 @@ int SerialProto::_doTransaction(const std::string& msg, std::string& resp)
         }
         resp.push_back(c);
     } while (resp.back() != '\n');
+#endif
 
     return 0;
 }

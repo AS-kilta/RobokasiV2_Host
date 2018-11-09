@@ -10,7 +10,9 @@
 #include <functional>
 #include <mutex>
 
+#ifndef WITHOUT_LIBSERIALPORT
 #include <libserialport.h>
+#endif
 
 
 namespace hwio {
@@ -64,7 +66,9 @@ namespace hwio {
 
     private:
         std::mutex              _portLock;
+#ifndef WITHOUT_LIBSERIALPORT
         sp_port*                _port;
+#endif
         int                     _portTimeout;
         std::atomic<bool>       _connected;
         std::atomic<bool>       _pollThreadRunning;
