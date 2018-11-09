@@ -1,5 +1,6 @@
 #include "gui/DriveControl.hpp"
 #include "kinematics/MathTypes.hpp"
+#include "hwio/CommandQueue.hpp"
 
 #include <imgui.h>
 
@@ -7,8 +8,9 @@
 using namespace gui;
 
 
-DriveControl::DriveControl(hwio::SerialProto& serialProto) :
+DriveControl::DriveControl(hwio::SerialProto& serialProto, hwio::CommandQueue& cq) :
     _serialProto(serialProto),
+    _commandQueue(cq),
     _initialControlsSet(false),
     _contiguousMode(false)
 {
@@ -94,7 +96,7 @@ void DriveControl::render(void)
     ImGui::SliderInt("dt", &_command.dt, 16, 5000);
 
     if (ImGui::Button("Go") || (edited && _contiguousMode))
-        _serialProto.sendCommand(_command);
+        _commandQueue.addCommand(_command);
     ImGui::SameLine();
     ImGui::Checkbox("Contiguous mode", &_contiguousMode);
 

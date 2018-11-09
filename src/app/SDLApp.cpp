@@ -7,7 +7,9 @@
 #include <imgui.h>
 #include <imgui_impl_sdl.h>
 #include <imgui_impl_opengl3.h>
+
 #include <cmath>
+#include <functional>
 
 #include "SDLApp.hpp"
 
@@ -28,7 +30,7 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
     _serialProto        (),
     _commandQueue       (_serialProto),
     _serialConfigGui    (_serialProto),
-    _driveControlGui    (_serialProto)
+    _driveControlGui    (_serialProto, _commandQueue)
 {
     int err;
 
@@ -115,6 +117,11 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
     _model = std::make_shared<Puma560Model>();
     _renderables.push_back(_model);
     _coordinateFrame = Lines::CoordinateFrame();
+
+    _serialProto.registerBufNotifyCb(0.3f, std::bind(&hwio::CommandQueue::bufferNotify,
+                                                     &_commandQueue,
+                                                     std::placeholders::_1,
+                                                     std::placeholders::_2));
 }
 
 SDLApp::~SDLApp()
