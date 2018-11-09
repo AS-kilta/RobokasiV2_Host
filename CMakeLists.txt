@@ -135,6 +135,7 @@ target_compile_options(Robokasi
 target_link_libraries(
         Robokasi
     PUBLIC
+        kinematics
         gui
         hwio
         ${SDL2_LIBRARY}
