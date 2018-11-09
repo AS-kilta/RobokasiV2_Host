@@ -26,7 +26,7 @@ void DriveControl::render(void)
         return;
 
     ImGui::SetNextWindowPos(ImVec2(10, 10), ImGuiSetCond_Once);
-    ImGui::SetNextWindowSize(ImVec2(400, 500), ImGuiSetCond_Once);
+    ImGui::SetNextWindowSize(ImVec2(400, 530), ImGuiSetCond_Once);
 
     ImGui::Begin("Drive Control");
 
@@ -101,6 +101,9 @@ void DriveControl::render(void)
     ImGui::Checkbox("Contiguous mode", &_contiguousMode);
 
     ImGui::Separator();
+    ImGui::Text("Local command queue size: %zu", _commandQueue.size());
+    ImGui::Text("Local command queue duration: %f s",
+                0.001f * _commandQueue.duration());
     ImGui::Text("Controller command buffer utilization");
     ImGui::ProgressBar(_serialProto.getBufStatus());
 
