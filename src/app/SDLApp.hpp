@@ -34,8 +34,8 @@ public:
 
         explicit WindowSettings(
             const std::string& name = "",
-            int64_t width = 800,
-            int64_t height = 600,
+            int64_t width = 1280,
+            int64_t height = 720,
             int64_t framerateLimit = 60) :
             name(name),
             width(width),
