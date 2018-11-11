@@ -17,6 +17,7 @@
 #include "hwio/CommandQueue.hpp"
 #include "gui/SerialConfig.hpp"
 #include "gui/DriveControl.hpp"
+#include "kinematics/Program.hpp"
 
 using namespace gui;
 

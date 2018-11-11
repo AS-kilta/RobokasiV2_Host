@@ -23,6 +23,7 @@
 #include "hwio/SerialProto.hpp"
 #include "hwio/CommandQueue.hpp"
 
+#include "kinematics/Program.hpp"
 
 class SDLApp {
 public:
@@ -119,6 +120,8 @@ private:
     hwio::CommandQueue  _commandQueue;
 
     gui::VisualizerConfig   _visualizerConfig;
+
+    kin::Program    _program;
 
     gui::SerialConfig   _serialConfigGui;
     gui::DriveControl   _driveControlGui;
