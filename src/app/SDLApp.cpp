@@ -233,8 +233,10 @@ void SDLApp::render(void)
 
     // Render geometry
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    _meshRenderer.render(_renderables);
-    _lineRenderer.render(_model->getCoordinateFrames(_coordinateFrame));
+    if (_visualizerConfig.meshRenderEnable)
+        _meshRenderer.render(_renderables);
+    if (_visualizerConfig.frameRenderEnable)
+        _lineRenderer.render(_model->getCoordinateFrames(_coordinateFrame));
 
     // Render imgui
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
