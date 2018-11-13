@@ -27,6 +27,8 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
     _settings   (settings),
     _window     (nullptr),
     _quit       (false),
+    _lastTicks  (0),
+    _frameTicks (0),
     _lineRenderer(_lineShader, _camera),
     _meshRenderer(_meshShader, _camera),
     _serialProto        (),
@@ -151,6 +153,9 @@ void SDLApp::loop(void)
         }
 
         render();
+        uint32_t curTicks = SDL_GetTicks();
+        _frameTicks = curTicks - _lastTicks;
+        _lastTicks = curTicks;
     }
 }
 
