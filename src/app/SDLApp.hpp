@@ -117,6 +117,8 @@ private:
     SDL_Window*         _window;
     SDL_GLContext       _glCtx;
     bool                _quit; // flag for quitting the application
+    uint32_t            _lastTicks;
+    uint32_t            _frameTicks;
 
     hwio::SerialProto   _serialProto;
     hwio::CommandQueue  _commandQueue;
