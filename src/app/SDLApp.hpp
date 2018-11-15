@@ -20,6 +20,7 @@
 #include "gui/Trackball.hpp"
 #include "gui/VisualizerConfig.hpp"
 #include "gui/ProgramEditor.hpp"
+#include "gui/ProgramAnimator.hpp"
 
 #include "hwio/SerialProto.hpp"
 #include "hwio/CommandQueue.hpp"
@@ -130,6 +131,7 @@ private:
     gui::SerialConfig       _serialConfigGui;
     gui::DriveControl       _driveControlGui;
     gui::ProgramEditor      _programEditor;
+    gui::ProgramAnimator    _programAnimator;
 
     gui::Shader     _lineShader;
     gui::Shader     _meshShader;

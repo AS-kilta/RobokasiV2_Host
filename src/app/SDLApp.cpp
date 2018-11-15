@@ -35,7 +35,8 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
     _commandQueue       (_serialProto),
     _serialConfigGui    (_serialProto),
     _driveControlGui    (_serialProto, _commandQueue, _visualizerConfig),
-    _programEditor      (_program, _visualizerConfig)
+    _programEditor      (_program, _visualizerConfig),
+    _programAnimator    (_program, _visualizerConfig)
 {
     int err;
 
@@ -234,6 +235,7 @@ void SDLApp::render(void)
     _driveControlGui.render();
     _visualizerConfig.render(_model);
     _programEditor.render();
+    _programAnimator.render(_frameTicks);
 
     // Generate draw data
     ImGui::Render();
