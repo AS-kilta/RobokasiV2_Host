@@ -3,8 +3,6 @@
 
 #include "hwio/SerialProto.hpp"
 
-#include <libserialport.h>
-
 
 namespace gui {
 
