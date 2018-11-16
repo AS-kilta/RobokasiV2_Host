@@ -19,6 +19,7 @@
 #include "gui/DriveControl.hpp"
 #include "gui/Trackball.hpp"
 #include "gui/VisualizerConfig.hpp"
+#include "gui/ProgramEditor.hpp"
 
 #include "hwio/SerialProto.hpp"
 #include "hwio/CommandQueue.hpp"
@@ -116,6 +117,7 @@ private:
     SDL_Window*         _window;
     SDL_GLContext       _glCtx;
     bool                _quit; // flag for quitting the application
+
     hwio::SerialProto   _serialProto;
     hwio::CommandQueue  _commandQueue;
 
@@ -123,8 +125,9 @@ private:
 
     kin::Program    _program;
 
-    gui::SerialConfig   _serialConfigGui;
-    gui::DriveControl   _driveControlGui;
+    gui::SerialConfig       _serialConfigGui;
+    gui::DriveControl       _driveControlGui;
+    gui::ProgramEditor      _programEditor;
 
     gui::Shader     _lineShader;
     gui::Shader     _meshShader;
