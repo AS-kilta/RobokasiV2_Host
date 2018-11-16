@@ -224,6 +224,7 @@ void SDLApp::render(void)
     // Generate widgets
     _serialConfigGui.render();
     _driveControlGui.render();
+    _visualizerConfig.render(_model);
 
     // Generate draw data
     ImGui::Render();
