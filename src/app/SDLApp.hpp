@@ -18,6 +18,7 @@
 #include "gui/SerialConfig.hpp"
 #include "gui/DriveControl.hpp"
 #include "gui/Trackball.hpp"
+#include "gui/VisualizerConfig.hpp"
 
 #include "hwio/SerialProto.hpp"
 #include "hwio/CommandQueue.hpp"
@@ -116,6 +117,9 @@ private:
     bool                _quit; // flag for quitting the application
     hwio::SerialProto   _serialProto;
     hwio::CommandQueue  _commandQueue;
+
+    gui::VisualizerConfig   _visualizerConfig;
+
     gui::SerialConfig   _serialConfigGui;
     gui::DriveControl   _driveControlGui;
 
