@@ -14,6 +14,7 @@ namespace gui {
     private:
         const kin::Program& _program;
         VisualizerConfig& _visualizerConfig;
+        size_t _visualizerSourceId;
         enum AnimationState {
             Stop,
             Run,
