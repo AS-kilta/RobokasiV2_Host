@@ -15,8 +15,10 @@ ProgramAnimator::ProgramAnimator(const kin::Program& prog,
     _stepFrameDtAccum(0),
     _stepAnimator()
 {
-    visualizerConfig.registerSource("Program Animator",
-                                    std::bind(&ProgramAnimator::_visualizer, this));
+    _visualizerSourceId =
+            visualizerConfig.registerSource("Program Animator",
+                                            std::bind(&ProgramAnimator::_visualizer,
+                                                      this));
 }
 
 void ProgramAnimator::render(uint32_t dt)
@@ -42,6 +44,7 @@ void ProgramAnimator::render(uint32_t dt)
             _nextPose = _program.poses[curStep->endPoseIdx].pose;
             _stepAnimator.prime(curStep->generate(_prevPose, _nextPose), _prevPose);
             _animationState = AnimationState::Run;
+            _visualizerConfig.setSource(_visualizerSourceId);
         }
         break;
     case AnimationState::Run:
@@ -49,8 +52,10 @@ void ProgramAnimator::render(uint32_t dt)
             _animationState = AnimationState::Pause;
         break;
     case AnimationState::Pause:
-        if (ImGui::Button("Run"))
+        if (ImGui::Button("Run")) {
             _animationState = AnimationState::Run;
+            _visualizerConfig.setSource(_visualizerSourceId);
+        }
         break;
     default:
         break;
