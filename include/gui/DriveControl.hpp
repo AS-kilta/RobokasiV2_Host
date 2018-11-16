@@ -1,6 +1,7 @@
 #ifndef ROBOKASIV2_HOST_DRIVECONTROL_HPP
 #define ROBOKASIV2_HOST_DRIVECONTROL_HPP
 
+#include "gui/VisualizerConfig.hpp"
 #include "hwio/SerialProto.hpp"
 #include "hwio/CommandQueue.hpp"
 
@@ -9,15 +10,23 @@ namespace gui {
 
     class DriveControl {
     public:
-        DriveControl(hwio::SerialProto& serialProto, hwio::CommandQueue& cq);
+        DriveControl(hwio::SerialProto& serialProto, hwio::CommandQueue& cq,
+                     VisualizerConfig& visualizerConfig);
         ~DriveControl() = default;
         void render();
     private:
         hwio::SerialProto&  _serialProto;
         hwio::CommandQueue& _commandQueue;
         hwio::Command       _command;
-        bool                _initialControlsSet;
-        bool                _contiguousMode;
+
+        VisualizerConfig& _visualizerConfig;
+        size_t _sensorVisualizerId;
+        size_t _setpointVisualizerId;
+        std::array<float, 6> _setpointVisualizer(void);
+        std::array<float, 6> _sensorVisualizer(void);
+
+        bool _initialControlsSet;
+        bool _contiguousMode;
     };
 
 }

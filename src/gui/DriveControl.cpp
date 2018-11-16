@@ -1,4 +1,5 @@
 #include "gui/DriveControl.hpp"
+#include "gui/VisualizerConfig.hpp"
 #include "kinematics/MathTypes.hpp"
 #include "hwio/CommandQueue.hpp"
 
@@ -8,12 +9,37 @@
 using namespace gui;
 
 
-DriveControl::DriveControl(hwio::SerialProto& serialProto, hwio::CommandQueue& cq) :
+DriveControl::DriveControl(hwio::SerialProto& serialProto, hwio::CommandQueue& cq,
+                           VisualizerConfig& visualizerCfg) :
     _serialProto(serialProto),
     _commandQueue(cq),
+    _visualizerConfig(visualizerCfg),
     _initialControlsSet(false),
     _contiguousMode(false)
 {
+    _sensorVisualizerId =
+            visualizerCfg.registerSource("Drive control sensors",
+                                         std::bind(&DriveControl::_sensorVisualizer,
+                                         this));
+    _setpointVisualizerId =
+            visualizerCfg.registerSource("Drive control setpoints",
+                                         std::bind(&DriveControl::_setpointVisualizer,
+                                         this));
+}
+
+std::array<float, 6> DriveControl::_sensorVisualizer(void)
+{
+    if (!_serialProto.isConnected()) {
+        ImGui::Text("Not connected\n");
+        return std::array<float, 6>();
+    }
+
+    return _serialProto.getState().angles;
+}
+
+std::array<float, 6> DriveControl::_setpointVisualizer(void)
+{
+    return _command.angles;
 }
 
 void DriveControl::render(void)
@@ -47,6 +73,9 @@ void DriveControl::render(void)
 
     ImGui::Text("Safemode: %d, Brake: %d, Gripper: %d\n", state.safemode,
                 state.brake, state.gripper);
+
+    if (ImGui::Button("Visualize"))
+        _visualizerConfig.setSource(_sensorVisualizerId);
 
     ImGui::Separator();
 
@@ -84,6 +113,9 @@ void DriveControl::render(void)
 
     for (int i = 0; i< 6; ++i)
         _command.angles[i] = deg_angles[i] / 180 * PI;
+
+    if (edited)
+        _visualizerConfig.setSource(_setpointVisualizerId);
 
     ImGui::Checkbox("Safemode", &_command.safemode);
     ImGui::SameLine();
