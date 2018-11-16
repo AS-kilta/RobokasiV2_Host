@@ -11,7 +11,12 @@ LinearDrive::LinearDrive(std::string name) :
 
 void LinearDrive::edit(void)
 {
-    ImGui::InputFloat("vel (deg / s)", &vel);
-    ImGui::InputInt("dt (ms)", &dt);
+    ImGui::Checkbox("Multi frame mode", &multiFrame);
+    if (multiFrame) {
+        ImGui::InputFloat("vel (deg / s)", &vel);
+        ImGui::InputInt("dt (ms)", &dt);
+    } else {
+        ImGui::InputInt("Ttrans (ms)", &transitionTime);
+    }
 }
 
