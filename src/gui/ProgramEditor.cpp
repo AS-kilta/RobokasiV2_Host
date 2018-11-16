@@ -18,14 +18,17 @@ ProgramEditor::ProgramEditor(kin::Program& program,
     _program(program),
     _nextPoseName(80),
     _curPoseName(80),
-    _newStepName(80)
+    _newStepName(80),
+    _visualizerConfig(visualizerConfig)
 {
     snprintf(_nextPoseName.data(), _nextPoseName.capacity(), "Pose %zu",
              _program.poses.size());
     snprintf(_newStepName.data(), _newStepName.capacity(), "Step %zu",
              _program.steps.size());
-    visualizerConfig.registerSource("Pose Editor",
-                                    std::bind(&ProgramEditor::_poseVisualizer, this));
+    _visualizerSourceId =
+            visualizerConfig.registerSource("Pose Editor",
+                                            std::bind(&ProgramEditor::_poseVisualizer,
+                                                      this));
 }
 
 std::array<float, 6> ProgramEditor::_poseVisualizer(void)
@@ -105,6 +108,7 @@ void ProgramEditor::render()
             for (size_t i = 0; i < 6; ++i)
                 _program.poses[_selectedPoseIdx].pose.setJointAngle(i, _angles[i]);
             _program.poses[_selectedPoseIdx].name = _curPoseName.data();
+            _visualizerConfig.setSource(_visualizerSourceId);
         }
     }
 

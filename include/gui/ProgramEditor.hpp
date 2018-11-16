@@ -19,6 +19,9 @@ namespace gui {
         std::array<float, 6> _angles = {0.0f};
         std::array<float, 6> _poseVisualizer(void);
 
+        gui::VisualizerConfig&  _visualizerConfig;
+        size_t                  _visualizerSourceId;
+
         /* Pose editor */
         size_t _selectedPoseIdx = 0;
 
