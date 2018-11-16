@@ -26,8 +26,8 @@ void ProgramAnimator::render(uint32_t dt)
     if (_program.steps.empty())
         return;
 
-    ImGui::SetNextWindowPos(ImVec2(1090, 650), ImGuiSetCond_Once);
-    ImGui::SetNextWindowSize(ImVec2(180, 60), ImGuiSetCond_Once);
+    ImGui::SetNextWindowPos(ImVec2(1090, 496), ImGuiSetCond_Once);
+    ImGui::SetNextWindowSize(ImVec2(180, 214), ImGuiSetCond_Once);
 
     ImGui::Begin("Program Animator");
 
@@ -87,6 +87,32 @@ void ProgramAnimator::render(uint32_t dt)
         for (size_t i = 0; i < 6; ++i)
             _angles[i] = frame.getJointAngle(i);
     }
+
+    ImGui::Separator();
+
+    /*
+     * The real robot will be in an arbirtrary pose when the program is
+     * started. These controls aim to simulate that.
+     */
+
+    bool edited = false;
+    float degAngles[6];
+
+    ImGui::Text("Starting pose");
+
+    for (size_t i = 0; i < 6; ++i)
+            degAngles[i] = _startPose.getJointAngle(i) / PI * 180;
+
+    edited |= ImGui::DragFloat("j1", &degAngles[0], 0.5f, -180.0f, 180.0f);
+    edited |= ImGui::DragFloat("j2", &degAngles[1], 0.5f, -180.0f, 180.0f);
+    edited |= ImGui::DragFloat("j3", &degAngles[2], 0.5f, -180.0f, 180.0f);
+    edited |= ImGui::DragFloat("j4", &degAngles[3], 0.5f, -180.0f, 180.0f);
+    edited |= ImGui::DragFloat("j5", &degAngles[4], 0.5f, -180.0f, 180.0f);
+    edited |= ImGui::DragFloat("j6", &degAngles[5], 0.5f, -180.0f, 180.0f);
+
+    if (edited)
+        for (size_t i = 0; i < 6; ++i)
+            _startPose.setJointAngle(i, degAngles[i] / 180 * PI);
 
     ImGui::End();
 }
