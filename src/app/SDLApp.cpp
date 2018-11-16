@@ -18,6 +18,7 @@
 #include "gui/SerialConfig.hpp"
 #include "gui/DriveControl.hpp"
 #include "kinematics/Program.hpp"
+#include "gui/ProgramEditor.hpp"
 
 using namespace gui;
 
@@ -31,7 +32,8 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
     _serialProto        (),
     _commandQueue       (_serialProto),
     _serialConfigGui    (_serialProto),
-    _driveControlGui    (_serialProto, _commandQueue, _visualizerConfig)
+    _driveControlGui    (_serialProto, _commandQueue, _visualizerConfig),
+    _programEditor      (_program, _visualizerConfig)
 {
     int err;
 
@@ -226,6 +228,7 @@ void SDLApp::render(void)
     _serialConfigGui.render();
     _driveControlGui.render();
     _visualizerConfig.render(_model);
+    _programEditor.render();
 
     // Generate draw data
     ImGui::Render();
