@@ -30,7 +30,7 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
     _serialProto        (),
     _commandQueue       (_serialProto),
     _serialConfigGui    (_serialProto),
-    _driveControlGui    (_serialProto, _commandQueue)
+    _driveControlGui    (_serialProto, _commandQueue, _visualizerConfig)
 {
     int err;
 
