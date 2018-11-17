@@ -3,6 +3,7 @@
 
 #include "kinematics/Program.hpp"
 #include "gui/VisualizerConfig.hpp"
+#include "gui/StepTypes.hpp"
 
 #include <imgui.h>
 
@@ -32,9 +33,6 @@ namespace gui {
         size_t _newPoseID = 0;
 
         /* Sequence editor */
-        enum StepTypes {
-            LinearDriveStep,
-        };
         int _selectedStepType = StepTypes::LinearDriveStep;
 
         size_t _selectedStepIdx = 0;

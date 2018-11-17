@@ -1,6 +1,7 @@
 #include "gui/ProgramEditor.hpp"
 #include "gui/VisualizerConfig.hpp"
 #include "gui/LinearDrive.hpp"
+#include "gui/StepTypes.hpp"
 
 #include <imgui.h>
 
@@ -170,16 +171,12 @@ void ProgramEditor::render()
         snprintf(_curStepName, sizeof(_curStepName), "%s", name);
     }
 
-    static const char* stepTypeNames[] = {
-        [StepTypes::LinearDriveStep] = LinearDrive::typeName,
-    };
     ImGui::SameLine();
     if (ImGui::BeginCombo("Type", stepTypeNames[_selectedStepType])) {
-        constexpr int n = sizeof(stepTypeNames) / sizeof(stepTypeNames[0]);
-        for (int i = 0; i < n; ++i) {
-            if (ImGui::Selectable(stepTypeNames[i], i == _selectedStepType))
+        for (size_t i = 0; i < numStepTypeNames; ++i) {
+            if (ImGui::Selectable(stepTypeNames[i], i == (size_t)_selectedStepType))
                 _selectedStepType = i;
-            if (i == _selectedStepType)
+            if (i == (size_t)_selectedStepType)
                 ImGui::SetItemDefaultFocus();
         }
         ImGui::EndCombo();
