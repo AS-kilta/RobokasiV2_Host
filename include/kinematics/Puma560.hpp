@@ -8,6 +8,8 @@
 
 #include "Chain.hpp"
 
+#include <json.hpp>
+
 
 namespace kin {
 
@@ -36,6 +38,8 @@ namespace kin {
     protected:
         Chain   _chain; // kinematic chain
     };
+
+    void to_json(nlohmann::json& j, const Puma560& puma);
 
 } // namespace kin
 

@@ -8,6 +8,7 @@
 
 
 using namespace kin;
+using namespace nlohmann;
 
 
 Puma560::Puma560()
@@ -47,4 +48,14 @@ const Chain& Puma560::getChain()
 const Mat4f& Puma560::getEnd()
 {
     return _chain.getEnd();
+}
+
+void kin::to_json(json& j, const Puma560& puma)
+{
+    std::array<float, 6> angles;
+
+    for (size_t i = 0; i < 6; ++i)
+        angles[i] = puma.getJointAngle(i);
+
+    j["angles"] = angles;
 }
