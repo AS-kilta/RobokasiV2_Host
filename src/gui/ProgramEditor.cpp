@@ -171,7 +171,7 @@ void ProgramEditor::render()
     }
 
     static const char* stepTypeNames[] = {
-        [StepTypes::LinearDriveStep] = "Linear drive",
+        [StepTypes::LinearDriveStep] = LinearDrive::typeName,
     };
     ImGui::SameLine();
     if (ImGui::BeginCombo("Type", stepTypeNames[_selectedStepType])) {
