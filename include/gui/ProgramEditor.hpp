@@ -37,8 +37,8 @@ namespace gui {
 
         size_t _selectedStepIdx = 0;
 
-        char _newStepName[80];
         char _curStepName[80];
+        size_t _newStepID = 0;
     };
 
 };

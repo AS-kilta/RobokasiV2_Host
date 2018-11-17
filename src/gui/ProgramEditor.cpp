@@ -12,7 +12,6 @@ ProgramEditor::ProgramEditor(kin::Program& program,
     _visualizerConfig(visualizerConfig)
 {
     snprintf(_nextPoseName, sizeof(_nextPoseName), "Pose %zu", _program.poses.size());
-    snprintf(_newStepName, sizeof(_newStepName), "Step %zu", _program.steps.size());
     _visualizerSourceId =
             visualizerConfig.registerSource("Pose Editor",
                                             std::bind(&ProgramEditor::_poseVisualizer,
@@ -47,7 +46,7 @@ void ProgramEditor::render()
         snprintf(_nextPoseName, sizeof(_nextPoseName), "Pose %zu", _program.poses.size());
     }
     ImGui::SameLine();
-    ImGui::InputText("Name", _nextPoseName, sizeof(_nextPoseName));
+    ImGui::InputText("Name##POSE", _nextPoseName, sizeof(_nextPoseName));
 
     ImVec2 winSz = ImGui::GetWindowSize();
 
@@ -112,19 +111,22 @@ void ProgramEditor::render()
     ImGui::Columns(2);
 
     if (ImGui::Button("New")) {
+        char name[80];
+        snprintf(name, sizeof(name), "Step %lu", _newStepID++);
+        if (!_program.steps.empty())
+            ++_selectedStepIdx;
         switch (_selectedStepType) {
         case StepTypes::LinearDriveStep:
-            _program.addStep<LinearDrive>(_newStepName);
+            _program.addStep<LinearDrive>(_selectedStepIdx, name);
             break;
         default:
             break;
         }
-        snprintf(_newStepName, sizeof(_newStepName), "Step %zu", _program.steps.size());
+        snprintf(_curStepName, sizeof(_curStepName), "%s", name);
     }
     ImGui::SetColumnWidth(-1, 42.0f);
 
     ImGui::NextColumn();
-    ImGui::InputText("Name", _newStepName, sizeof(_newStepName));
 
     static const char* stepTypeNames[] = {
         [StepTypes::LinearDriveStep] = "Linear drive",
@@ -162,6 +164,8 @@ void ProgramEditor::render()
 
     if (!_program.steps.empty()) {
         auto& step = _program.steps[_selectedStepIdx];
+        if (ImGui::InputText("Name##STEP", _curStepName, sizeof(_curStepName)))
+            step->name = _curStepName;
         step->edit();
         if (ImGui::BeginCombo("End pose", _program.poses[step->endPoseIdx].name.c_str())) {
             for (size_t i = 0; i < _program.poses.size(); ++i) {
@@ -171,6 +175,15 @@ void ProgramEditor::render()
                     ImGui::SetItemDefaultFocus();
             }
             ImGui::EndCombo();
+        }
+        if (ImGui::Button("Delete")) {
+            _program.steps.erase(_program.steps.begin() + _selectedStepIdx);
+            if (!_program.steps.empty()) {
+                if (_selectedStepIdx >= _program.steps.size())
+                    _selectedStepIdx =_program.steps.size() - 1;
+                snprintf(_curStepName, sizeof(_curStepName), "%s",
+                            _program.steps[_selectedStepIdx]->name.c_str());
+            }
         }
     }
 
