@@ -36,7 +36,8 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
     _programEditor      (_program, _visualizerConfig),
     _programAnimator    (_program, _visualizerConfig),
     _lineRenderer(_lineShader, _camera),
-    _meshRenderer(_meshShader, _camera)
+    _meshRenderer(_meshShader, _camera),
+    _programExecutor    (_program, _serialProto, _commandQueue)
 {
     int err;
 
@@ -235,6 +236,7 @@ void SDLApp::render(void)
     _visualizerConfig.render(_model);
     _programEditor.render();
     _programAnimator.render(_frameTicks);
+    _programExecutor.render();
 
     // Generate draw data
     ImGui::Render();

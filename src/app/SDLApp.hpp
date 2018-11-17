@@ -21,6 +21,7 @@
 #include "gui/VisualizerConfig.hpp"
 #include "gui/ProgramEditor.hpp"
 #include "gui/ProgramAnimator.hpp"
+#include "gui/ProgramExecutor.hpp"
 
 #include "hwio/SerialProto.hpp"
 #include "hwio/CommandQueue.hpp"
@@ -139,6 +140,8 @@ private:
     gui::Trackball  _trackball;
     gui::Renderer   _lineRenderer;
     gui::Renderer   _meshRenderer;
+
+    gui::ProgramExecutor    _programExecutor;
 
     std::shared_ptr<gui::Puma560Model>              _model;
     std::vector<std::shared_ptr<gui::Renderable>>   _renderables;
