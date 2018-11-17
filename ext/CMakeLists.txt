@@ -47,3 +47,11 @@ target_link_libraries(
 )
 
 set_property(TARGET imgui PROPERTY POSITION_INDEPENDENT_CODE ON)
+
+add_library(nlohmann-json INTERFACE)
+
+target_include_directories(
+        nlohmann-json
+    INTERFACE
+        json/
+)

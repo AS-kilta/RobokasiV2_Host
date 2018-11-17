@@ -63,6 +63,12 @@ target_include_directories(
         ${CMAKE_CURRENT_SOURCE_DIR}/src/kinematics
 )
 
+target_link_libraries(
+        kinematics
+    PUBLIC
+        nlohmann-json
+)
+
 # GUI library target
 add_library(gui SHARED ${GUI_SOURCES})
 target_compile_options(gui
@@ -110,6 +116,12 @@ target_include_directories(
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/include/hwio
         ${CMAKE_CURRENT_SOURCE_DIR}/src/hwio
+)
+
+target_link_libraries(
+        hwio
+    PUBLIC
+        nlohmann-json
 )
 
 # Robokasi app target
