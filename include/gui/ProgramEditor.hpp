@@ -26,8 +26,8 @@ namespace gui {
         size_t _selectedPoseIdx = 0;
 
         /* ImGui doesn't deal with std::string */
-        std::vector<char> _nextPoseName;
-        std::vector<char> _curPoseName;
+        char _nextPoseName[80];
+        char _curPoseName[80];
 
         /* Sequence editor */
         enum StepTypes {
@@ -37,8 +37,8 @@ namespace gui {
 
         size_t _selectedStepIdx = 0;
 
-        std::vector<char> _newStepName;
-        std::vector<char> _curStepName;
+        char _newStepName[80];
+        char _curStepName[80];
     };
 
 };

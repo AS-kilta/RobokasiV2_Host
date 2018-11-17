@@ -6,25 +6,13 @@
 
 using namespace gui;
 
-static void copyStringToCharVec(std::vector<char>& vec, std::string str)
-{
-    vec.clear();
-    std::copy(begin(str), end(str), back_inserter(vec));
-    vec.push_back('\0');
-}
-
 ProgramEditor::ProgramEditor(kin::Program& program,
                              gui::VisualizerConfig& visualizerConfig) :
     _program(program),
-    _nextPoseName(80),
-    _curPoseName(80),
-    _newStepName(80),
     _visualizerConfig(visualizerConfig)
 {
-    snprintf(_nextPoseName.data(), _nextPoseName.capacity(), "Pose %zu",
-             _program.poses.size());
-    snprintf(_newStepName.data(), _newStepName.capacity(), "Step %zu",
-             _program.steps.size());
+    snprintf(_nextPoseName, sizeof(_nextPoseName), "Pose %zu", _program.poses.size());
+    snprintf(_newStepName, sizeof(_newStepName), "Step %zu", _program.steps.size());
     _visualizerSourceId =
             visualizerConfig.registerSource("Pose Editor",
                                             std::bind(&ProgramEditor::_poseVisualizer,
@@ -52,16 +40,14 @@ void ProgramEditor::render()
         for (size_t i = 0; i < 6; ++i)
             pose.setJointAngle(i, _angles[i]);
 
-        _program.poses.push_back((kin::ProgramPose){pose, _nextPoseName.data()});
+        _program.poses.push_back((kin::ProgramPose){pose, _nextPoseName});
 
-        if (_program.poses.size() == 1)
-            copyStringToCharVec(_curPoseName, _program.poses[0].name);
+        snprintf(_curPoseName, sizeof(_curPoseName), "%s", _program.poses[0].name.c_str());
 
-        snprintf(_nextPoseName.data(), _nextPoseName.capacity(), "Pose %zu",
-                 _program.poses.size());
+        snprintf(_nextPoseName, sizeof(_nextPoseName), "Pose %zu", _program.poses.size());
     }
     ImGui::SameLine();
-    ImGui::InputText("Name", _nextPoseName.data(), _nextPoseName.capacity());
+    ImGui::InputText("Name", _nextPoseName, sizeof(_nextPoseName));
 
     ImVec2 winSz = ImGui::GetWindowSize();
 
@@ -75,7 +61,7 @@ void ProgramEditor::render()
             _selectedPoseIdx = i;
             for (size_t i = 0; i < 6; ++i)
                 _angles[i] = pose.pose.getJointAngle(i);
-            copyStringToCharVec(_curPoseName, pose.name);
+            snprintf(_curPoseName, sizeof(_curPoseName), "%s", pose.name.c_str());
         }
 
         if (isSelected)
@@ -89,7 +75,7 @@ void ProgramEditor::render()
         float degAngles[6];
         bool edited = 0;
 
-        edited |= ImGui::InputText("Pose Name", _curPoseName.data(), _curPoseName.capacity());
+        edited |= ImGui::InputText("Pose Name", _curPoseName, sizeof(_curPoseName));
 
         for (size_t i = 0; i < 6; ++i)
             degAngles[i] = _angles[i] / PI * 180;
@@ -107,7 +93,7 @@ void ProgramEditor::render()
         if (edited) {
             for (size_t i = 0; i < 6; ++i)
                 _program.poses[_selectedPoseIdx].pose.setJointAngle(i, _angles[i]);
-            _program.poses[_selectedPoseIdx].name = _curPoseName.data();
+            _program.poses[_selectedPoseIdx].name = _curPoseName;
             _visualizerConfig.setSource(_visualizerSourceId);
         }
     }
@@ -128,18 +114,17 @@ void ProgramEditor::render()
     if (ImGui::Button("New")) {
         switch (_selectedStepType) {
         case StepTypes::LinearDriveStep:
-            _program.addStep<LinearDrive>(std::string(_newStepName.data()));
+            _program.addStep<LinearDrive>(_newStepName);
             break;
         default:
             break;
         }
-        snprintf(_newStepName.data(), _newStepName.capacity(), "Step %zu",
-                 _program.steps.size());
+        snprintf(_newStepName, sizeof(_newStepName), "Step %zu", _program.steps.size());
     }
     ImGui::SetColumnWidth(-1, 42.0f);
 
     ImGui::NextColumn();
-    ImGui::InputText("Name", _newStepName.data(), _newStepName.capacity());
+    ImGui::InputText("Name", _newStepName, sizeof(_newStepName));
 
     static const char* stepTypeNames[] = {
         [StepTypes::LinearDriveStep] = "Linear drive",
@@ -167,7 +152,7 @@ void ProgramEditor::render()
 
         if (ImGui::Selectable(step->name.c_str(), isSelected)) {
             _selectedStepIdx = i;
-            copyStringToCharVec(_curStepName, step->name);
+            snprintf(_curStepName, sizeof(_curStepName), "%s", step->name.c_str());
         }
 
         if (isSelected)
