@@ -33,7 +33,17 @@ void ProgramEditor::render()
     ImGui::SetNextWindowPos(ImVec2(800, 10), ImGuiSetCond_Once);
     ImGui::SetNextWindowSize(ImVec2(470, 400), ImGuiSetCond_Once);
 
-    ImGui::Begin("Program Editor");
+    ImGui::Begin("Program Editor", NULL, ImGuiWindowFlags_MenuBar);
+
+    if (ImGui::BeginMenuBar()) {
+        if (ImGui::BeginMenu("File")) {
+            /* TODO Add a file browser dialog */
+            if (ImGui::MenuItem("Save"))
+                _save("test.json");
+            ImGui::EndMenu();
+        }
+        ImGui::EndMenuBar();
+    }
 
     ImGui::Columns(2);
 
