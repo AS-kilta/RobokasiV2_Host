@@ -8,6 +8,8 @@ namespace kin {
         LinearDrive(std::string name, size_t endPoseIdx);
         std::vector<Puma560StepFrame> generate(const Puma560& poseA,
                                                const Puma560& poseB);
+        virtual std::string getTypeName();
+        static constexpr char typeName[] = "LinearDrive";
         /*
          * The linear drive program step can either generate multiple steps with
          * constant dt between each frame or it can create a single frame with

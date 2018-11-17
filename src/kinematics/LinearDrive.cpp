@@ -48,3 +48,8 @@ std::vector<Puma560StepFrame> LinearDrive::generate(const Puma560& poseA,
 
     return frames;
 }
+
+std::string LinearDrive::getTypeName()
+{
+    return typeName;
+}
