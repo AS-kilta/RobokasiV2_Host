@@ -32,9 +32,12 @@ namespace kin {
 
     struct Program {
         template <typename StepType, typename... Args>
-        void addStep(Args&&... args)
+        void addStep(size_t i, Args&&... args)
         {
-            steps.emplace_back(std::make_unique<StepType>(std::forward<Args>(args)...));
+            if (!steps.empty() && i < steps.size())
+                steps.insert(steps.begin() + i, std::make_unique<StepType>(std::forward<Args>(args)...));
+            else
+                steps.emplace_back(std::make_unique<StepType>(std::forward<Args>(args)...));
         }
         std::vector<std::unique_ptr<ProgramStep>> steps;
         std::vector<ProgramPose> poses;
