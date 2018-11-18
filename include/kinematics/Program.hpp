@@ -23,6 +23,7 @@ namespace kin {
         virtual std::vector<Puma560StepFrame> generate(const Puma560& poseA,
                                                        const Puma560& poseB) = 0;
         virtual void edit(void) { }
+        virtual void toJson(nlohmann::json& j) = 0;
         virtual std::string getTypeName() = 0;
         std::string name;
         size_t endPoseIdx;
