@@ -3,6 +3,8 @@
 
 #include "kinematics/Puma560.hpp"
 
+#include <json.hpp>
+
 #include <memory>
 #include <vector>
 #include <string>
@@ -30,6 +32,8 @@ namespace kin {
         Puma560 pose;
         std::string name;
     };
+
+    void to_json(nlohmann::json& j, const ProgramPose& pose);
 
     struct Program {
         template <typename StepType, typename... Args>
