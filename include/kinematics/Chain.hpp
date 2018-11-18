@@ -18,7 +18,7 @@ namespace kin {
 
         /// Add joint
         /// return: id of the joint
-        int64_t addJoint(const Joint& joint);
+        size_t addJoint(const Joint& joint);
 
         /// Set base transformation
         void setBase(const Mat4f& base);
@@ -27,18 +27,18 @@ namespace kin {
         const Mat4f& getBase() const;
 
         /// Set joint angle
-        void setJointAngle(int64_t id, float angle);
+        void setJointAngle(size_t id, float angle);
 
-        float getJointAngle(int64_t id) const;
+        float getJointAngle(size_t id) const;
 
         /// Get number of joints
         uint64_t getJointCount() const;
 
         /// Get end transformation of specific joint
-        const Mat4f& getJointEnd(int64_t id);
+        const Mat4f& getJointEnd(size_t id);
 
         /// Get DH joint matrix of specific joint
-        const Mat4f& getJointJointMatrix(int64_t id);
+        const Mat4f& getJointJointMatrix(size_t id);
 
         /// Get end effector position of the kinematic chain
         const Mat4f& getEnd();

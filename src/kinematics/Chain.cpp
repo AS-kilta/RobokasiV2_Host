@@ -22,7 +22,7 @@ Chain::Chain(const Mat4f& base) :
 {
 }
 
-int64_t Chain::addJoint(const Joint &joint)
+size_t Chain::addJoint(const Joint &joint)
 {
     _joints.push_back(joint);
     _endDirty = true;
@@ -41,9 +41,9 @@ const Mat4f& Chain::getBase() const
     return _bm;
 }
 
-void Chain::setJointAngle(int64_t id, float angle)
+void Chain::setJointAngle(size_t id, float angle)
 {
-    if (id < 0 || id >= _joints.size()) {
+    if (id >= _joints.size()) {
         fprintf(stderr, "ERROR: Invalid joint id (%d)\n", (int)id);
         return;
     }
@@ -52,9 +52,9 @@ void Chain::setJointAngle(int64_t id, float angle)
     _endDirty = true;
 }
 
-float Chain::getJointAngle(int64_t id) const
+float Chain::getJointAngle(size_t id) const
 {
-    if (id < 0 || id >= _joints.size()) {
+    if (id >= _joints.size()) {
         fprintf(stderr, "ERROR: Invalid joint id (%d)\n", (int)id);
         return 0.0f;
     }
@@ -67,9 +67,9 @@ uint64_t Chain::getJointCount() const
     return _joints.size();
 }
 
-const Mat4f& Chain::getJointEnd(int64_t id)
+const Mat4f& Chain::getJointEnd(size_t id)
 {
-    if (id < 0 || id >= _joints.size()) {
+    if (id >= _joints.size()) {
         fprintf(stderr, "ERROR: Invalid joint id (%d)\n", (int)id);
         return Mat4fIdentity;
     }
@@ -78,9 +78,9 @@ const Mat4f& Chain::getJointEnd(int64_t id)
     return _joints[id].getEnd();
 }
 
-const Mat4f& Chain::getJointJointMatrix(int64_t id)
+const Mat4f& Chain::getJointJointMatrix(size_t id)
 {
-    if (id < 0 || id >= _joints.size()) {
+    if (id >= _joints.size()) {
         fprintf(stderr, "ERROR: Invalid joint id (%d)\n", (int)id);
         return Mat4fIdentity;
     }
@@ -112,7 +112,7 @@ void Chain::update()
 
     if (_endDirty) {
         // calculate forward kinematics
-        for (auto i = 1; i < _joints.size(); ++i) {
+        for (auto i = 1u; i < _joints.size(); ++i) {
             _joints[i].setBase(_joints[i - 1].getEnd());
         }
 
