@@ -4,8 +4,8 @@
 
 using namespace kin;
 
-LinearDrive::LinearDrive(std::string name) :
-    ProgramStep(name)
+LinearDrive::LinearDrive(std::string name, size_t endPoseIdx) :
+    ProgramStep(name, endPoseIdx)
 {
 }
 

@@ -16,13 +16,13 @@ namespace kin {
     };
 
     struct ProgramStep {
-        ProgramStep(std::string name);
+        ProgramStep(std::string name, size_t endPoseIdx);
         virtual ~ProgramStep() {}
         virtual std::vector<Puma560StepFrame> generate(const Puma560& poseA,
                                                        const Puma560& poseB) = 0;
         virtual void edit(void) { }
         std::string name;
-        size_t endPoseIdx = 0;
+        size_t endPoseIdx;
     };
 
     struct ProgramPose {

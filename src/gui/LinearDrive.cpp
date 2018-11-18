@@ -4,8 +4,8 @@
 
 using namespace gui;
 
-LinearDrive::LinearDrive(std::string name) :
-    kin::LinearDrive(name)
+LinearDrive::LinearDrive(std::string name, size_t endPoseIdx) :
+    kin::LinearDrive(name, endPoseIdx)
 {
 }
 
@@ -19,4 +19,3 @@ void LinearDrive::edit(void)
         ImGui::InputInt("Ttrans (ms)", &transitionTime);
     }
 }
-

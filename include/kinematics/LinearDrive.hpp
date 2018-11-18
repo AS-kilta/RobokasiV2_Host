@@ -5,7 +5,7 @@
 
 namespace kin {
     struct LinearDrive : ProgramStep {
-        LinearDrive(std::string name);
+        LinearDrive(std::string name, size_t endPoseIdx);
         std::vector<Puma560StepFrame> generate(const Puma560& poseA,
                                                const Puma560& poseB);
         /*
