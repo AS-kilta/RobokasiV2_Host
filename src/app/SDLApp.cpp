@@ -29,14 +29,14 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
     _quit       (false),
     _lastTicks  (0),
     _frameTicks (0),
-    _lineRenderer(_lineShader, _camera),
-    _meshRenderer(_meshShader, _camera),
     _serialProto        (),
     _commandQueue       (_serialProto),
     _serialConfigGui    (_serialProto),
     _driveControlGui    (_serialProto, _commandQueue, _visualizerConfig),
     _programEditor      (_program, _visualizerConfig),
-    _programAnimator    (_program, _visualizerConfig)
+    _programAnimator    (_program, _visualizerConfig),
+    _lineRenderer(_lineShader, _camera),
+    _meshRenderer(_meshShader, _camera)
 {
     int err;
 
@@ -83,7 +83,6 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
 
     // Initialize imgui
     ImGui::CreateContext();
-    ImGuiIO &imgui_io = ImGui::GetIO();
     ImGui_ImplSDL2_InitForOpenGL(_window, _glCtx);
     ImGui_ImplOpenGL3_Init("#version 330");
 

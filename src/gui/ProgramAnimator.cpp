@@ -12,7 +12,6 @@ ProgramAnimator::ProgramAnimator(const kin::Program& prog,
     _program(prog),
     _visualizerConfig(visualizerConfig),
     _curStepIdx(0),
-    _stepFrameDtAccum(0),
     _stepAnimator()
 {
     _visualizerSourceId =

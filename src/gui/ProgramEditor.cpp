@@ -79,7 +79,7 @@ void ProgramEditor::render()
     ImGui::EndChild();
 
     if (!_program.poses.empty()) {
-        auto& pose = _program.poses[_selectedPoseIdx];
+        auto& currentPose = _program.poses[_selectedPoseIdx];
         float degAngles[6];
         bool edited = 0;
 
@@ -100,8 +100,8 @@ void ProgramEditor::render()
 
         if (edited) {
             for (size_t i = 0; i < 6; ++i)
-                _program.poses[_selectedPoseIdx].pose.setJointAngle(i, _angles[i]);
-            _program.poses[_selectedPoseIdx].name = _curPoseName;
+                currentPose.pose.setJointAngle(i, _angles[i]);
+            currentPose.name = _curPoseName;
             _visualizerConfig.setSource(_visualizerSourceId);
         }
 

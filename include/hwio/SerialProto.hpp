@@ -69,7 +69,6 @@ namespace hwio {
 #ifndef WITHOUT_LIBSERIALPORT
         sp_port*                _port;
 #endif
-        int                     _portTimeout;
         std::atomic<bool>       _connected;
         std::atomic<bool>       _pollThreadRunning;
         std::thread             _pollThread;

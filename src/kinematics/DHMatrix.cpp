@@ -13,10 +13,10 @@ DHMatrix::DHMatrix(float d, float theta, float r, float alpha) :
     _theta  (theta),
     _r      (r),
     _alpha  (alpha),
-    _x      (Mat4f::Identity()),
-    _xDirty (true),
     _z      (Mat4f::Identity()),
     _zDirty (true),
+    _x      (Mat4f::Identity()),
+    _xDirty (true),
     _m      (Mat4f::Identity())
 {
     update();

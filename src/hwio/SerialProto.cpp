@@ -12,9 +12,9 @@ using namespace hwio;
 
 Command::Command(const State& state, int dt) :
     angles(state.angles),
-    safemode(state.safemode),
-    brake(state.brake),
     gripper(state.gripper),
+    brake(state.brake),
+    safemode(state.safemode),
     dt(dt)
 {
 }
@@ -25,9 +25,9 @@ Command::Command(const State& state) :
 }
 
 Command::Command(const kin::Puma560& puma, int dt) :
-    safemode(false),
-    brake(false),
     gripper(puma.gripper),
+    brake(false),
+    safemode(false),
     dt(dt)
 {
     int i;
@@ -39,7 +39,6 @@ SerialProto::SerialProto() :
 #ifndef WITHOUT_LIBSERIALPORT
     _port(nullptr),
 #endif
-    _portTimeout(1000),
     _connected(false),
     _pollThreadRunning(true),
     _pollThread(std::bind(&SerialProto::_pollThreadFunc, this)),
@@ -162,7 +161,6 @@ int SerialProto::_doTransaction(const std::string& msg, std::string& resp)
 #ifndef WITHOUT_LIBSERIALPORT
     std::lock_guard<std::mutex> guard(_portLock);
     enum sp_return sp_ret;
-    int retries = 3;
     char c;
 
     sp_ret = sp_flush(_port, SP_BUF_BOTH);
