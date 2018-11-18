@@ -45,6 +45,6 @@ namespace gui {
                                   const kin::Puma560& curFrame,
                                   float r);
     };
-};
+}
 
 #endif

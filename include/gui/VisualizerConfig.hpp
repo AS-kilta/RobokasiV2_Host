@@ -25,6 +25,6 @@ namespace gui {
         std::vector<_VisualizerSource> _sources;
         size_t _curSourceId = 0;
     };
-};
+}
 
 #endif

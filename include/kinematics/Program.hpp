@@ -43,6 +43,6 @@ namespace kin {
         std::vector<ProgramPose> poses;
     };
 
-};
+}
 
 #endif

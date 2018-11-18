@@ -29,6 +29,6 @@ namespace gui {
         std::array<float, 6> _visualizer();
         StepAnimator _stepAnimator;
     };
-};
+}
 
 #endif

@@ -43,6 +43,6 @@ namespace gui {
         size_t _newStepID = 0;
     };
 
-};
+}
 
 #endif
