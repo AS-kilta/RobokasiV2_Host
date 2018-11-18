@@ -2,10 +2,7 @@
 
 #include <json.hpp>
 
-#include <cstdio>
-
 using json = nlohmann::json;
-
 using namespace kin;
 
 Puma560StepFrame::Puma560StepFrame(const Puma560& puma, int dt) :

@@ -5,6 +5,11 @@
 
 #include <imgui.h>
 
+#include <json.hpp>
+
+#include <fstream>
+
+using json = nlohmann::json;
 using namespace gui;
 
 ProgramEditor::ProgramEditor(kin::Program& program,
@@ -249,4 +254,12 @@ void ProgramEditor::removeStep(size_t i)
                         _program.steps[_selectedStepIdx]->name.c_str());
         }
     }
+}
+
+void ProgramEditor::_save(const char *path)
+{
+    json j{{"poses", _program.poses}, {"steps", _program.steps}};
+    std::ofstream file(path);
+
+    file << j;
 }
