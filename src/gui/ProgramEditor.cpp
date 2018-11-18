@@ -40,6 +40,8 @@ void ProgramEditor::render()
             /* TODO Add a file browser dialog */
             if (ImGui::MenuItem("Save"))
                 _save("test.json");
+            if (ImGui::MenuItem("Load"))
+                _load("test.json");
             ImGui::EndMenu();
         }
         ImGui::EndMenuBar();
