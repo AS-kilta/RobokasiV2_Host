@@ -26,6 +26,7 @@ namespace gui {
         size_t                  _visualizerSourceId;
 
         void _save(const char* path);
+        void _load(const char *path);
 
         /* Pose editor */
         size_t _selectedPoseIdx = 0;
