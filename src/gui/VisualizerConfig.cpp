@@ -6,11 +6,20 @@
 
 using namespace gui;
 
+
+VisualizerConfig::_VisualizerSource::_VisualizerSource(
+        std::string name,
+        std::function<std::array<float, 6>(void)> fn) :
+    name(name),
+    fn(fn)
+{
+}
+
 size_t VisualizerConfig::registerSource(std::string name,
                                         std::function<std::array<float, 6>(void)> fn)
 {
     size_t id = _sources.size();
-    _sources.emplace_back((_VisualizerSource) { name, fn });
+    _sources.emplace_back(name, fn);
     return id;
 }
 

@@ -49,9 +49,9 @@ void ProgramEditor::render()
             ++_selectedPoseIdx;
         if (!_program.poses.empty() && _selectedPoseIdx < _program.poses.size())
             _program.poses.insert(_program.poses.begin() + _selectedPoseIdx,
-                                  (kin::ProgramPose){pose, name});
+                                  {pose, name});
         else
-            _program.poses.push_back((kin::ProgramPose){pose, name});
+            _program.poses.push_back({pose, name});
 
         snprintf(_curPoseName, sizeof(_curPoseName), "%s", name);
         insertedPose = _selectedPoseIdx;

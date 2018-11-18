@@ -19,6 +19,8 @@ namespace gui {
         bool frameRenderEnable = true;
     private:
         struct _VisualizerSource {
+            _VisualizerSource(std::string name,
+                              std::function<std::array<float, 6>(void)> fn);
             std::string name;
             std::function<std::array<float, 6>(void)> fn;
         };
