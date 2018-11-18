@@ -40,6 +40,7 @@ namespace kin {
     };
 
     void to_json(nlohmann::json& j, const Puma560& puma);
+    void from_json(const nlohmann::json& j, Puma560& puma);
 
 } // namespace kin
 
