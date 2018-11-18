@@ -33,6 +33,11 @@ namespace kin {
 
     struct Program {
         template <typename StepType, typename... Args>
+        void addStep(Args&&... args)
+        {
+            steps.emplace_back(std::make_unique<StepType>(std::forward<Args>(args)...));
+        }
+        template <typename StepType, typename... Args>
         void addStep(size_t i, Args&&... args)
         {
             if (!steps.empty() && i < steps.size())
