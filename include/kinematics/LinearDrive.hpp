@@ -9,6 +9,7 @@ namespace kin {
         std::vector<Puma560StepFrame> generate(const Puma560& poseA,
                                                const Puma560& poseB);
         virtual std::string getTypeName();
+        void toJson(nlohmann::json& j);
         static constexpr char typeName[] = "LinearDrive";
         /*
          * The linear drive program step can either generate multiple steps with

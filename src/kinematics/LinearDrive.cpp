@@ -53,3 +53,15 @@ std::string LinearDrive::getTypeName()
 {
     return typeName;
 }
+
+void LinearDrive::toJson(nlohmann::json& j)
+{
+    j["multiFrame"] = multiFrame;
+
+    if (multiFrame) {
+        j["vel"] = vel;
+        j["dt"] = dt;
+    } else {
+        j["transitionTime"] = transitionTime;
+    }
+}
