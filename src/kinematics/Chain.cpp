@@ -9,6 +9,10 @@
 
 using namespace kin;
 
+namespace {
+    Mat4f Mat4fIdentity = Mat4f::Identity();
+}
+
 
 Chain::Chain(const Mat4f& base) :
     _bm         (base),
@@ -67,7 +71,7 @@ const Mat4f& Chain::getJointEnd(int64_t id)
 {
     if (id < 0 || id >= _joints.size()) {
         fprintf(stderr, "ERROR: Invalid joint id (%d)\n", (int)id);
-        return Mat4f::Identity();
+        return Mat4fIdentity;
     }
 
     update();
@@ -78,7 +82,7 @@ const Mat4f& Chain::getJointJointMatrix(int64_t id)
 {
     if (id < 0 || id >= _joints.size()) {
         fprintf(stderr, "ERROR: Invalid joint id (%d)\n", (int)id);
-        return Mat4f::Identity();
+        return Mat4fIdentity;
     }
 
     update();

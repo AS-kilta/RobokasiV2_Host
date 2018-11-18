@@ -22,8 +22,6 @@ namespace gui {
         };
         int _animationState = AnimationState::Stop;
         size_t _curStepIdx;
-        size_t _stepFrameIdx;
-        uint32_t _stepFrameDtAccum;
         kin::Puma560 _startPose;
         kin::Puma560 _prevPose;
         kin::Puma560 _nextPose;

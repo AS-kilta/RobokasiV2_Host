@@ -46,6 +46,12 @@ add_definitions(-DRES_PATH="${CMAKE_CURRENT_LIST_DIR}/res/")
 
 # Kinematics library target
 add_library(kinematics SHARED ${KINEMATICS_SOURCES})
+target_compile_options(kinematics
+    PRIVATE
+    -Wall
+    -Wno-c99-extensions
+    -pedantic
+)
 target_include_directories(
         kinematics
     PUBLIC
@@ -59,6 +65,12 @@ target_include_directories(
 
 # GUI library target
 add_library(gui SHARED ${GUI_SOURCES})
+target_compile_options(gui
+    PRIVATE
+    -Wall
+    -Wno-c99-extensions
+    -pedantic
+)
 target_include_directories(
         gui
     PUBLIC
@@ -82,6 +94,12 @@ target_link_libraries(
 # Hardware I/O library target
 message(${HWIO_SOURCES})
 add_library(hwio SHARED ${HWIO_SOURCES})
+target_compile_options(hwio
+    PRIVATE
+    -Wall
+    -Wno-c99-extensions
+    -pedantic
+)
 target_include_directories(
         hwio
     PUBLIC
@@ -96,6 +114,12 @@ target_include_directories(
 
 # Robokasi app target
 add_executable(Robokasi ${APP_SOURCES})
+target_compile_options(Robokasi
+    PRIVATE
+    -Wall
+    -Wno-c99-extensions
+    -pedantic
+)
 target_link_libraries(
         Robokasi
     PUBLIC
