@@ -14,6 +14,8 @@ namespace gui {
                       gui::VisualizerConfig& visualizerConfig);
         void render();
     private:
+        void removeStep(size_t i);
+
         kin::Program& _program;
 
         std::array<float, 6> _angles = {0.0f};
@@ -26,8 +28,8 @@ namespace gui {
         size_t _selectedPoseIdx = 0;
 
         /* ImGui doesn't deal with std::string */
-        char _nextPoseName[80];
         char _curPoseName[80];
+        size_t _newPoseID = 0;
 
         /* Sequence editor */
         enum StepTypes {

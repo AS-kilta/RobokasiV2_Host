@@ -11,7 +11,6 @@ ProgramEditor::ProgramEditor(kin::Program& program,
     _program(program),
     _visualizerConfig(visualizerConfig)
 {
-    snprintf(_nextPoseName, sizeof(_nextPoseName), "Pose %zu", _program.poses.size());
     _visualizerSourceId =
             visualizerConfig.registerSource("Pose Editor",
                                             std::bind(&ProgramEditor::_poseVisualizer,
@@ -34,19 +33,29 @@ void ProgramEditor::render()
 
     /* Pose editor */
 
+    int insertedPose = -1;
+    int removedPose = -1;
+
     if (ImGui::Button("New")) {
+        // Insert new pose after currently selected one
         kin::Puma560 pose;
         for (size_t i = 0; i < 6; ++i)
             pose.setJointAngle(i, _angles[i]);
 
-        _program.poses.push_back((kin::ProgramPose){pose, _nextPoseName});
+        char name[80];
+        snprintf(name, sizeof(name), "Pose %lu", _newPoseID++);
 
-        snprintf(_curPoseName, sizeof(_curPoseName), "%s", _program.poses[0].name.c_str());
+        if (!_program.poses.empty())
+            ++_selectedPoseIdx;
+        if (!_program.poses.empty() && _selectedPoseIdx < _program.poses.size())
+            _program.poses.insert(_program.poses.begin() + _selectedPoseIdx,
+                                  (kin::ProgramPose){pose, name});
+        else
+            _program.poses.push_back((kin::ProgramPose){pose, name});
 
-        snprintf(_nextPoseName, sizeof(_nextPoseName), "Pose %zu", _program.poses.size());
+        snprintf(_curPoseName, sizeof(_curPoseName), "%s", name);
+        insertedPose = _selectedPoseIdx;
     }
-    ImGui::SameLine();
-    ImGui::InputText("Name##POSE", _nextPoseName, sizeof(_nextPoseName));
 
     ImVec2 winSz = ImGui::GetWindowSize();
 
@@ -74,7 +83,7 @@ void ProgramEditor::render()
         float degAngles[6];
         bool edited = 0;
 
-        edited |= ImGui::InputText("Pose Name", _curPoseName, sizeof(_curPoseName));
+        edited |= ImGui::InputText("Name##POSE", _curPoseName, sizeof(_curPoseName));
 
         for (size_t i = 0; i < 6; ++i)
             degAngles[i] = _angles[i] / PI * 180;
@@ -95,9 +104,47 @@ void ProgramEditor::render()
             _program.poses[_selectedPoseIdx].name = _curPoseName;
             _visualizerConfig.setSource(_visualizerSourceId);
         }
+
+        if (ImGui::Button("Delete##POSE")) {
+            removedPose = _selectedPoseIdx;
+            _program.poses.erase(_program.poses.begin() + _selectedPoseIdx);
+            if (!_program.poses.empty()) {
+                if (_selectedPoseIdx >= _program.poses.size())
+                    _selectedPoseIdx =_program.poses.size() - 1;
+                snprintf(_curPoseName, sizeof(_curPoseName), "%s",
+                         _program.poses[_selectedPoseIdx].name.c_str());
+            }
+        }
     }
 
     ImGui::NextColumn();
+
+    // Update steps if a pose was added or removed
+    if (!_program.steps.empty()) {
+        if (insertedPose != -1) {
+            // Point steps to correct poses
+            for (auto& step : _program.steps) {
+                if (step->endPoseIdx >= insertedPose)
+                    ++step->endPoseIdx;
+            }
+        }
+        if (removedPose != -1) {
+            for (size_t i = 0; i < _program.steps.size();) {
+                if (_program.steps[i]->endPoseIdx == removedPose) {
+                    // Remove step pointing to removed pose and update selection
+                    removeStep(i);
+                    if (_selectedStepIdx > i)
+                        --_selectedStepIdx;
+                    continue;
+                } else if (_program.steps[i]->endPoseIdx > removedPose) {
+                    // Point step to correct pose
+                    --_program.steps[i]->endPoseIdx;
+                }
+                // Increment here so that removal doesn't skip over a step
+                ++i;
+            }
+        }
+    }
 
     /* Step editor */
 
@@ -176,16 +223,22 @@ void ProgramEditor::render()
             }
             ImGui::EndCombo();
         }
-        if (ImGui::Button("Delete")) {
-            _program.steps.erase(_program.steps.begin() + _selectedStepIdx);
-            if (!_program.steps.empty()) {
-                if (_selectedStepIdx >= _program.steps.size())
-                    _selectedStepIdx =_program.steps.size() - 1;
-                snprintf(_curStepName, sizeof(_curStepName), "%s",
-                            _program.steps[_selectedStepIdx]->name.c_str());
-            }
-        }
+        if (ImGui::Button("Delete##STEP"))
+            removeStep(_selectedStepIdx);
     }
 
     ImGui::End();
+}
+
+void ProgramEditor::removeStep(size_t i)
+{
+    _program.steps.erase(_program.steps.begin() + i);
+    if (i == _selectedStepIdx) {
+        if (!_program.steps.empty()) {
+            if (_selectedStepIdx >= _program.steps.size())
+                _selectedStepIdx =_program.steps.size() - 1;
+            snprintf(_curStepName, sizeof(_curStepName), "%s",
+                        _program.steps[_selectedStepIdx]->name.c_str());
+        }
+    }
 }
