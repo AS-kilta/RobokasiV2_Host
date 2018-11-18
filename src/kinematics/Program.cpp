@@ -24,3 +24,11 @@ void kin::to_json(json& j, const ProgramPose& pose)
 {
     j = json{{"name", pose.name}, {"pose", pose.pose}};
 }
+
+void kin::to_json(json& j, const std::unique_ptr<ProgramStep>& step)
+{
+    step->toJson(j);
+    j["name"] = step->name;
+    j["typeName"] = step->getTypeName();
+    j["endPoseIdx"] = step->endPoseIdx;
+}
