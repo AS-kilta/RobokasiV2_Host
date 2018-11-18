@@ -1,4 +1,5 @@
 #include "kinematics/Program.hpp"
+#include "gui/LinearDrive.hpp"
 
 #include <json.hpp>
 

@@ -273,3 +273,27 @@ void ProgramEditor::_save(const char *path)
 
     file << j;
 }
+
+void ProgramEditor::_load(const char *path)
+{
+    std::ifstream file(path);
+    json j = json::parse(file);
+
+    _program.poses.clear();
+    for (size_t i = 0; i < j["poses"].size(); ++i)
+        _program.poses.emplace_back(j["poses"][i]);
+
+    _program.steps.clear();
+    for (size_t i = 0; i < j["steps"].size(); ++i) {
+        json& step = j["steps"][i];
+        const std::string typeName = step["typeName"].get<std::string>();
+
+        switch (getStepTypeNameIdx(typeName.c_str())) {
+        case StepTypes::LinearDriveStep:
+            _program.addStep<gui::LinearDrive>(step);
+            break;
+        default:
+            break;
+        }
+    }
+}
