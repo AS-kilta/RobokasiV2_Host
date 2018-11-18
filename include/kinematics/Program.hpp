@@ -35,6 +35,7 @@ namespace kin {
     };
 
     void to_json(nlohmann::json& j, const ProgramPose& pose);
+    void from_json(const nlohmann::json& j, ProgramPose& pose);
 
     void to_json(nlohmann::json& j, const std::unique_ptr<ProgramStep>& step);
 
