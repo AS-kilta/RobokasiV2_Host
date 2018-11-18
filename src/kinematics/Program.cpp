@@ -17,6 +17,11 @@ ProgramStep::ProgramStep(std::string name, size_t endPoseIdx) :
 {
 }
 
+ProgramStep::ProgramStep(const json& json) :
+    ProgramStep(json["name"].get<std::string>(), json["endPoseIdx"])
+{
+}
+
 void kin::to_json(json& j, const ProgramPose& pose)
 {
     j = json{{"name", pose.name}, {"pose", pose.pose}};

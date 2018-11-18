@@ -6,6 +6,7 @@
 namespace kin {
     struct LinearDrive : ProgramStep {
         LinearDrive(std::string name, size_t endPoseIdx);
+        LinearDrive(nlohmann::json j);
         std::vector<Puma560StepFrame> generate(const Puma560& poseA,
                                                const Puma560& poseB);
         virtual std::string getTypeName();
