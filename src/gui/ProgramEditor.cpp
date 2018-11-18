@@ -124,19 +124,19 @@ void ProgramEditor::render()
         if (insertedPose != -1) {
             // Point steps to correct poses
             for (auto& step : _program.steps) {
-                if (step->endPoseIdx >= insertedPose)
+                if (step->endPoseIdx >= (size_t)insertedPose)
                     ++step->endPoseIdx;
             }
         }
         if (removedPose != -1) {
             for (size_t i = 0; i < _program.steps.size();) {
-                if (_program.steps[i]->endPoseIdx == removedPose) {
+                if (_program.steps[i]->endPoseIdx == (size_t)removedPose) {
                     // Remove step pointing to removed pose and update selection
                     removeStep(i);
                     if (_selectedStepIdx > i)
                         --_selectedStepIdx;
                     continue;
-                } else if (_program.steps[i]->endPoseIdx > removedPose) {
+                } else if (_program.steps[i]->endPoseIdx > (size_t)removedPose) {
                     // Point step to correct pose
                     --_program.steps[i]->endPoseIdx;
                 }
@@ -175,8 +175,8 @@ void ProgramEditor::render()
     };
     ImGui::SameLine();
     if (ImGui::BeginCombo("Type", stepTypeNames[_selectedStepType])) {
-        constexpr size_t n = sizeof(stepTypeNames) / sizeof(stepTypeNames[0]);
-        for (size_t i = 0; i < n; ++i) {
+        constexpr int n = sizeof(stepTypeNames) / sizeof(stepTypeNames[0]);
+        for (int i = 0; i < n; ++i) {
             if (ImGui::Selectable(stepTypeNames[i], i == _selectedStepType))
                 _selectedStepType = i;
             if (i == _selectedStepType)

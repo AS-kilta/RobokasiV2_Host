@@ -41,7 +41,7 @@ void SerialConfig::render()
 
     if (ImGui::BeginCombo("Device", sp_get_port_name(_ports[_port_idx]))) {
         if (_ports) {
-            for (size_t i = 0; _ports[i]; ++i) {
+            for (int i = 0; _ports[i]; ++i) {
                 if (ImGui::Selectable(sp_get_port_name(_ports[i]), i == _port_idx))
                     _port_idx = i;
                 if (i == _port_idx)

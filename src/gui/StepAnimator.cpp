@@ -72,7 +72,7 @@ kin::Puma560 StepAnimator::tick(uint32_t dt)
 
     _frameDtAccum += dt;
     
-    while (_frameIdx < _frames.size() && _frameDtAccum >= _nextFrame.dt) {
+    while (_frameIdx < _frames.size() && _frameDtAccum >= (int)_nextFrame.dt) {
         if (_frameIdx != 0) {
             /*
              * The first frame (_frameIdx == 0) is a bit special, which is why

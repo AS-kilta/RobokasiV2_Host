@@ -37,7 +37,7 @@ namespace gui {
     private:
         std::vector<kin::Puma560StepFrame> _frames;
         size_t _frameIdx;
-        uint32_t _frameDtAccum;
+        int _frameDtAccum;
         bool _running;
         kin::Puma560StepFrame _prevFrame;
         kin::Puma560StepFrame _nextFrame;
