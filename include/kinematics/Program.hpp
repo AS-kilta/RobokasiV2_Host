@@ -36,6 +36,8 @@ namespace kin {
 
     void to_json(nlohmann::json& j, const ProgramPose& pose);
 
+    void to_json(nlohmann::json& j, const std::unique_ptr<ProgramStep>& step);
+
     struct Program {
         template <typename StepType, typename... Args>
         void addStep(Args&&... args)
