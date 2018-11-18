@@ -5,7 +5,7 @@
 
 namespace gui {
     struct LinearDrive : public kin::LinearDrive {
-        LinearDrive(std::string name);
+        LinearDrive(std::string name, size_t endPoseIdx);
         void edit(void);
     };
 }

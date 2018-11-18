@@ -8,7 +8,8 @@ Puma560StepFrame::Puma560StepFrame(const Puma560& puma, int dt) :
 {
 }
 
-ProgramStep::ProgramStep(std::string name) :
-    name(name)
+ProgramStep::ProgramStep(std::string name, size_t endPoseIdx) :
+    name(name),
+    endPoseIdx(endPoseIdx)
 {
 }

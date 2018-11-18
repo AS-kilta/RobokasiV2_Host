@@ -164,7 +164,7 @@ void ProgramEditor::render()
             ++_selectedStepIdx;
         switch (_selectedStepType) {
         case StepTypes::LinearDriveStep:
-            _program.addStep<LinearDrive>(_selectedStepIdx, name);
+            _program.addStep<LinearDrive>(_selectedStepIdx, name, _selectedPoseIdx);
             break;
         default:
             break;
