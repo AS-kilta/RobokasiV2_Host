@@ -8,6 +8,7 @@
 #include <json.hpp>
 
 #include <fstream>
+#include <iomanip>
 
 using json = nlohmann::json;
 using namespace gui;
@@ -273,7 +274,7 @@ void ProgramEditor::_save(const char *path)
     json j{{"poses", _program.poses}, {"steps", _program.steps}};
     std::ofstream file(path);
 
-    file << j;
+    file << std::setw(4) << j;
 }
 
 void ProgramEditor::_load(const char *path)
