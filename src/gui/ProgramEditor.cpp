@@ -36,7 +36,7 @@ void ProgramEditor::render()
     int insertedPose = -1;
     int removedPose = -1;
 
-    if (ImGui::Button("New")) {
+    if (ImGui::Button("New##POSE")) {
         // Insert new pose after currently selected one
         kin::Puma560 pose;
         for (size_t i = 0; i < 6; ++i)
@@ -153,11 +153,9 @@ void ProgramEditor::render()
         return;
     }
 
-    ImGui::BeginChild("New Props", ImVec2(0, 42));
+    ImGui::BeginGroup();
 
-    ImGui::Columns(2);
-
-    if (ImGui::Button("New")) {
+    if (ImGui::Button("New##STEP")) {
         char name[80];
         snprintf(name, sizeof(name), "Step %lu", _newStepID++);
         if (!_program.steps.empty())
@@ -171,14 +169,11 @@ void ProgramEditor::render()
         }
         snprintf(_curStepName, sizeof(_curStepName), "%s", name);
     }
-    ImGui::SetColumnWidth(-1, 42.0f);
-
-    ImGui::NextColumn();
 
     static const char* stepTypeNames[] = {
         [StepTypes::LinearDriveStep] = "Linear drive",
     };
-
+    ImGui::SameLine();
     if (ImGui::BeginCombo("Type", stepTypeNames[_selectedStepType])) {
         constexpr size_t n = sizeof(stepTypeNames) / sizeof(stepTypeNames[0]);
         for (size_t i = 0; i < n; ++i) {
@@ -190,7 +185,7 @@ void ProgramEditor::render()
         ImGui::EndCombo();
     }
 
-    ImGui::EndChild();
+    ImGui::EndGroup();
 
     winSz = ImGui::GetWindowSize();
 
