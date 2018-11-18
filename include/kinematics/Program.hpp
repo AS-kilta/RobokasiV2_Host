@@ -19,6 +19,7 @@ namespace kin {
 
     struct ProgramStep {
         ProgramStep(std::string name, size_t endPoseIdx);
+        ProgramStep(const nlohmann::json& json);
         virtual ~ProgramStep() {}
         virtual std::vector<Puma560StepFrame> generate(const Puma560& poseA,
                                                        const Puma560& poseB) = 0;

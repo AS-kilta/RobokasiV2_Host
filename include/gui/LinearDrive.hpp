@@ -6,6 +6,7 @@
 namespace gui {
     struct LinearDrive : public kin::LinearDrive {
         LinearDrive(std::string name, size_t endPoseIdx);
+        LinearDrive(const nlohmann::json& json);
         void edit(void);
     };
 }

@@ -9,6 +9,11 @@ LinearDrive::LinearDrive(std::string name, size_t endPoseIdx) :
 {
 }
 
+LinearDrive::LinearDrive(const nlohmann::json& json) :
+    kin::LinearDrive(json)
+{
+}
+
 void LinearDrive::edit(void)
 {
     ImGui::Checkbox("Multi frame mode", &multiFrame);
