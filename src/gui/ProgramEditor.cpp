@@ -220,6 +220,22 @@ void ProgramEditor::render()
         }
         if (ImGui::Button("Delete##STEP"))
             removeStep(_selectedStepIdx);
+        ImGui::SameLine();
+        if (ImGui::ArrowButton("##SwapStepUp", ImGuiDir_Up)) {
+            if (_selectedStepIdx > 0) {
+                auto stepIter = _program.steps.begin();
+                std::iter_swap(stepIter + _selectedStepIdx - 1, stepIter + _selectedStepIdx);
+                --_selectedStepIdx;
+            }
+        }
+        ImGui::SameLine();
+        if (ImGui::ArrowButton("##SwapStepDown", ImGuiDir_Down)) {
+            if (_selectedStepIdx < _program.steps.size() - 1) {
+                auto stepIter = _program.steps.begin();
+                std::iter_swap(stepIter + _selectedStepIdx, stepIter + _selectedStepIdx + 1);
+                ++_selectedStepIdx;
+            }
+        }
     }
 
     ImGui::End();
