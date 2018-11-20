@@ -16,7 +16,7 @@ namespace kin {
     /// pos: target position
     /// angles: target angles
     /// return: new pose
-    Chain inverseKinematics(Chain chain, const Vec3f& pos, const Vec3f& angles);
+    Chain inverseKinematics(Chain chain, const Vec3f& pos, Vec3f angles);
 
 } // namespace kin
 
