@@ -281,10 +281,17 @@ void ProgramEditor::_load(const char *path)
 {
     std::ifstream file(path);
     json j = json::parse(file);
+    size_t parseID;
 
     _program.poses.clear();
-    for (size_t i = 0; i < j["poses"].size(); ++i)
+    for (size_t i = 0; i < j["poses"].size(); ++i) {
         _program.poses.emplace_back(j["poses"][i]);
+
+        /* Avoid name collisions on default names */
+        if (sscanf(_program.poses.back().name.c_str(), "Pose %zu", &parseID) == 1)
+            if (parseID >= _newPoseID)
+                _newPoseID = parseID + 1;
+    }
 
     _program.steps.clear();
     for (size_t i = 0; i < j["steps"].size(); ++i) {
@@ -298,5 +305,10 @@ void ProgramEditor::_load(const char *path)
         default:
             break;
         }
+
+        /* Avoid name collisions on default names */
+        if (sscanf(_program.steps.back()->name.c_str(), "Step %zu", &parseID) == 1)
+            if (parseID >= _newStepID)
+                _newStepID = parseID + 1;
     }
 }
