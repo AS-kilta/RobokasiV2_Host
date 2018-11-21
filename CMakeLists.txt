@@ -92,6 +92,7 @@ target_link_libraries(
         gui
     PUBLIC
         kinematics
+        hwio
         ${OPENGL_LIBRARIES}
         gl3w
         imgui
@@ -121,6 +122,7 @@ target_include_directories(
 target_link_libraries(
         hwio
     PUBLIC
+        kinematics
         nlohmann-json
 )
 
