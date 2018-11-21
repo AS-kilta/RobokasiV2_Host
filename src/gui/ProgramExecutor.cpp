@@ -29,8 +29,24 @@ void ProgramExecutor::render()
     if (_state == ExecutionState::Run && bufferEmpty)
         _state = ExecutionState::Stop;
 
-    if (_state == ExecutionState::Drain && bufferEmpty)
+    if (_state == ExecutionState::Drain && bufferEmpty) {
         _state = ExecutionState::Pause;
+        ImGui::OpenPopup("Pause dialog");
+    }
+
+    if (ImGui::BeginPopupModal("Pause dialog")) {
+        bool enter = ImGui::IsKeyDown(ImGui::GetKeyIndex(ImGuiKey_Enter));
+        if (ImGui::Button("Continue") || enter) {
+            _state = ExecutionState::Run;
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Stop")) {
+            _state = ExecutionState::Stop;
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::EndPopup();
+    }
 
     switch (_state) {
     case ExecutionState::Stop:
@@ -46,12 +62,8 @@ void ProgramExecutor::render()
             _state = ExecutionState::Run;
         break;
     case ExecutionState::Drain:
-        ImGui::Text("Draining");
-        break;
     case ExecutionState::Run:
         ImGui::Text("Running");
-        if (ImGui::Button("Drain"))
-            _state = ExecutionState::Drain;
         break;
     default:
         break;
