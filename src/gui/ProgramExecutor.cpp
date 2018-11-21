@@ -52,6 +52,10 @@ void ProgramExecutor::render()
     case ExecutionState::Stop:
         ImGui::Text("Stopped");
         if (ImGui::Button("Run")) {
+            hwio::State startState = _serialProto.getState();
+            for (int i = 0; i < 6; ++i)
+                /* _nextPose is assigned to _prevPose in the program execution loop */
+                _nextPose.setJointAngle(i, startState.angles[i]);
             _curStepIdx = 0;
             _state = ExecutionState::Run;
         }
