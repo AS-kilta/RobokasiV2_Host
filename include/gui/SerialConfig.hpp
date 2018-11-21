@@ -1,18 +1,19 @@
 #ifndef ROBOKASIV2_HOST_SERIALCONFIG_HPP
 #define ROBOKASIV2_HOST_SERIALCONFIG_HPP
 
-#include "hwio/SerialProto.hpp"
-
 #ifndef WITHOUT_LIBSERIALPORT
 #include <libserialport.h>
 #endif
+
+#include <functional>
 
 
 namespace gui {
 
     class SerialConfig {
     public:
-        SerialConfig(hwio::SerialProto& serialProto);
+        SerialConfig(std::string name,
+                     std::function<int(std::string port, int baud)> connectCb);
         ~SerialConfig();
         void render();
     private:
@@ -21,7 +22,8 @@ namespace gui {
 #endif
         int                 _port_idx;
         int                 _port_baud;
-        hwio::SerialProto&  _serialProto;
+        std::string         _name;
+        std::function<int(std::string port, int baud)> _connectCb;
     };
 
 }
