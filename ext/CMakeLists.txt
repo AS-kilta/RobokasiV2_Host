@@ -2,7 +2,7 @@ execute_process(COMMAND git submodule update --init)
 
 add_library(
         gl3w
-    STATIC
+    SHARED
         imgui/examples/libs/gl3w/GL/gl3w.c
 )
 
@@ -16,13 +16,13 @@ target_link_libraries(
         gl3w
     PUBLIC
         ${CMAKE_DL_LIBS}
+        ${OPENGL_LIBRARIES}
+        ${SDL2_LIBRARY} # This contains some required OSX libs
 )
-
-set_property(TARGET gl3w PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 add_library(
         imgui
-    STATIC
+    SHARED
         imgui/imgui.cpp
         imgui/imgui_draw.cpp
         imgui/imgui_widgets.cpp
@@ -45,8 +45,6 @@ target_link_libraries(
         gl3w
         ${SDL2_LIBRARY}
 )
-
-set_property(TARGET imgui PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 add_library(nlohmann-json INTERFACE)
 
