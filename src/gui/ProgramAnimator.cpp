@@ -79,6 +79,8 @@ void ProgramAnimator::render(uint32_t dt)
             curStep = _program.steps[_curStepIdx].get();
             _prevPose = _nextPose;
             _nextPose = _program.poses[curStep->endPoseIdx].pose;
+            if (curStep->shouldPause)
+                _animationState = AnimationState::Pause;
             _stepAnimator.feed(curStep->generate(_prevPose, _nextPose));
         }
 
