@@ -18,8 +18,8 @@ namespace kin {
     };
 
     struct ProgramStep {
-        ProgramStep(std::string name, size_t endPoseIdx);
-        ProgramStep(const nlohmann::json& json);
+        ProgramStep(std::string name, size_t endPoseIdx, bool shouldPause = false);
+        ProgramStep(const nlohmann::json& json, bool shouldPause = false);
         virtual ~ProgramStep() {}
         virtual std::vector<Puma560StepFrame> generate(const Puma560& poseA,
                                                        const Puma560& poseB) = 0;
@@ -28,6 +28,7 @@ namespace kin {
         virtual std::string getTypeName() = 0;
         std::string name;
         size_t endPoseIdx;
+        const bool shouldPause;
     };
 
     struct ProgramPose {
