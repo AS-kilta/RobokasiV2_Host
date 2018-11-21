@@ -83,6 +83,7 @@ void ProgramExecutor::render()
         for (const auto frame : frames) {
             cmds.emplace_back(frame, frame.dt);
             cmds.back().safemode = false;
+            cmds.back().gripper = _nextPose.gripper;
         }
 
         if (curStep->shouldPause)
