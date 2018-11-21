@@ -34,6 +34,7 @@ namespace kin {
     struct ProgramPose {
         Puma560 pose;
         std::string name;
+        bool gripper = true;
     };
 
     void to_json(nlohmann::json& j, const ProgramPose& pose);
