@@ -32,7 +32,7 @@ namespace gui {
         size_t _selectedPoseIdx = 0;
 
         /* ImGui doesn't deal with std::string */
-        char _curPoseName[80];
+        char _curPoseName[80] = {'\0'};
         size_t _newPoseID = 0;
 
         /* Sequence editor */
@@ -40,7 +40,7 @@ namespace gui {
 
         size_t _selectedStepIdx = 0;
 
-        char _curStepName[80];
+        char _curStepName[80] = {'\0'};
         size_t _newStepID = 0;
     };
 
