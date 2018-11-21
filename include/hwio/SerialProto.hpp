@@ -32,7 +32,7 @@ namespace hwio {
         Command(const State& state);
         Command(const kin::Puma560& puma, int dt);
         std::array<float, 6> angles = { 0.5f, 0.5f,  0.5f, 0.5f,  0.5f, 0.5f };
-        bool gripper = 0;
+        bool gripper = 1;
         bool brake = 1;
         bool safemode = 1;
         int dt = 16;
