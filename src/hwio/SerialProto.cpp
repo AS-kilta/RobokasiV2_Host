@@ -134,7 +134,10 @@ int SerialProto::sendCommand(const Command& cmd)
         if (ret)
             continue;
 
-        ret = sscanf(resp.c_str(), _bufStatusRespFmt, &_bufUsed, &_bufCapa);
+        {
+            std::lock_guard<std::mutex> guard(_bufStatusLock);
+            ret = sscanf(resp.c_str(), _bufStatusRespFmt, &_bufUsed, &_bufCapa);
+        }
         if (ret == 2) {
             return 0;
         } else if (!resp.compare("buffer overrun\r\n")) {
