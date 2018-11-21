@@ -6,13 +6,15 @@
 using namespace gui;
 
 
-SerialConfig::SerialConfig(hwio::SerialProto& serialProto) :
+SerialConfig::SerialConfig(std::string name,
+                           std::function<int(std::string port, int baud)> connectCb) :
 #ifndef WITHOUT_LIBSERIALPORT
     _ports(nullptr),
 #endif
     _port_idx(0),
     _port_baud(576000),
-    _serialProto(serialProto)
+    _name(name),
+    _connectCb(connectCb)
 {
 #ifndef WITHOUT_LIBSERIALPORT
     sp_list_ports(&_ports);
@@ -27,13 +29,10 @@ void SerialConfig::render()
 {
     int err;
 
-    if (_serialProto.isConnected())
-        return;
-
     ImGui::SetNextWindowPos(ImVec2(10,10), ImGuiSetCond_Once);
     ImGui::SetNextWindowSize(ImVec2(250,125), ImGuiSetCond_Once);
     ImGui::SetNextWindowCollapsed(true, ImGuiSetCond_Once);
-    ImGui::Begin("Serial Config");
+    ImGui::Begin(("Serial Config: " + _name).c_str());
 
 #ifndef WITHOUT_LIBSERIALPORT
     if (ImGui::Button("Refresh ports"))
@@ -54,7 +53,7 @@ void SerialConfig::render()
     ImGui::InputInt("Baud rate", &_port_baud);
 
     if (ImGui::Button("Connect")) {
-        err = _serialProto.connect(sp_get_port_name(_ports[_port_idx]), _port_baud);
+        err = _connectCb(sp_get_port_name(_ports[_port_idx]), _port_baud);
         if (err)
             ImGui::OpenPopup("Connection failed");
     }

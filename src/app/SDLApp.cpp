@@ -31,7 +31,9 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
     _frameTicks (0),
     _serialProto        (),
     _commandQueue       (_serialProto),
-    _serialConfigGui    (_serialProto),
+    _serialConfigGui    ("Motor drive",
+                         std::bind(&hwio::SerialProto::connect, &_serialProto,
+                                   std::placeholders::_1, std::placeholders::_2)),
     _driveControlGui    (_serialProto, _commandQueue, _visualizerConfig),
     _programEditor      (_program, _visualizerConfig),
     _programAnimator    (_program, _visualizerConfig),
@@ -231,7 +233,8 @@ void SDLApp::render(void)
     ImGui::NewFrame();
 
     // Generate widgets
-    _serialConfigGui.render();
+    if (!_serialProto.isConnected())
+        _serialConfigGui.render();
     _driveControlGui.render();
     _visualizerConfig.render(_model);
     _programEditor.render();
