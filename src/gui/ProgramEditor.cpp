@@ -78,7 +78,7 @@ void ProgramEditor::render()
 
     ImVec2 winSz = ImGui::GetWindowSize();
 
-    ImGui::BeginChild("Poses", ImVec2(0, winSz.y - 266), true);
+    ImGui::BeginChild("Poses", ImVec2(0, winSz.y - 284), true);
 
     for (size_t i = 0; i < _program.poses.size(); ++i) {
         bool isSelected = i == _selectedPoseIdx;
@@ -113,6 +113,7 @@ void ProgramEditor::render()
         edited |= ImGui::DragFloat("j4", &degAngles[3], 0.5f, -180.0f, 180.0f);
         edited |= ImGui::DragFloat("j5", &degAngles[4], 0.5f, -180.0f, 180.0f);
         edited |= ImGui::DragFloat("j6", &degAngles[5], 0.5f, -180.0f, 180.0f);
+        edited |= ImGui::Checkbox("gripper", &currentPose.pose.gripper);
 
         for (size_t i = 0; i < 6; ++i)
             _angles[i] = degAngles[i] / 180 * PI;
