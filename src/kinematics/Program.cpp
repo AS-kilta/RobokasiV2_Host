@@ -12,14 +12,15 @@ Puma560StepFrame::Puma560StepFrame(const Puma560& puma, int dt) :
 {
 }
 
-ProgramStep::ProgramStep(std::string name, size_t endPoseIdx) :
+ProgramStep::ProgramStep(std::string name, size_t endPoseIdx, bool shouldPause) :
     name(name),
-    endPoseIdx(endPoseIdx)
+    endPoseIdx(endPoseIdx),
+    shouldPause(shouldPause)
 {
 }
 
-ProgramStep::ProgramStep(const json& json) :
-    ProgramStep(json["name"].get<std::string>(), json["endPoseIdx"])
+ProgramStep::ProgramStep(const json& json, bool shouldPause) :
+    ProgramStep(json["name"].get<std::string>(), json["endPoseIdx"], shouldPause)
 {
 }
 
