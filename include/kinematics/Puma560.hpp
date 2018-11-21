@@ -37,7 +37,7 @@ namespace kin {
         /// Calculate inverse kinematics
         void inverseKinematics(const Vec3f& pos, const Vec3f& angles);
 
-        bool gripper = 0;
+        bool gripper = true;
     protected:
         Chain   _chain; // kinematic chain
     };
