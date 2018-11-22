@@ -140,6 +140,14 @@ void ProgramEditor::render()
             _angles = state.angles;
             edited = true;
         }
+        ImGui::SameLine();
+        if (_serialProto.isConnected() && ImGui::Button("DC Setpoint##POSE")) {
+            currentPose.pose = _driveControl.getSetpoint();
+            for (size_t i = 0; i < 6; ++i)
+                _angles[i] = currentPose.pose.getJointAngle(i);
+            edited = false;
+        }
+
 
         if (edited) {
             for (size_t i = 0; i < 6; ++i)
