@@ -145,7 +145,7 @@ void DriveControl::render(void)
                                    _ikSetpoint[4]*(PI/180.0f),
                                    _ikSetpoint[5]*(PI/180.0f)));
 
-        _command = hwio::Command(_puma, _command.dt);
+        _command = hwio::Command(_puma, _command);
     }
     else {
         /* TODO Move and enforce joint limits elsewhere */

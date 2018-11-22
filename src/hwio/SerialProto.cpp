@@ -35,7 +35,19 @@ Command::Command(const kin::Puma560& puma, int dt) :
         angles[i] = puma.getJointAngle(i);
 
     if (angles[2] > PI/2) angles[2] -= 2.0f*PI;
-    //if (angles[2] < -PI/2) angles[2] += 2.0f*PI;
+}
+
+Command::Command(const kin::Puma560& puma, const Command& c) :
+    gripper(c.gripper),
+    brake(c.brake),
+    safemode(c.safemode),
+    dt(c.dt)
+{
+    int i;
+    for (i = 0; i < 6; ++i)
+        angles[i] = puma.getJointAngle(i);
+
+    if (angles[2] > PI/2) angles[2] -= 2.0f*PI;
 }
 
 SerialProto::SerialProto() :
