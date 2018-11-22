@@ -1,6 +1,7 @@
 #include "gui/ProgramEditor.hpp"
 #include "gui/VisualizerConfig.hpp"
 #include "gui/LinearDrive.hpp"
+#include "gui/TrapezoidDrive.hpp"
 #include "gui/StepTypes.hpp"
 #include "hwio/SerialProto.hpp"
 
@@ -194,6 +195,9 @@ void ProgramEditor::render()
         case StepTypes::LinearDriveStep:
             _program.addStep<LinearDrive>(_selectedStepIdx, name, _selectedPoseIdx);
             break;
+        case StepTypes::TrapezoidDriveStep:
+            _program.addStep<TrapezoidDrive>(_selectedStepIdx, name, _selectedPoseIdx);
+            break;
         case StepTypes::PauseProgramStep:
             _program.addStep<PauseProgram>(name, _selectedPoseIdx);
             break;
@@ -315,6 +319,9 @@ void ProgramEditor::_load(const char *path)
         switch (getStepTypeNameIdx(typeName.c_str())) {
         case StepTypes::LinearDriveStep:
             _program.addStep<gui::LinearDrive>(step);
+            break;
+        case StepTypes::TrapezoidDriveStep:
+            _program.addStep<gui::TrapezoidDrive>(step);
             break;
         case StepTypes::PauseProgramStep:
             _program.addStep<gui::PauseProgram>(step);
