@@ -16,9 +16,10 @@ namespace gui {
         void render();
         kin::Puma560 getSetpoint();
     private:
-        hwio::SerialProto&  _serialProto;
-        hwio::CommandQueue& _commandQueue;
-        hwio::Command       _command;
+        hwio::SerialProto&      _serialProto;
+        hwio::CommandQueue&     _commandQueue;
+        hwio::Command           _command;
+        std::array<float, 6>    _ikSetpoint;
 
         VisualizerConfig& _visualizerConfig;
         size_t _sensorVisualizerId;
@@ -28,6 +29,7 @@ namespace gui {
 
         bool _initialControlsSet;
         bool _contiguousMode;
+        bool _useInverseKinematics;
     };
 
 }
