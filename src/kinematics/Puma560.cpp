@@ -62,10 +62,12 @@ void kin::to_json(json& j, const Puma560& puma)
         angles[i] = puma.getJointAngle(i);
 
     j["angles"] = angles;
+    j["gripper"] = puma.gripper;
 }
 
 void kin::from_json(const json& j, Puma560& puma)
 {
     for (size_t i = 0; i < 6; ++i)
         puma.setJointAngle(i, j["angles"][i]);
+    puma.gripper = j["gripper"].get<bool>();
 }
