@@ -17,9 +17,11 @@ using namespace gui;
 
 ProgramEditor::ProgramEditor(kin::Program& program,
                              hwio::SerialProto& serialProto,
+                             gui::DriveControl& driveControl,
                              gui::VisualizerConfig& visualizerConfig) :
     _program(program),
     _serialProto(serialProto),
+    _driveControl(driveControl),
     _visualizerConfig(visualizerConfig)
 {
     _visualizerSourceId =

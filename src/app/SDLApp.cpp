@@ -35,7 +35,7 @@ SDLApp::SDLApp(const SDLApp::Settings &settings) :
                          std::bind(&hwio::SerialProto::connect, &_serialProto,
                                    std::placeholders::_1, std::placeholders::_2)),
     _driveControlGui    (_serialProto, _commandQueue, _visualizerConfig),
-    _programEditor      (_program, _serialProto, _visualizerConfig),
+    _programEditor      (_program, _serialProto, _driveControlGui, _visualizerConfig),
     _programAnimator    (_program, _visualizerConfig),
     _lineRenderer(_lineShader, _camera),
     _meshRenderer(_meshShader, _camera),

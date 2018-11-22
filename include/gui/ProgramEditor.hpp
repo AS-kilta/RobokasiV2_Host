@@ -4,6 +4,7 @@
 #include "kinematics/Program.hpp"
 #include "gui/VisualizerConfig.hpp"
 #include "gui/StepTypes.hpp"
+#include "gui/DriveControl.hpp"
 #include "hwio/SerialProto.hpp"
 
 #include <imgui.h>
@@ -14,6 +15,7 @@ namespace gui {
     public:
         ProgramEditor(kin::Program& program,
                       hwio::SerialProto& serialProto,
+                      gui::DriveControl& driveControl,
                       gui::VisualizerConfig& visualizerConfig);
         void render();
     private:
@@ -21,6 +23,7 @@ namespace gui {
 
         kin::Program&       _program;
         hwio::SerialProto&  _serialProto;
+        gui::DriveControl&   _driveControl;
 
         std::array<float, 6> _angles = {0.0f};
         std::array<float, 6> _poseVisualizer(void);
