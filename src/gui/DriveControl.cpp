@@ -14,7 +14,7 @@ DriveControl::DriveControl(hwio::SerialProto& serialProto, hwio::CommandQueue& c
                            VisualizerConfig& visualizerCfg) :
     _serialProto(serialProto),
     _commandQueue(cq),
-    _ikSetpoint{-300.0f, 0.0f, 1500.0f, 0.0f, 0.0f, 0.0f},
+    _ikSetpoint{500.0f, -300.0f, 1000.0f, 0.0f, 0.0f, 0.0f},
     _visualizerConfig(visualizerCfg),
     _initialControlsSet(false),
     _contiguousMode(false),
@@ -28,6 +28,8 @@ DriveControl::DriveControl(hwio::SerialProto& serialProto, hwio::CommandQueue& c
             visualizerCfg.registerSource("Drive control setpoints",
                                          std::bind(&DriveControl::_setpointVisualizer,
                                          this));
+    _puma.setJointAngle(1, PI/2);
+    _puma.setJointAngle(2, PI);
 }
 
 std::array<float, 6> DriveControl::_sensorVisualizer(void)
@@ -62,8 +64,6 @@ void DriveControl::render(void)
     float deg_angles[6];
     hwio::State state;
     bool edited = 0;
-
-    static Puma560 puma;
 
     if (!_serialProto.isConnected())
         return;
@@ -120,7 +120,9 @@ void DriveControl::render(void)
     for (int i = 0; i< 6; ++i)
         deg_angles[i] = _command.angles[i] / PI * 180;
 
-    ImGui::Checkbox("Use Inverse Kinematics", &_useInverseKinematics);
+    edited |= ImGui::Checkbox("Use Inverse Kinematics", &_useInverseKinematics);
+    if (edited)
+        _command.dt = 5000;
 
     if (_useInverseKinematics) {
         edited |= ImGui::InputFloat("x", &_ikSetpoint[0], 10.0f, 100.0f);
@@ -138,12 +140,12 @@ void DriveControl::render(void)
         if (_ikSetpoint[5] > 180.0f) _ikSetpoint[5] = 180.0f;
 
         if (edited)
-            puma.inverseKinematics(Vec3f(_ikSetpoint[0], _ikSetpoint[1], _ikSetpoint[2]),
+            _puma.inverseKinematics(Vec3f(_ikSetpoint[0], _ikSetpoint[1], _ikSetpoint[2]),
                                Vec3f(_ikSetpoint[3]*(PI/180.0f),
                                    _ikSetpoint[4]*(PI/180.0f),
                                    _ikSetpoint[5]*(PI/180.0f)));
 
-        _command = hwio::Command(puma, _command.dt);
+        _command = hwio::Command(_puma, _command.dt);
     }
     else {
         /* TODO Move and enforce joint limits elsewhere */

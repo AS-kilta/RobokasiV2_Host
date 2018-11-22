@@ -20,6 +20,7 @@ namespace gui {
         hwio::CommandQueue&     _commandQueue;
         hwio::Command           _command;
         std::array<float, 6>    _ikSetpoint;
+        kin::Puma560            _puma;
 
         VisualizerConfig& _visualizerConfig;
         size_t _sensorVisualizerId;
