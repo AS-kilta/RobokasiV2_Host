@@ -7,15 +7,18 @@
 
 
 using namespace gui;
+using namespace kin;
 
 
 DriveControl::DriveControl(hwio::SerialProto& serialProto, hwio::CommandQueue& cq,
                            VisualizerConfig& visualizerCfg) :
     _serialProto(serialProto),
     _commandQueue(cq),
+    _ikSetpoint{-300.0f, 0.0f, 1500.0f, 0.0f, 0.0f, 0.0f},
     _visualizerConfig(visualizerCfg),
     _initialControlsSet(false),
-    _contiguousMode(false)
+    _contiguousMode(false),
+    _useInverseKinematics(false)
 {
     _sensorVisualizerId =
             visualizerCfg.registerSource("Drive control sensors",
@@ -47,6 +50,8 @@ void DriveControl::render(void)
     float deg_angles[6];
     hwio::State state;
     bool edited = 0;
+
+    static Puma560 puma;
 
     if (!_serialProto.isConnected())
         return;
@@ -103,16 +108,43 @@ void DriveControl::render(void)
     for (int i = 0; i< 6; ++i)
         deg_angles[i] = _command.angles[i] / PI * 180;
 
-    /* TODO Move and enforce joint limits elsewhere */
-    edited |= ImGui::SliderFloat("j1", &deg_angles[0], -180.0f, 180.0f);
-    edited |= ImGui::SliderFloat("j2", &deg_angles[1], -180.0f, 180.0f);
-    edited |= ImGui::SliderFloat("j3", &deg_angles[2], -180.0f, 180.0f);
-    edited |= ImGui::SliderFloat("j4", &deg_angles[3], -180.0f, 180.0f);
-    edited |= ImGui::SliderFloat("j5", &deg_angles[4], -180.0f, 180.0f);
-    edited |= ImGui::SliderFloat("j6", &deg_angles[5], -180.0f, 180.0f);
+    ImGui::Checkbox("Use Inverse Kinematics", &_useInverseKinematics);
 
-    for (int i = 0; i< 6; ++i)
-        _command.angles[i] = deg_angles[i] / 180 * PI;
+    if (_useInverseKinematics) {
+        edited |= ImGui::InputFloat("x", &_ikSetpoint[0], 10.0f, 100.0f);
+        edited |= ImGui::InputFloat("y", &_ikSetpoint[1], 10.0f, 100.0f);
+        edited |= ImGui::InputFloat("z", &_ikSetpoint[2], 10.0f, 100.0f);
+        edited |= ImGui::InputFloat("yaw", &_ikSetpoint[3], 5.0f, 20.0f);
+        edited |= ImGui::InputFloat("pitch", &_ikSetpoint[4], 5.0f, 20.0f);
+        edited |= ImGui::InputFloat("roll", &_ikSetpoint[5], 5.0f, 20.0f);
+
+        if (_ikSetpoint[3] < -180.0f) _ikSetpoint[3] = -180.0f;
+        if (_ikSetpoint[3] > 180.0f) _ikSetpoint[3] = 180.0f;
+        if (_ikSetpoint[4] < 0.0f) _ikSetpoint[4] = 0.0f;
+        if (_ikSetpoint[4] > 180.0f) _ikSetpoint[4] = 180.0f;
+        if (_ikSetpoint[5] < -180.0f) _ikSetpoint[5] = -180.0f;
+        if (_ikSetpoint[5] > 180.0f) _ikSetpoint[5] = 180.0f;
+
+        if (edited)
+            puma.inverseKinematics(Vec3f(_ikSetpoint[0], _ikSetpoint[1], _ikSetpoint[2]),
+                               Vec3f(_ikSetpoint[3]*(PI/180.0f),
+                                   _ikSetpoint[4]*(PI/180.0f),
+                                   _ikSetpoint[5]*(PI/180.0f)));
+
+        _command = hwio::Command(puma, _command.dt);
+    }
+    else {
+        /* TODO Move and enforce joint limits elsewhere */
+        edited |= ImGui::SliderFloat("j1", &deg_angles[0], -180.0f, 180.0f);
+        edited |= ImGui::SliderFloat("j2", &deg_angles[1], -180.0f, 180.0f);
+        edited |= ImGui::SliderFloat("j3", &deg_angles[2], -180.0f, 180.0f);
+        edited |= ImGui::SliderFloat("j4", &deg_angles[3], -180.0f, 180.0f);
+        edited |= ImGui::SliderFloat("j5", &deg_angles[4], -180.0f, 180.0f);
+        edited |= ImGui::SliderFloat("j6", &deg_angles[5], -180.0f, 180.0f);
+
+        for (int i = 0; i< 6; ++i)
+            _command.angles[i] = deg_angles[i] / 180 * PI;
+    }
 
     if (edited)
         _visualizerConfig.setSource(_setpointVisualizerId);
