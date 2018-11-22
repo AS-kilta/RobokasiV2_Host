@@ -4,6 +4,7 @@
 #include "kinematics/Program.hpp"
 #include "gui/VisualizerConfig.hpp"
 #include "gui/StepTypes.hpp"
+#include "hwio/SerialProto.hpp"
 
 #include <imgui.h>
 
@@ -12,12 +13,14 @@ namespace gui {
     class ProgramEditor {
     public:
         ProgramEditor(kin::Program& program,
+                      hwio::SerialProto& serialProto,
                       gui::VisualizerConfig& visualizerConfig);
         void render();
     private:
         void removeStep(size_t i);
 
-        kin::Program& _program;
+        kin::Program&       _program;
+        hwio::SerialProto&  _serialProto;
 
         std::array<float, 6> _angles = {0.0f};
         std::array<float, 6> _poseVisualizer(void);

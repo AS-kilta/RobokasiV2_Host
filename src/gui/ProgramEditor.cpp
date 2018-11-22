@@ -2,6 +2,7 @@
 #include "gui/VisualizerConfig.hpp"
 #include "gui/LinearDrive.hpp"
 #include "gui/StepTypes.hpp"
+#include "hwio/SerialProto.hpp"
 
 #include <imgui.h>
 
@@ -14,8 +15,10 @@ using json = nlohmann::json;
 using namespace gui;
 
 ProgramEditor::ProgramEditor(kin::Program& program,
+                             hwio::SerialProto& serialProto,
                              gui::VisualizerConfig& visualizerConfig) :
     _program(program),
+    _serialProto(serialProto),
     _visualizerConfig(visualizerConfig)
 {
     _visualizerSourceId =
@@ -78,7 +81,7 @@ void ProgramEditor::render()
 
     ImVec2 winSz = ImGui::GetWindowSize();
 
-    ImGui::BeginChild("Poses", ImVec2(0, winSz.y - 284), true);
+    ImGui::BeginChild("Poses", ImVec2(0, winSz.y - 300), true);
 
     for (size_t i = 0; i < _program.poses.size(); ++i) {
         bool isSelected = i == _selectedPoseIdx;
@@ -118,13 +121,6 @@ void ProgramEditor::render()
         for (size_t i = 0; i < 6; ++i)
             _angles[i] = degAngles[i] / 180 * PI;
 
-        if (edited) {
-            for (size_t i = 0; i < 6; ++i)
-                currentPose.pose.setJointAngle(i, _angles[i]);
-            currentPose.name = _curPoseName;
-            _visualizerConfig.setSource(_visualizerSourceId);
-        }
-
         if (ImGui::Button("Delete##POSE")) {
             removedPose = _selectedPoseIdx;
             _program.poses.erase(_program.poses.begin() + _selectedPoseIdx);
@@ -135,6 +131,20 @@ void ProgramEditor::render()
                          _program.poses[_selectedPoseIdx].name.c_str());
             }
         }
+        ImGui::SameLine();
+        if (_serialProto.isConnected() && ImGui::Button("HW Sensors##POSE")) {
+            hwio::State state = _serialProto.getState();
+            _angles = state.angles;
+            edited = true;
+        }
+
+        if (edited) {
+            for (size_t i = 0; i < 6; ++i)
+                currentPose.pose.setJointAngle(i, _angles[i]);
+            currentPose.name = _curPoseName;
+            _visualizerConfig.setSource(_visualizerSourceId);
+        }
+
     }
 
     ImGui::NextColumn();
