@@ -42,6 +42,18 @@ std::array<float, 6> DriveControl::_setpointVisualizer(void)
     return _command.angles;
 }
 
+kin::Puma560 DriveControl::getSetpoint()
+{
+    kin::Puma560 puma;
+
+    for (int i = 0; i< 6; ++i)
+        puma.setJointAngle(i, _command.angles[i]);
+
+    puma.gripper = _command.gripper;
+
+    return puma;
+}
+
 void DriveControl::render(void)
 {
     float deg_angles[6];

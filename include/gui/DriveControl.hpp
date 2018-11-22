@@ -14,6 +14,7 @@ namespace gui {
                      VisualizerConfig& visualizerConfig);
         ~DriveControl() = default;
         void render();
+        kin::Puma560 getSetpoint();
     private:
         hwio::SerialProto&  _serialProto;
         hwio::CommandQueue& _commandQueue;
