@@ -38,8 +38,8 @@ Chain kin::inverseKinematics(Chain chain, const Vec3f& pos, Vec3f angles)
 
     // destination rotation matrix
     Mat3f dest =
-        Eigen::AngleAxisf(angles(0), Vec3f::UnitY()).toRotationMatrix() *
-        Eigen::AngleAxisf(angles(1), Vec3f::UnitX()).toRotationMatrix() *
+        Eigen::AngleAxisf(angles(0), Vec3f::UnitZ()).toRotationMatrix() *
+        Eigen::AngleAxisf(angles(1), Vec3f::UnitY()).toRotationMatrix() *
         Eigen::AngleAxisf(angles(2), Vec3f::UnitZ()).toRotationMatrix();
 
     // number of joints in chain
