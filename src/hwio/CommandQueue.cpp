@@ -15,6 +15,10 @@ void CommandQueue::bufferNotify(size_t size, size_t capacity)
 {
     std::lock_guard<std::mutex> guard(_queueLock);
     for (size_t i = size; i < capacity && !_queue.empty(); ++i) {
+        if (!_serial.isConnected()) {
+            _queue.clear();
+            return;
+        }
         _serial.sendCommand(_queue.front());
         _queue.pop_front();
    }
