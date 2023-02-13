@@ -35,6 +35,9 @@ Chain kin::inverseKinematics(Chain chain, const Vec3f& pos, Vec3f angles)
     // maximum number of iterations
     constexpr int64_t maxIters = 1000;
 
+    // optimize pose until position / angles are within these thresholds
+    constexpr float posErrorThreshold = 0.001f;
+    constexpr float angleErrorThreshold = 0.001f;
 
     // destination rotation matrix
     Mat3f dest =
@@ -62,7 +65,7 @@ Chain kin::inverseKinematics(Chain chain, const Vec3f& pos, Vec3f angles)
     float da = orientationError(chain.getEnd().block<3, 3>(0, 0), dest);
 
     // iterate until both errors are small enough or maximum no. of iterations reached
-    for (int64_t itn = 0; (dp > 0.001f || da > 0.001f) && itn < maxIters; ++itn) {
+    for (int64_t itn = 0; (dp > posErrorThreshold || da > angleErrorThreshold) && itn < maxIters; ++itn) {
         // form jacobian matrix numerically
         for (uint64_t i = 0u; i < nJoints; ++i) {
             jointAngles(i) = chain.getJointAngle(i);
