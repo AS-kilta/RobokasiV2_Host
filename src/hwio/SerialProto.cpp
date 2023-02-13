@@ -145,7 +145,7 @@ int SerialProto::sendCommand(const Command& cmd)
                  cmd.angles[2], cmd.angles[3], cmd.angles[4], cmd.angles[5],
                  cmd.safemode, cmd.brake, cmd.gripper, cmd.dt);
 
-        if ((msg[0] != '\n') && (msg[0] = 'b')) {
+        if ((msg[0] != '\n') && (msg[0] == 'b')) {
             printf("%s\n", msg);
         }
 
