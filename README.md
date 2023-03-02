@@ -26,3 +26,17 @@ $ make
 ```
 This builds an executable called `Robokasi`, which can be run with the command `./Robokasi`.
 
+###Troubleshooting:
+
+Window "Serial Config: Motor Drive" is empty.
+- libserialport-dev is not properly installed/detected
+
+When pressing connect a popup says "Connection failed"
+- Permission issue with serial ports, add current user to group dialout
+- sudo usermod -a -G dialout $USER
+- logout and login and try the program again
+
+
+###Other info
+Motor controller firmware and serial protocol
+https://github.com/tkln/motor-controller-fw
