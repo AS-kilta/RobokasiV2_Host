@@ -32,7 +32,8 @@ Window "Serial Config: Motor Drive" is empty.
 - libserialport-dev is not properly installed/detected
 
 When pressing connect a popup says "Connection failed"
-- Permission issue with serial ports, add current user to group dialout
+1. Press the emergency stop button to reset the motor controller
+2. Permission issue with serial ports, add current user to group dialout
 - sudo usermod -a -G dialout $USER
 - logout and login and try the program again
 
