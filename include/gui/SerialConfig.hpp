@@ -6,6 +6,7 @@
 #endif
 
 #include <functional>
+#include <string>
 
 
 namespace gui {
