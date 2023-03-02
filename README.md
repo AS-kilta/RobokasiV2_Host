@@ -21,7 +21,7 @@ To build the application run the following commands, assuming the current direct
 ```
 $ mkdir build
 $ cd build
-$ cmake ..
+$ cmake .. -DCMAKE_BUILD_TYPE=Release
 $ make
 ```
 This builds an executable called `Robokasi`, which can be run with the command `./Robokasi`.
