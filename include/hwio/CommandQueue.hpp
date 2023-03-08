@@ -18,6 +18,8 @@ namespace hwio {
         void bufferNotify(size_t size, size_t capacity);
         void addCommands(std::vector<Command>& cmds);
         void addCommand(const Command& cmds);
+        void clearQueue();
+
         size_t size();
         unsigned duration();
     private:
