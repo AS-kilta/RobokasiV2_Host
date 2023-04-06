@@ -153,3 +153,5 @@ if (NOT LIBSERIALPORT_FOUND)
     target_compile_definitions(hwio PRIVATE WITHOUT_LIBSERIALPORT)
     target_compile_definitions(Robokasi PRIVATE WITHOUT_LIBSERIALPORT)
 endif()
+
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/schemas)
