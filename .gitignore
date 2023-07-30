@@ -1,2 +1,2 @@
 build/*
-!build/schemas/*
+!build/schemas
