@@ -1,0 +1,76 @@
+{
+    "poses": [
+        {
+            "name": "Pystyssa",
+            "pose": {
+                "angles": [
+                    -0.027504000812768936,
+                    1.1633310317993164,
+                    -3.0229148864746094,
+                    -0.04817499965429306,
+                    0.34282198548316956,
+                    -0.270346999168396
+                ],
+                "gripper": true
+            }
+        },
+        {
+            "name": "Kaada",
+            "pose": {
+                "angles": [
+                    -0.012128000147640705,
+                    1.1876729726791382,
+                    -2.95810604095459,
+                    -0.09694399684667587,
+                    0.3157370090484619,
+                    -2.061992883682251
+                ],
+                "gripper": true
+            }
+        },
+        {
+            "name": "Pose 3",
+            "pose": {
+                "angles": [
+                    -0.012128000147640705,
+                    1.1876729726791382,
+                    -2.95810604095459,
+                    -0.09694399684667587,
+                    0.3157370090484619,
+                    -2.061992883682251
+                ],
+                "gripper": true
+            }
+        }
+    ],
+    "steps": [
+        {
+            "endPoseIdx": 0,
+            "multiFrame": false,
+            "name": "Step 0",
+            "transitionTime": 5000,
+            "typeName": "LinearDrive"
+        },
+        {
+            "endPoseIdx": 1,
+            "multiFrame": false,
+            "name": "Step 1",
+            "transitionTime": 2500,
+            "typeName": "LinearDrive"
+        },
+        {
+            "endPoseIdx": 1,
+            "multiFrame": false,
+            "name": "Step 2",
+            "transitionTime": 20000,
+            "typeName": "LinearDrive"
+        },
+        {
+            "endPoseIdx": 0,
+            "multiFrame": false,
+            "name": "Step 3",
+            "transitionTime": 2500,
+            "typeName": "LinearDrive"
+        }
+    ]
+}
